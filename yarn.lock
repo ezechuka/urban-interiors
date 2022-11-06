@@ -1096,6 +1096,11 @@
     "minimatch" "^3.1.2"
     "strip-json-comments" "^3.1.1"
 
+"@fontsource/epilogue@^4.5.10":
+  "integrity" "sha512-EqHRz7CoeTDWXlX07AHi2rLAcqqQag5/B+AssJ22E05slozPhL6oyQpun3fibr7+UsLWmkAqDy4NwhgYYZ0TPQ=="
+  "resolved" "https://registry.npmjs.org/@fontsource/epilogue/-/epilogue-4.5.10.tgz"
+  "version" "4.5.10"
+
 "@humanwhocodes/config-array@^0.11.6":
   "integrity" "sha512-kBbPWzN8oVMLb0hOUYXhmxggL/1cJE6ydvjDIGi9EnAGUyA7cLVKQg+d/Dsm+KZwx2czGHrCmMVLiyg8s5JPKw=="
   "resolved" "https://registry.npmjs.org/@humanwhocodes/config-array/-/config-array-0.11.7.tgz"
