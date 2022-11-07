@@ -1101,6 +1101,11 @@
   "resolved" "https://registry.npmjs.org/@fontsource/epilogue/-/epilogue-4.5.10.tgz"
   "version" "4.5.10"
 
+"@fontsource/plus-jakarta-sans@^4.5.10":
+  "integrity" "sha512-WWyrjO6qyL7j3itLJUEE/rHRyDfypsoIvpvI6Ld0vyEae49P613cm5UBRe5zMnPjNC7dXBQ8/fjbszbifkL6BA=="
+  "resolved" "https://registry.npmjs.org/@fontsource/plus-jakarta-sans/-/plus-jakarta-sans-4.5.10.tgz"
+  "version" "4.5.10"
+
 "@humanwhocodes/config-array@^0.11.6":
   "integrity" "sha512-kBbPWzN8oVMLb0hOUYXhmxggL/1cJE6ydvjDIGi9EnAGUyA7cLVKQg+d/Dsm+KZwx2czGHrCmMVLiyg8s5JPKw=="
   "resolved" "https://registry.npmjs.org/@humanwhocodes/config-array/-/config-array-0.11.7.tgz"
