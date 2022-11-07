@@ -13,7 +13,7 @@ export const theme = extendTheme({
         Button: {
             variants: {
                 'solid': {
-                    borderRadius: 'md',
+                    borderRadius: '',
                     fontWeight: 'semibold',
                     bg: 'hsl(38, 58%, 47%)',
                     color: 'white',
@@ -41,9 +41,13 @@ export const theme = extendTheme({
                     fontSize: 'sm',
                     padding: '0',
                     textTransform: 'uppercase',
+                    transition: 'all .2s',
                     _hover: {
                         cursor: 'pointer',
                         color: 'gold.500',
+                        bg: 'transparent'
+                    },
+                    _active: {
                         bg: 'transparent'
                     }
                 }
