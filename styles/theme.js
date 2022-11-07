@@ -1,7 +1,53 @@
 import { extendTheme } from "@chakra-ui/react";
 
-const theme = extendTheme({
+export const theme = extendTheme({
     fonts: {
-        body: `'Epilogue', sans-serif`,
+        body: `'Plus Jakarta Sans', sans-serif`,
+    },
+    colors: {
+        gold: { 
+            500: 'hsl(38, 58%, 47%)' 
+        }
+    },
+    components: {
+        Button: {
+            variants: {
+                'solid': {
+                    borderRadius: 'md',
+                    fontWeight: 'semibold',
+                    bg: 'hsl(38, 58%, 47%)',
+                    color: 'white',
+                    paddingX: 12,
+                    paddingY: 6,
+                    textAlign: 'center',
+                    border: '1px',
+                    borderColor: 'gold.500',
+                    shadow: 'lg',
+                    _hover: {
+                        cursor: 'pointer',
+                        bg: 'transparent',
+                        color: 'gold.500',
+                    },
+                    _active: {
+                        bg: 'gray.50',
+                        transform: 'scale(0.95)'
+                    },
+                    _focus: {
+                        boxShadow: '0 0 1px 4px hsl(38, 58%, 47%, 0.35)'
+                    }
+                },
+                'ghost': {
+                    fontWeight: 'medium',
+                    fontSize: 'sm',
+                    padding: '0',
+                    textTransform: 'uppercase',
+                    _hover: {
+                        cursor: 'pointer',
+                        color: 'gold.500',
+                        bg: 'transparent'
+                    }
+                }
+            }
+        }
     }
 })
