@@ -13,7 +13,7 @@ export const theme = extendTheme({
         Button: {
             variants: {
                 'solid': {
-                    borderRadius: '',
+                    borderRadius: 'lg',
                     fontWeight: 'semibold',
                     bg: 'hsl(38, 58%, 47%)',
                     color: 'white',
@@ -34,6 +34,26 @@ export const theme = extendTheme({
                     },
                     _focus: {
                         boxShadow: '0 0 1px 4px hsl(38, 58%, 47%, 0.35)'
+                    }
+                },
+                'secondary': {
+                    fontWeight: 'semibold',
+                    fontSize: 'sm',
+                    bg: 'hsl(0, 0%, 0%)',
+                    color: 'white',
+                    paddingX: 12,
+                    paddingY: 6,
+                    border: '1px',
+                    borderColor: 'black',
+                    textAlign: 'center',
+                    _hover: {
+                        cursor: 'pointer',
+                        bg: 'transparent',
+                        color: 'black',
+                    },
+                    _active: {
+                        bg: 'gray.50',
+                        transform: 'scale(0.95)'
                     }
                 },
                 'ghost': {
