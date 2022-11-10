@@ -1,5 +1,5 @@
 import { Button, Flex, HStack, IconButton, Text } from "@chakra-ui/react"
-import { Truck } from "phosphor-react"
+import { ShoppingCart } from "phosphor-react"
 
 const Navbar = () => {
     return (
@@ -36,7 +36,7 @@ const Navbar = () => {
                     color={'black'}
                     variant={'ghost'}
                     icon={
-                        <Truck size={20} weight={'regular'} />
+                        <ShoppingCart size={20} weight={'regular'} />
                     }
                     _hover={{
                         color: 'gold.500'
