@@ -1,7 +1,9 @@
 import { Button, Flex, HStack, IconButton, Text } from "@chakra-ui/react"
+import { useRouter } from "next/router"
 import { ShoppingCart } from "phosphor-react"
 
 const Navbar = () => {
+    const router = useRouter()
     return (
         <Flex
             as={'nav'}
@@ -24,10 +26,10 @@ const Navbar = () => {
                 justifyContent={'center'}
                 alignItems={'center'}
                 spacing={8}>
-                <Button variant={'ghost'}>
+                <Button variant={'ghost'} onClick={() => router.push('signup')}>
                     signup
                 </Button>
-                <Button variant={'ghost'}>
+                <Button variant={'ghost'} onClick={() => router.push('login')}>
                     login
                 </Button>
                 <IconButton
