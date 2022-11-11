@@ -1,5 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react'
 import Layout from '../components/Layout'
+import '@fontsource/plus-jakarta-sans/300.css'
 import '@fontsource/plus-jakarta-sans/400.css'
 import '@fontsource/plus-jakarta-sans/500.css'
 import '@fontsource/plus-jakarta-sans/600.css'
