@@ -1,18 +1,23 @@
 import { Box } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import Footer from './footer/Footer'
 import Navbar from './nav/Navbar'
 
 const Layout = ({ children }) => {
+    const router = useRouter()
+    console.log(router.route)
     return (
         <>
-            <Box
-                as={'header'}
-                position={'sticky'}
-                zIndex={'docked'}
-                top={0}
-                bg={'white'}>
-                <Navbar />
-            </Box>
+            {(router.route !== '/login' && router.route !== '/signup') &&
+                <Box
+                    as={'header'}
+                    position={'sticky'}
+                    zIndex={'docked'}
+                    top={0}
+                    bg={'white'}>
+                    <Navbar />
+                </Box>
+            }
 
             <Box
                 as={'main'}
@@ -20,10 +25,12 @@ const Layout = ({ children }) => {
                 {children}
             </Box>
 
-            <Box
-                as={'footer'}>
-                <Footer />
-            </Box>
+            {(router.route !== '/login' && router.route !== '/signup') &&
+                <Box
+                    as={'footer'}>
+                    <Footer />
+                </Box>
+            }
         </>
     )
 }
