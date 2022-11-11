@@ -25,7 +25,7 @@ const Hero = () => {
                     fontSize={'5xl'}
                     textColor={'black'}
                     lineHeight={'shorter'}>
-                    Discover innovative ways to decorate
+                    Discover innovative ways to <Text as={'span'} fontStyle={'italic'}>decorate</Text>
                 </Text>
 
                 <Text
@@ -36,7 +36,13 @@ const Hero = () => {
                     Shop with us to get amazing offers.
                 </Text>
 
-                <Button variant={'solid'}>
+                <Button variant={'solid'}
+                    onClick={() => {
+                        const element = document.getElementById('products')
+                        element?.scrollIntoView({
+                            behavior: 'smooth'
+                        })
+                    }}>
                     Start shopping
                 </Button>
             </VStack>

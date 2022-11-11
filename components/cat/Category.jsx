@@ -8,7 +8,7 @@ import shoeRack from '../../public/shoe_rack.png'
 import wardrobe from '../../public/wardrobe.png'
 import pallet from '../../public/pallet.png'
 
-const CategoryItem = ({catImg, catTitle}) => {
+const CategoryItem = ({ catImg, catTitle }) => {
     return (
         <Flex
             rounded={'lg'}
@@ -28,7 +28,7 @@ const CategoryItem = ({catImg, catTitle}) => {
                 cursor: 'pointer'
             }}
             _active={{
-                shadow:'inner'
+                shadow: 'inner'
             }}>
 
             <Flex
@@ -57,6 +57,7 @@ const CategoryItem = ({catImg, catTitle}) => {
 const Category = () => {
     return (
         <Flex
+            id={'products'}
             as={'section'}
             flexDirection={'column'}
             paddingX={12}
@@ -87,13 +88,13 @@ const Category = () => {
                 marginTop={8}
                 spacing={5}
                 justifyContent={'space-between'}>
-                <CategoryItem catImg={couch} catTitle={'couch'}/>
-                <CategoryItem catImg={pallet} catTitle={'pallet bed'}/>
-                <CategoryItem catImg={shoeRack} catTitle={'shoe rack'}/>
-                <CategoryItem catImg={wardrobe} catTitle={'ward robe'}/>
-                <CategoryItem catImg={shelf} catTitle={'shelf'}/>
-                <CategoryItem catImg={console} catTitle={'tv console'}/>
-                <CategoryItem catImg={couch} catTitle={'table & chair'}/>
+                <CategoryItem catImg={couch} catTitle={'couch'} />
+                <CategoryItem catImg={pallet} catTitle={'pallet bed'} />
+                <CategoryItem catImg={shoeRack} catTitle={'shoe rack'} />
+                <CategoryItem catImg={wardrobe} catTitle={'ward robe'} />
+                <CategoryItem catImg={shelf} catTitle={'shelf'} />
+                <CategoryItem catImg={console} catTitle={'tv console'} />
+                <CategoryItem catImg={couch} catTitle={'table & chair'} />
             </Stack>
 
 
