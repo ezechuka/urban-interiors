@@ -13,7 +13,8 @@ export const theme = extendTheme({
         Button: {
             variants: {
                 'solid': {
-                    borderRadius: 'lg',
+                    borderRadius: 'md',
+                    fontSize: 'md',
                     fontWeight: 'semibold',
                     bg: 'hsl(38, 58%, 47%)',
                     color: 'white',
