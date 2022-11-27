@@ -37,7 +37,7 @@ const Footer = () => {
                             bgColor={'whiteAlpha.200'}
                             variant={'ghost'}
                             icon={
-                                <TwitterLogo size={24} weight={'fill'} alt={'twitter logo'} />
+                                <TwitterLogo size={24} weight={'fill'} alt={'Twitter'} />
                             }
                             _hover={{
                                 color: 'gold.500'
@@ -51,7 +51,7 @@ const Footer = () => {
                             bgColor={'whiteAlpha.200'}
                             variant={'ghost'}
                             icon={
-                                <InstagramLogo size={24} weight={'fill'} alt={'instagram logo'} />
+                                <InstagramLogo size={24} weight={'fill'} alt={'Instagram'} />
                             }
                             _hover={{
                                 color: 'gold.500'
@@ -66,7 +66,7 @@ const Footer = () => {
                             bgColor={'whiteAlpha.200'}
                             variant={'ghost'}
                             icon={
-                                <WhatsappLogo size={24} weight={'fill'} alt={'whatsapp lgo'} />
+                                <WhatsappLogo size={24} weight={'fill'} alt={'Whatsapp'} />
                             }
                             _hover={{
                                 color: 'gold.500'
