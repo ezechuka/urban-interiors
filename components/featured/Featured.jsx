@@ -1,53 +1,60 @@
-import { Button, Flex, Grid, GridItem, Stack, Text } from '@chakra-ui/react'
+import { Button, Flex, Grid, Text } from '@chakra-ui/react'
 import Image from 'next/image'
 
-import couch from '../../public/couch.png'
+import sofa from '../../public/sofa.jpg'
 
 const FeaturedItem = ({ featImg, featTitle, featPrice }) => {
+
     return (
         <Flex
-            roundedTop={'lg'}
-            boxShadow={'md'}
+            rounded={'lg'}
+            shadow={'inner'}
             overflow={'hidden'}
             flexDirection={'column'}
-            alignItems={'center'}
+            alignItems={'start'}
             justifyContent={'center'}
-            paddingTop={10}
             transition={'all'}
-            bgColor={'blackAlpha.100'}>
+            backgroundColor={'blackAlpha.200'}
+            role={'group'}>
 
-            <Flex
-                transform={'scale(0.8)'}>
-                <Image
-                    src={featImg}
-                    alt={featTitle} />
-            </Flex>
+            <Image
+                src={featImg}
+                alt={featTitle} />
 
             <Text
                 fontWeight={'semibold'}
-                fontSize={'sm'}
+                fontSize={'md'}
                 textColor={'black'}
-                textAlign={'center'}
-                paddingX={16}
-                marginTop={4}>
+                textAlign={'start'}
+                marginStart={4}
+                marginTop={2}>
                 {featTitle}
             </Text>
 
             <Text
                 fontWeight={'medium'}
-                fontSize={'xs'}
-                textColor={'gray.700'}
-                textAlign={'center'}
+                fontSize={'sm'}
+                textColor={'gray.800'}
+                textAlign={'start'}
+                marginStart={4}
                 marginTop={'px'}>
                 {featPrice}
             </Text>
 
             <Button
                 variant={'secondary'}
-                roundedTop={'none'}
-                roundedBottom={'lg'}
-                width={'100%'}
-                marginTop={10}>
+                borderColor={'gold.500'}
+                roundedTopLeft={'md'}
+                roundedBottomLeft={'md'}
+                roundedTopRight={'none'}
+                roundedBottomRight={'none'}
+                backgroundColor={'blackAlpha.800'}
+                margin={3}
+                textTransform={'uppercase'}
+                letterSpacing={'wide'}
+                _hover={{
+                    bgColor: 'blackAlpha.500'
+                }}>
                 Add to cart
             </Button>
 
@@ -56,6 +63,8 @@ const FeaturedItem = ({ featImg, featTitle, featPrice }) => {
 }
 
 const Featured = () => {
+    let array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
     return (
         <Flex
             as={'section'}
@@ -84,52 +93,19 @@ const Featured = () => {
             </Flex>
 
             <Grid
-                gridTemplateColumns={'repeat(4, 1fr)'}
-                gap={6}
+                gridTemplateColumns={'repeat(6, 1fr)'}
+                gap={8}
                 marginTop={8}>
 
-                <FeaturedItem
-                    featTitle={'Couch (velvet)'}
-                    featImg={couch}
-                    featPrice={'NGN5,000'}
-                />
-
-                <FeaturedItem
-                    featTitle={'Couch (velvet)'}
-                    featImg={couch}
-                    featPrice={'NGN5,000'}
-                />
-                <FeaturedItem
-                    featTitle={'Couch (velvet)'}
-                    featImg={couch}
-                    featPrice={'NGN5,000'}
-                />
-                <FeaturedItem
-                    featTitle={'Couch (velvet)'}
-                    featImg={couch}
-                    featPrice={'NGN5,000'}
-                />
-                <FeaturedItem
-                    featTitle={'Couch (velvet)'}
-                    featImg={couch}
-                    featPrice={'NGN5,000'}
-                />
-                <FeaturedItem
-                    featTitle={'Couch (velvet)'}
-                    featImg={couch}
-                    featPrice={'NGN5,000'}
-                />
-                <FeaturedItem
-                    featTitle={'Couch (velvet)'}
-                    featImg={couch}
-                    featPrice={'NGN5,000'}
-                />
-                <FeaturedItem
-                    featTitle={'Couch (velvet)'}
-                    featImg={couch}
-                    featPrice={'NGN5,000'}
-                />
-
+                {
+                    array.map(i => (
+                        <FeaturedItem
+                            featTitle={'Sofa'}
+                            featPrice={'₦5,000'}
+                            featImg={sofa}
+                        />
+                    ))
+                }
             </Grid>
 
 
