@@ -54,8 +54,7 @@ const Hero = () => {
 
                 <Image
                     src={hero}
-                    width={550} />
-
+                />
             </Flex>
 
         </Flex>
