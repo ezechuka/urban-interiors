@@ -7,50 +7,51 @@ import shelf from '../../public/shelf.png'
 import shoeRack from '../../public/shoe_rack.png'
 import wardrobe from '../../public/wardrobe.png'
 import pallet from '../../public/pallet.png'
+import Link from 'next/link'
 
 const CategoryItem = ({ catImg, catTitle }) => {
-    return (
-        <Flex
-            rounded={'lg'}
-            bgColor={'gray.50'}
-            boxShadow={'md'}
-            flexDirection={'column'}
-            alignItems={'center'}
-            justifyContent={'center'}
-            paddingX={6}
-            paddingY={4}
-            transition={'all'}
-            transitionDuration={'.2s'}
-            transitionTimingFunction={'linear'}
-            _hover={{
-                bg: 'hsla(38, 58%, 47%, 0.2)',
-                transform: 'scale(1.2)',
-                cursor: 'pointer'
-            }}
-            _active={{
-                shadow: 'inner'
-            }}>
+    const category = catTitle.toLowerCase().replace(' ', '-')
 
+    return (
+        <Link
+            href={`/${category}`}>
             <Flex
-                transform={'scale(0.8)'}>
+                rounded={'lg'}
+                bgColor={'blackAlpha.100'}
+                shadow={'inner'}
+                flexDirection={'column'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                paddingX={6}
+                paddingY={4}
+                transition={'all'}
+                transitionDuration={'.2s'}
+                transitionTimingFunction={'linear'}
+                _hover={{
+                    shadow: 'md'
+                }}
+                _active={{
+                    shadow: 'inner'
+                }}>
+
                 <Image
                     src={catImg}
                     width={80}
                     alt={catTitle} />
+
+                <Text
+                    fontWeight={'semibold'}
+                    fontSize={'xs'}
+                    textColor={'black'}
+                    textAlign={'center'}
+                    textTransform={'uppercase'}
+                    letterSpacing={'wider'}
+                    marginTop={4}>
+                    {catTitle}
+                </Text>
+
             </Flex>
-
-            <Text
-                fontWeight={'semibold'}
-                fontSize={'xs'}
-                textColor={'black'}
-                textAlign={'center'}
-                textTransform={'uppercase'}
-                letterSpacing={'wider'}
-                marginTop={4}>
-                {catTitle}
-            </Text>
-
-        </Flex>
+        </Link>
     )
 }
 
