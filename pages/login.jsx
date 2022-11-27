@@ -4,11 +4,14 @@ import { useRouter } from 'next/router'
 import { Eye, EyeClosed } from 'phosphor-react'
 import { useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
+import { useFirebase } from 'react-redux-firebase'
 
 import armchair from '../public/armchair.png'
 import { LoginValidation } from '../utils/validate'
 
 const Login = () => {
+    const [loading, setLoading] = useState(false)
+    const [authErr, setAuthErr] = useState('')
     const [show, setShow] = useState(false)
     const [userData, setUserData] = useState({
         email: '',
@@ -16,11 +19,39 @@ const Login = () => {
     })
     const [errors, setErrors] = useState({})
     const router = useRouter()
+    const firebase = useFirebase()
 
     const handleShowClick = () => setShow(prev => !prev)
     const handleFormChange = (e) => {
         const { name, value } = e.target
         setUserData(data => ({ ...data, [name]: value }))
+    }
+
+    const signInWithEmail = ({ email, password }) => {
+        setAuthErr('')
+        setErrors({})
+        setLoading(true)
+        
+        firebase.login({ email, password }).then((result) => {
+            setLoading(false)
+            router.push('/')
+        }).catch(err => {
+            setAuthErr(err.message)
+        })
+    }
+
+    const signInWithGoogle = () => {
+        setAuthErr('')
+        setErrors({})
+
+        firebase.login({
+            provider: 'google',
+            type: 'popup'
+        }).then((result) => {
+            router.push('/')
+        }).catch(err => {
+            setAuthErr(err.message)
+        })
     }
 
     return (
@@ -97,7 +128,6 @@ const Login = () => {
                             focusBorderColor={'gold.500'}
                             _focus={{ transform: 'scale(1.01)' }}
                             size={'md'}
-                            focusBorderWidth={'2px'}
                             onChange={handleFormChange} />
                         {errors.email &&
                             <Text
@@ -151,17 +181,21 @@ const Login = () => {
                     </VStack>
 
                     <Button
+                        isLoading={loading}
+                        loadingText={'Please wait'}
                         variant={'solid'}
                         width={'full'}
                         marginTop={6}
                         paddingY={5}
                         onClick={(e) => {
-                            e.preventDefault();
                             let errors = LoginValidation(userData.email.trim(), userData.password);
                             if (Object.keys(errors).length === 0) {
-                                // signInUser(userData.email.trim(), userData.password);
-                                setErrors({})
-                                console.log('validated')
+                                signInWithEmail(
+                                    {
+                                        email: userData.email.trim(),
+                                        password: userData.password
+                                    }
+                                )
                             } else {
                                 setErrors(errors);
                             }
@@ -189,7 +223,8 @@ const Login = () => {
                         _hover={{ color: 'black' }}
                         _focus={{
                             boxShadow: '0 0 1px 4px hsla(221, 83%, 53%, 0.3)'
-                        }}>
+                        }}
+                        onClick={signInWithGoogle}>
                         Google
                     </Button>
 
@@ -205,7 +240,7 @@ const Login = () => {
                             fontWeight={'medium'}
                             variant={'ghost'}
                             textTransform={'none'}
-                            onClick={() => { router.push('signup')}}>
+                            onClick={() => { router.push('signup') }}>
                             Create Account
                         </Text>
                     </Text>
