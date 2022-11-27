@@ -5,7 +5,6 @@ import Navbar from './nav/Navbar'
 
 const Layout = ({ children }) => {
     const router = useRouter()
-    console.log(router.route)
     return (
         <>
             {(router.route !== '/login' && router.route !== '/signup') &&
