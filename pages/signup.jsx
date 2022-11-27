@@ -4,11 +4,14 @@ import { useRouter } from 'next/router'
 import { Eye, EyeClosed } from 'phosphor-react'
 import { useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
+import { useFirebase } from 'react-redux-firebase'
 
 import sofa from '../public/sofa.png'
 import { SignupValidation } from '../utils/validate'
 
 const Login = () => {
+    const [authErr, setAuthErr] = useState('')
+    const [loading, setLoading] = useState(false)
     const [show, setShow] = useState(false)
     const [userData, setUserData] = useState({
         fullname: '',
@@ -17,16 +20,48 @@ const Login = () => {
     })
     const [errors, setErrors] = useState({})
     const router = useRouter()
+    const firebase = useFirebase()
 
     const handleFormChange = (e) => {
         const { name, value } = e.target
         setUserData(data => ({ ...data, [name]: value }))
     }
     const handleShowClick = () => setShow(prev => !prev)
+
+    const signUpWithEmail = ({fullname, email, password}) => {
+        setLoading(true)
+        setAuthErr('')
+        setErrors({})
+    
+        firebase.createUser({email, password}, {fullname, email})
+                .then((res) => {
+                    setLoading(false)
+                    router.push('/')
+                })
+                .catch((err) => {
+                    setLoading(false)
+                    setAuthErr(err.message)
+                })
+    }
+
+    const signUpWithGoogle = () => {
+        setAuthErr('')
+        setErrors({})
+
+        firebase.login({
+            provider: 'google',
+            type: 'popup'
+        }).then((result) => {
+            router.push('/')
+        }).catch(err => {
+            setAuthErr(err.message)
+        })
+    }
     return (
         <Flex
             w={'full'}
-            h={'100vh'}>
+            h={'100vh'}
+            overflowY={'hidden'}>
 
             <Flex
                 w={'60%'}
@@ -76,6 +111,14 @@ const Login = () => {
                         textAlign={'center'}
                         textColor={'black'}>
                         Create Account
+                    </Text>
+
+                    <Text
+                        textColor={'red.500'}
+                        fontWeight={'light'}
+                        fontSize={'sm'}
+                        textAlign={'center'}>
+                        {authErr}
                     </Text>
 
                     <VStack
@@ -183,17 +226,23 @@ const Login = () => {
                     </VStack>
 
                     <Button
+                        isLoading={loading}
+                        loadingText={'Please wait'}
                         variant={'solid'}
                         width={'full'}
                         marginTop={6}
                         paddingY={5}
                         onClick={(e) => {
                             e.preventDefault();
-                            let errors = SignupValidation(userData.fullname.trim(), userData.email.trim(), userData.password);
+                            let errors = SignupValidation(userData.fullname.trim(), userData.email.trim(), userData.password)
                             if (Object.keys(errors).length === 0) {
-                                // signInUser(userData.email.trim(), userData.password);
-                                setErrors({})
-                                console.log('validated')
+                                signUpWithEmail(
+                                    {
+                                        fullname: userData.fullname.trim(), 
+                                        email: userData.email.trim(), 
+                                        password: userData.password
+                                    }
+                                )
                             } else {
                                 setErrors(errors);
                             }
@@ -221,7 +270,8 @@ const Login = () => {
                         _hover={{ color: 'black' }}
                         _focus={{
                             boxShadow: '0 0 1px 4px hsla(221, 83%, 53%, 0.3)'
-                        }}>
+                        }}
+                        onClick={signUpWithGoogle}>
                         Google
                     </Button>
 
