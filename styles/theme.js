@@ -38,29 +38,27 @@ export const theme = extendTheme({
                     }
                 },
                 'secondary': {
-                    fontWeight: 'semibold',
+                    fontWeight: 'normal',
                     fontSize: 'sm',
-                    bg: 'hsl(0, 0%, 0%)',
+                    bg: 'hsla(38, 58%, 47%, 0.95)',
                     color: 'white',
                     paddingX: 12,
-                    paddingY: 6,
-                    border: '1px',
-                    borderColor: 'black',
+                    borderColor: 'hsla(38, 58%, 47%)',
                     textAlign: 'center',
                     _hover: {
                         cursor: 'pointer',
                         bg: 'transparent',
                         color: 'black',
+                        border: '1px',
+                        borderColor: 'hsla(38, 58%, 47%)'
                     },
                     _active: {
-                        bg: 'gray.50',
                         transform: 'scale(0.95)'
                     }
                 },
                 'ghost': {
                     fontWeight: 'medium',
                     fontSize: 'sm',
-                    padding: '0',
                     textTransform: 'uppercase',
                     transition: 'all .2s',
                     _hover: {
