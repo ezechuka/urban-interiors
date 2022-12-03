@@ -1,6 +1,7 @@
-import { Flex, Text } from "@chakra-ui/react"
+import { Flex, IconButton, Text } from "@chakra-ui/react"
 import Image from "next/image"
 import { useRouter } from "next/router"
+import { Heart } from "phosphor-react"
 
 const ProductItem = ({ featImg, featTitle, featPrice }) => {
     const router = useRouter()
@@ -17,14 +18,33 @@ const ProductItem = ({ featImg, featTitle, featPrice }) => {
             transition={'all'}
             bgColor={'blackAlpha.100'}
             position={'relative'}
-            _hover={{ shadow: 'md'}}
+            _hover={{ shadow: 'md' }}
             onClick={() => {
                 router.push(`${catPath}/${featTitle.toLowerCase().replaceAll(' ', '-')}`)
             }}>
 
             <Image
                 src={featImg}
+                width={100}
+                height={100}
                 alt={featTitle} />
+
+            <IconButton
+                variant={'ghost'}
+                position={'absolute'}
+                top={2}
+                right={2}
+                bgColor={'white'}
+                rounded={'full'}
+                icon={<Heart size={24} color={'black'} alt={'Add to wishlist'} />}
+                onClick={(e) => {
+                    e.stopPropagation()
+                    alert('fav')
+                }}
+                _hover={{
+                    bgColor: 'gold.500'
+                }}
+            />
 
             <Text
                 fontWeight={'normal'}
@@ -41,7 +61,7 @@ const ProductItem = ({ featImg, featTitle, featPrice }) => {
 
             <Text
                 fontWeight={'medium'}
-                fontSize={'lg'}
+                fontSize={'md'}
                 textAlign={'start'}
                 textColor={'black'}
                 paddingStart={2}
