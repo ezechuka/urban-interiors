@@ -18,8 +18,12 @@ import { persistor, store } from '../store/store'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
+import { Router } from 'next/router'
+import Head from 'next/head'
+import NProgress from 'nprogress'
 
 firebase.initializeApp(firebaseConfig)
+firebase.firestore()
 
 const rrfConfig = {
   userProfile: 'users',
@@ -34,18 +38,33 @@ const rrfProps = {
 }
 
 function MyApp({ Component, pageProps }) {
+  NProgress.configure({ showSpinner: true });
+
+  Router.events.on('routeChangeStart', () => {
+    NProgress.start()
+  });
+
+  Router.events.on('routeChangeComplete', () => {
+    NProgress.done();
+  });
+
   return (
-    <Provider store={store}>
-      <ChakraProvider theme={theme}>
-        <PersistGate loading={null} persistor={persistor}>
+    <>
+      <Head>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css' integrity='sha512-42kB9yDlYiCEfx2xVwq0q7hT4uf26FUgSIZBK8uiaEnTdShXjwr8Ip1V4xGJMg3mHkUt9nNuTDxunHF0/EgxLQ==' crossOrigin='anonymous' referrerPolicy='no-referrer' />
+      </Head>
+      <Provider store={store}>
+        <ChakraProvider theme={theme}>
           <ReactReduxFirebaseProvider {...rrfProps}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
+            <PersistGate loading={null} persistor={persistor}>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </PersistGate>
           </ReactReduxFirebaseProvider>
-        </PersistGate>
-      </ChakraProvider>
-    </Provider>
+        </ChakraProvider>
+      </Provider>
+    </>
   )
 }
 
