@@ -1,11 +1,11 @@
 import { Button, Flex, HStack, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Text } from "@chakra-ui/react"
 import { useRouter } from "next/router"
-import { MagnifyingGlass, ShoppingCart, User } from "phosphor-react"
+import { Heart, MagnifyingGlass, ShoppingCart, User } from "phosphor-react"
 import { useSelector } from "react-redux"
 
 const Navbar = () => {
     const router = useRouter()
-    const auth = useSelector(state => state.persistFirebaseReducer.auth)
+    const auth = useSelector(state => state.persistFirebase.auth)
     return (
         <Flex
             as={'nav'}
@@ -48,21 +48,39 @@ const Navbar = () => {
             <HStack
                 justifyContent={'center'}
                 alignItems={'center'}
-                >
+            >
                 {
                     auth ?
-                        <IconButton
-                            aria-label={'account'}
-                            bg={'gold.100'}
-                            color={'black'}
-                            variant={'ghost'}
-                            icon={
-                                <User size={24} weight={'regular'} />
-                            }
-                            _hover={{
-                                color: 'gold.500'
-                            }}
-                        />
+                        <>
+                            <IconButton
+                                aria-label={'account'}
+                                bg={'gold.100'}
+                                color={'black'}
+                                variant={'ghost'}
+                                icon={
+                                    <User size={24} weight={'regular'} alt={'account'} />
+                                }
+                                _hover={{
+                                    color: 'gold.500'
+                                }}
+                                onClick={() => router.push('/account')}
+                            />
+
+                            <IconButton
+                                aria-label={'account'}
+                                bg={'gold.100'}
+                                color={'black'}
+                                variant={'ghost'}
+                                icon={
+                                    <Heart size={24} weight={'regular'} alt={'wishlist'} />
+                                }
+                                _hover={{
+                                    color: 'gold.500'
+                                }}
+                                onClick={() => router.push('/account')}
+                            />
+
+                        </>
                         :
                         <>
                             <Button variant={'ghost'} padding={0} onClick={() => router.push('signup')}>
@@ -81,7 +99,7 @@ const Navbar = () => {
                     color={'black'}
                     variant={'ghost'}
                     icon={
-                        <ShoppingCart size={24} weight={'regular'} />
+                        <ShoppingCart size={24} weight={'regular'} alt={'shopping cart'} />
                     }
                     _hover={{
                         color: 'gold.500'
