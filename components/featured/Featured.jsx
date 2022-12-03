@@ -1,4 +1,4 @@
-import { Button, Flex, Grid, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react'
 import Image from 'next/image'
 
 import sofa from '../../public/sofa.jpg'
@@ -7,51 +7,54 @@ const FeaturedItem = ({ featImg, featTitle, featPrice }) => {
 
     return (
         <Flex
+            as={'button'}
             rounded={'lg'}
             shadow={'inner'}
             overflow={'hidden'}
             flexDirection={'column'}
-            alignItems={'start'}
             justifyContent={'center'}
             transition={'all'}
-            backgroundColor={'blackAlpha.200'}
-            role={'group'}>
+            bgColor={'blackAlpha.100'}
+            position={'relative'}
+            _hover={{ shadow: 'lg'}}>
 
             <Image
                 src={featImg}
-                alt={featTitle} />
+                alt={featTitle}
+                width={'100%'} />
 
             <Text
-                fontWeight={'semibold'}
-                fontSize={'md'}
+                fontWeight={'normal'}
+                fontSize={'sm'}
                 textColor={'black'}
-                textAlign={'start'}
-                marginStart={4}
-                marginTop={2}>
+                overflow={'hidden'}
+                whiteSpace={'nowrap'}
+                paddingStart={2}
+                paddingTop={2}
+                textOverflow={'ellipsis'}>
                 {featTitle}
             </Text>
 
             <Text
                 fontWeight={'medium'}
-                fontSize={'sm'}
-                textColor={'gray.800'}
+                fontSize={'md'}
+                textColor={'gray.900'}
                 textAlign={'start'}
-                marginStart={4}
-                marginTop={'px'}>
+                paddingStart={2}
+                paddingBottom={2}>
                 {featPrice}
             </Text>
 
             <Button
                 variant={'secondary'}
                 borderColor={'gold.500'}
-                roundedTopLeft={'md'}
-                roundedBottomLeft={'md'}
+                roundedTopLeft={'none'}
                 roundedTopRight={'none'}
-                roundedBottomRight={'none'}
+                paddingY={6}
+                w={'full'}
                 backgroundColor={'blackAlpha.800'}
-                margin={3}
                 textTransform={'uppercase'}
-                letterSpacing={'wide'}
+                letterSpacing={'wider'}
                 _hover={{
                     bgColor: 'blackAlpha.500'
                 }}>
@@ -93,14 +96,14 @@ const Featured = () => {
             </Flex>
 
             <Grid
-                gridTemplateColumns={'repeat(6, 1fr)'}
+                gridTemplateColumns={'repeat(5, 1fr)'}
                 gap={8}
                 marginTop={8}>
 
                 {
                     array.map(i => (
                         <FeaturedItem
-                            featTitle={'Sofa'}
+                            featTitle={'Lorem ipsum, dolor sit amet consectetur'}
                             featPrice={'₦5,000'}
                             featImg={sofa}
                         />
