@@ -39,7 +39,7 @@ export const theme = extendTheme({
                 },
                 'secondary': {
                     fontWeight: 'normal',
-                    fontSize: 'sm',
+                    fontSize: 'xs',
                     bg: 'hsla(38, 58%, 47%, 0.95)',
                     color: 'white',
                     paddingX: 12,
