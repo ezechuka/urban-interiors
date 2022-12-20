@@ -1,7 +1,4 @@
 import { Box, Circle, Flex, keyframes, Stack, Text } from '@chakra-ui/react'
-import { IoBedOutline } from 'react-icons/io5'
-import { TbSofa, TbShoe } from 'react-icons/tb'
-import { MdOutlineChair } from 'react-icons/md'
 
 import couch from '../../public/couch.png'
 import console from '../../public/console.png'
@@ -36,6 +33,7 @@ const CategoryItem = ({ catImg, catTitle }) => {
                 <Box
                     as={motion.div}
                     borderWidth={'2px'}
+                    borderColor={'gray.300'}
                     borderStyle={'solid'}
                     _hover={{
                         borderStyle: 'dashed',
