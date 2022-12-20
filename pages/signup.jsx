@@ -4,7 +4,9 @@ import { useRouter } from 'next/router'
 import { Eye, EyeClosed } from 'phosphor-react'
 import { useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
+import { useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
+import firebaseCompat from 'firebase/compat/app'
 
 import sofa from '../public/sofa.png'
 import { SignupValidation } from '../utils/validate'
@@ -22,6 +24,17 @@ const Login = () => {
     const router = useRouter()
     const firebase = useFirebase()
 
+    const firestore = firebaseCompat.firestore()
+    const userId = useSelector((state) => state.persistFirebase.auth.uid)
+
+    const cart = {
+        totalItems: 0,
+        totalPrice: 0,
+        items: {}
+    }
+
+    const wishlist = []
+
     const handleFormChange = (e) => {
         const { name, value } = e.target
         setUserData(data => ({ ...data, [name]: value }))
@@ -33,8 +46,8 @@ const Login = () => {
         setAuthErr('')
         setErrors({})
     
-        firebase.createUser({email, password}, {fullname, email})
-                .then((res) => {
+        firebase.createUser({email, password}, {fullname, email, cart, wishlist})
+                .then(() => {
                     setLoading(false)
                     router.push('/')
                 })
@@ -50,8 +63,12 @@ const Login = () => {
 
         firebase.login({
             provider: 'google',
-            type: 'popup'
-        }).then((result) => {
+            type: 'popup',
+        }).then(() => {
+            firestore
+                .collection('users')
+                .doc(userId)
+                .update({cart, wishlist})
             router.push('/')
         }).catch(err => {
             setAuthErr(err.message)
