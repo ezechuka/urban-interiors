@@ -86,7 +86,7 @@ const Footer = () => {
                         fontSize={'sm'}
                         _hover={{
                             color: 'gold.500',
-                            transition: 'all .2s',
+                            transition: 'all .4s',
                             transform: 'translateX(8px)'
                         }}>
                         Home
@@ -100,7 +100,7 @@ const Footer = () => {
                         fontSize={'sm'}
                         _hover={{
                             color: 'gold.500',
-                            transition: 'all .2s',
+                            transition: 'all .4s',
                             transform: 'translateX(8px)'
                         }}>
                         Contact
@@ -113,7 +113,7 @@ const Footer = () => {
                         fontSize={'sm'}
                         _hover={{
                             color: 'gold.500',
-                            transition: 'all .2s',
+                            transition: 'all .4s',
                             transform: 'translateX(8px)'
                         }}>
                         About Us
@@ -127,7 +127,7 @@ const Footer = () => {
                         fontSize={'sm'}
                         _hover={{
                             color: 'gold.500',
-                            transition: 'all .2s',
+                            transition: 'all .4s',
                             transform: 'translateX(8px)'
                         }}>
                         Privacy Policy
