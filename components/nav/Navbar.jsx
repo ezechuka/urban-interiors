@@ -1,4 +1,4 @@
-import { Button, Flex, HStack, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Text } from "@chakra-ui/react"
+import { Box, Button, Circle, Flex, HStack, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Text } from "@chakra-ui/react"
 import { useRouter } from "next/router"
 import { Heart, MagnifyingGlass, ShoppingCart, User } from "phosphor-react"
 import { useSelector } from "react-redux"
@@ -6,6 +6,8 @@ import { useSelector } from "react-redux"
 const Navbar = () => {
     const router = useRouter()
     const auth = useSelector(state => state.persistFirebase.auth)
+    const cart = useSelector((state) => state.persistFirebase.profile.cart)
+
     return (
         <Flex
             as={'nav'}
@@ -50,7 +52,7 @@ const Navbar = () => {
                 alignItems={'center'}
             >
                 {
-                    auth ?
+                    !auth.isEmpty ?
                         <>
                             <IconButton
                                 aria-label={'account'}
@@ -77,7 +79,7 @@ const Navbar = () => {
                                 _hover={{
                                     color: 'gold.500'
                                 }}
-                                onClick={() => router.push('/account')}
+                                onClick={() => router.push('/wishlist')}
                             />
 
                         </>
@@ -93,18 +95,34 @@ const Navbar = () => {
 
                 }
 
-                <IconButton
-                    aria-label={'shopping cart'}
-                    bg={'gold.100'}
-                    color={'black'}
-                    variant={'ghost'}
-                    icon={
-                        <ShoppingCart size={24} weight={'regular'} alt={'shopping cart'} />
-                    }
-                    _hover={{
-                        color: 'gold.500'
-                    }}
-                />
+                <Box
+                    position={'relative'}>
+                    <IconButton
+                        aria-label={'shopping cart'}
+                        bg={'gold.100'}
+                        color={'black'}
+                        variant={'ghost'}
+                        icon={
+                            <ShoppingCart size={24} weight={'regular'} alt={'shopping cart'} />
+                        }
+                        _hover={{
+                            color: 'gold.500'
+                        }}
+                        onClick={() => router.push('/cart')} />
+                    <Circle
+                        size='20px'
+                        bg='gold.500'
+                        color='white'
+                        position={'absolute'}
+                        top={0}
+                        right={0}>
+                        <Text
+                            fontSize={'xs'}
+                            fontWeight={'medium'}>
+                            {cart ? cart.totalItems : 0}
+                        </Text>
+                    </Circle>
+                </Box>
             </HStack>
 
         </Flex>
