@@ -25,6 +25,7 @@
     "react-icons": "^4.6.0",
     "react-redux": "^8.0.5",
     "react-redux-firebase": "^3.11.0",
+    "react-toastify": "^9.1.1",
     "redux": "^4.2.0",
     "redux-firestore": "^1.0.0",
     "redux-persist": "^6.0.0"
