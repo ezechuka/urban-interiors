@@ -1,15 +1,19 @@
-import { Flex, IconButton, Text } from "@chakra-ui/react"
-import Image from "next/image"
-import { useRouter } from "next/router"
-import { Heart } from "phosphor-react"
+import { Flex, IconButton, Text, Tooltip } from '@chakra-ui/react'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { Heart, Trash } from 'phosphor-react'
+import { connect, useDispatch, useSelector } from 'react-redux'
+import { addToWishlist, deleteFromWishlist } from '../../store/wishlistReducer'
 
-const ProductItem = ({ featImg, featTitle, featPrice }) => {
+const ProductItem = ({ productId, productTitle, productImg, productPrice, addToWishlist, deleteFromWishlist }) => {
     const router = useRouter()
     const catPath = router.query.products
 
+    const wishlist = useSelector((state) => state.persistFirebase.profile.wishlist)
+    const dispatch = useDispatch()
+
     return (
         <Flex
-            as={'button'}
             rounded={'lg'}
             shadow={'inner'}
             overflow={'hidden'}
@@ -18,33 +22,65 @@ const ProductItem = ({ featImg, featTitle, featPrice }) => {
             transition={'all'}
             bgColor={'blackAlpha.100'}
             position={'relative'}
-            _hover={{ shadow: 'md' }}
-            onClick={() => {
-                router.push(`${catPath}/${featTitle.toLowerCase().replaceAll(' ', '-')}`)
+            _hover={{ shadow: 'md', cursor: 'pointer' }}
+            width={'220px'}
+            onClick={(e) => {
+                localStorage.setItem('PRODUCT_REF', productId)
+                router.push(`${catPath}/${productId}`)
             }}>
 
             <Image
-                src={featImg}
-                width={100}
-                height={100}
-                alt={featTitle} />
+                src={productImg}
+                width={'220'}
+                height={50}
+                alt={productTitle} />
 
-            <IconButton
-                variant={'ghost'}
-                position={'absolute'}
-                top={2}
-                right={2}
-                bgColor={'white'}
-                rounded={'full'}
-                icon={<Heart size={24} color={'black'} alt={'Add to wishlist'} />}
-                onClick={(e) => {
-                    e.stopPropagation()
-                    alert('fav')
-                }}
-                _hover={{
-                    bgColor: 'gold.500'
-                }}
-            />
+            {
+                wishlist?.includes(productId) ?
+                    <Tooltip hasArrow label={'Delete from wishlist'} placement={'left'} textColor={'white'} bgColor={'gray.900'}>
+                        <IconButton
+                            variant={'ghost'}
+                            position={'absolute'}
+                            shadow={'md'}
+                            top={2}
+                            right={2}
+                            bgColor={'white'}
+                            rounded={'full'}
+                            icon={
+                                <Trash size={22} color={'black'} />
+                            }
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                deleteFromWishlist(productId, wishlist)
+                            }}
+                            _hover={{
+                                bgColor: 'gold.500'
+                            }}
+                        />
+                    </Tooltip>
+                    :
+                    <Tooltip hasArrow label={'Add to wishlist'} placement={'left'} textColor={'white'} bgColor={'gray.900'}>
+                        <IconButton
+                            variant={'ghost'}
+                            position={'absolute'}
+                            shadow={'md'}
+                            top={2}
+                            right={2}
+                            bgColor={'white'}
+                            rounded={'full'}
+                            icon={
+                                <Heart size={22} color={'black'} />
+                            }
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                addToWishlist(productId, wishlist)
+                            }}
+                            _hover={{
+                                bgColor: 'gold.500'
+                            }}
+                        />
+                    </Tooltip>
+            }
 
             <Text
                 fontWeight={'normal'}
@@ -56,7 +92,7 @@ const ProductItem = ({ featImg, featTitle, featPrice }) => {
                 overflow={'hidden'}
                 whiteSpace={'nowrap'}
                 textOverflow={'ellipsis'}>
-                {featTitle}
+                {productTitle}
             </Text>
 
             <Text
@@ -66,11 +102,19 @@ const ProductItem = ({ featImg, featTitle, featPrice }) => {
                 textColor={'black'}
                 paddingStart={2}
                 paddingBottom={4}>
-                {featPrice}
+                {`₦${new Intl.NumberFormat().format(productPrice)}`}
             </Text>
-
         </Flex>
     )
 }
 
-export default ProductItem
+export const matchDispatchToProps = dispatch => {
+    return {
+        addToWishlist: (productId, prevWishlist) =>
+            dispatch(addToWishlist(productId, prevWishlist)),
+        deleteFromWishlist: (productId, prevWishlist) =>
+            dispatch(deleteFromWishlist(productId, prevWishlist))
+    }
+}
+
+export default connect(null, matchDispatchToProps)(ProductItem)
