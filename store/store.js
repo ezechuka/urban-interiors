@@ -6,12 +6,15 @@ import storage from 'redux-persist/lib/storage'
 import persistReducer from 'redux-persist/lib/persistReducer';
 import persistStore from 'redux-persist/lib/persistStore';
 
+import productsReducer from './productsReducer';
 import productReducer from './productReducer';
+import cartReducer from './cartReducer';
+import wishlistReducer from './wishlistReducer';
 
 const persistFirebaseAuthConfig = {
     key: 'user',
     storage,
-    whitelist: ['auth']
+    whitelist: ['auth', 'profile']
 }
 
 const persistFirebaseReducer = persistReducer(persistFirebaseAuthConfig, firebaseReducer)
@@ -20,9 +23,12 @@ export const store = configureStore({
     reducer: {
         persistFirebase: persistFirebaseReducer,
         firestore: firestoreReducer,
-        product: productReducer
+        products: productsReducer,
+        product: productReducer,
+        cart: cartReducer,
+        wishlist: wishlistReducer
     },
-    middleware: [thunk.withExtraArgument(getFirebase)]
+    middleware: [thunk.withExtraArgument({ getFirebase })]
 })
 
 export const persistor = persistStore(store)
