@@ -153,6 +153,7 @@ const Login = () => {
                         <Input
                             name={'fullname'}
                             placeholder={'Awesome User'}
+                            value={userData.fullname}
                             _placeholder={{ fontSize: 'sm' }}
                             focusBorderColor={'gold.500'}
                             _focus={{ transform: 'scale(1.01)' }}
@@ -185,6 +186,7 @@ const Login = () => {
                             name={'email'}
                             placeholder={'user@mail.com'}
                             _placeholder={{ fontSize: 'sm' }}
+                            value={userData.email}
                             focusBorderColor={'gold.500'}
                             _focus={{ transform: 'scale(1.01)' }}
                             size={'md'}
@@ -218,6 +220,7 @@ const Login = () => {
                                 name={'password'}
                                 placeholder={'Password (min 8 characters)'}
                                 _placeholder={{ fontSize: 'sm' }}
+                                value={userData.password}
                                 focusBorderColor={'gold.500'}
                                 type={show ? 'text' : 'password'}
                                 onChange={handleFormChange}
