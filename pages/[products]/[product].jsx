@@ -158,7 +158,7 @@ const ProductDetail =
                     </BreadcrumbItem>
 
                     <BreadcrumbItem textColor={'gray.900'} textTransform={'capitalize'} isCurrentPage>
-                        <Text>{isLoaded && data.title.replaceAll('-', ' ')}</Text>
+                        <Text>{isLoaded && data.title}</Text>
                     </BreadcrumbItem>
                 </Breadcrumb>
 
