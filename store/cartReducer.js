@@ -13,7 +13,7 @@ export const cartSlice = createSlice({
                 toast.success('Item has been added to Cart')
             else if (action.payload.info === 'FAIL')
                 toast.info('Item already exists in Cart')
-            return { info: action.payload.info }
+            return { ...state, info: action.payload.info }
         },
         increaseItemQuantity(state, action) {
             return state
@@ -24,13 +24,16 @@ export const cartSlice = createSlice({
         deleteItemFromCart(state, action) {
             if (action.payload.info === 'DELETE')
                 toast.info('Item has been deleted from Cart')
-            return { info: action.payload.info }
+            return { ...state, info: action.payload.info }
+        },
+        clearCart(state, action) {
+            return {...state, info: action.payload.info}
         }
     }
 })
 
 export const
-    { addItemToCart, increaseItemQuantity, decreaseItemQuantity, deleteItemFromCart } 
+    { addItemToCart, increaseItemQuantity, decreaseItemQuantity, deleteItemFromCart, clearCart }
     = cartSlice.actions
 
 export default cartSlice.reducer
@@ -137,6 +140,27 @@ export const deleteFromCart = (productId, cartItem, quantity, cart) => {
             }).then(() => {
                 dispatch(deleteItemFromCart({
                     info: 'DELETE'
+                }))
+            })
+    }
+}
+
+export const deleteCart = () => {
+    return async (dispatch, getState, { getFirebase }) => {
+        const firestore = getFirebase().firestore()
+        const userId = getState().persistFirebase.auth.uid
+        firestore
+            .collection('users')
+            .doc(userId)
+            .update({
+                'cart': {
+                    totalItems: 0,
+                    totalPrice: 0,
+                    items: []
+                }
+            }).then(() => {
+                dispatch(clearCart({
+                    info: 'CLEAR'
                 }))
             })
     }
