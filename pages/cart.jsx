@@ -208,7 +208,8 @@ const Cart = () => {
                             <HStack
                                 alignItems={'baseline'}
                                 justifyContent={'space-between'}
-                                w={'full'}>
+                                w={'full'}
+                                py={2}>
                                 <Text
                                     fontWeight={'bold'}
                                     fontSize={'2xl'}
@@ -248,8 +249,17 @@ const Cart = () => {
                             rounded={'lg'}
                             width={'25%'}
                             paddingX={6}
-                            paddingTop={6}
-                            paddingBottom={8}>
+                            paddingTop={4}
+                            alignItems={'start'}
+                            paddingBottom={6}>
+                            <Text
+                                fontWeight={'normal'}
+                                textColor={'black'}
+                                fontSize={'sm'}
+                                textAlign={'start'}>
+                                Summary
+                            </Text>
+                            <Divider orientation={'horizontal'} bgColor={'gray.200'} height={'1px'} />
                             <Flex
                                 justifyContent={'space-between'}
                                 width={'full'}
@@ -292,13 +302,13 @@ const Cart = () => {
                                 py={2}
                                 alignItems={'center'}>
                                 <Text
-                                    fontWeight={'medium'}
+                                    fontWeight={'normal'}
                                     textColor={'black'}
                                     fontSize={'sm'}>
                                     Total
                                 </Text>
                                 <Text
-                                    fontWeight={'semibold'}
+                                    fontWeight={'medium'}
                                     textColor={'black'}>
                                     ₦99,000
                                 </Text>
@@ -307,7 +317,8 @@ const Cart = () => {
                             <Button
                                 variant={'solid'}
                                 w={'full'}
-                                marginY={10}>
+                                marginY={10}
+                                onClick={() => router.push('/checkout')}>
                                 Checkout
                             </Button>
                             <Button
