@@ -10,6 +10,7 @@ const nextConfig = {
     messagingSenderID: process.env.NEXT_APP_FIREBASE_MESSAGING_SENDER_ID,
     appID: process.env.NEXT_APP_FIREBASE_APP_ID,
     measurementID: process.env.NEXT_APP_FIREBASE_MEASUREMENT_ID,
+    paystackPublicKey: process.env.NEXT_APP_PAYSTACK_PUBLIC_KEY
   },
   images: {
     domains: ['fakestoreapi.com']
