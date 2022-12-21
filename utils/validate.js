@@ -29,3 +29,25 @@ export const SignupValidation = (fullname, email, password) => {
 
     return errors
 }
+
+export const CheckoutValidation = (fullname, phone, state, city, address) => {
+    const errors = {}
+    if (fullname.length < 5)
+        errors.fullname = 'Full name must be at least 5 characters!'
+    
+    if (phone.length < 10)
+        errors.phone = 'Phone number is invalid!'
+
+    // match phone with regex
+
+    if (state.length < 3)
+        errors.state = 'State not recognized!'
+
+    if (city.length < 3)
+        errors.city = 'City not recognized!'
+
+    if (address.length < 10)
+        errors.address = 'Address info not sufficient!'
+
+    return errors
+}
