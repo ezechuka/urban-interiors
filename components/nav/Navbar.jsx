@@ -109,19 +109,24 @@ const Navbar = () => {
                             color: 'gold.500'
                         }}
                         onClick={() => router.push('/cart')} />
-                    <Circle
-                        size='20px'
-                        bg='gold.500'
-                        color='white'
-                        position={'absolute'}
-                        top={0}
-                        right={0}>
-                        <Text
-                            fontSize={'xs'}
-                            fontWeight={'medium'}>
-                            {cart ? cart.totalItems : 0}
-                        </Text>
-                    </Circle>
+
+                    {
+                        cart && cart.totalItems > 0 &&
+                        <Circle
+                            size='16px'
+                            bg='gold.500'
+                            color='white'
+                            position={'absolute'}
+                            top={1}
+                            right={1}>
+
+                            <Text
+                                fontSize={'xs'}
+                                fontWeight={'medium'}>
+                                {cart ? cart.totalItems : 0}
+                            </Text>
+                        </Circle>
+                    }
                 </Box>
             </HStack>
 
