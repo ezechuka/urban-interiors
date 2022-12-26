@@ -103,6 +103,7 @@ const Featured = () => {
                 {
                     array.map(i => (
                         <FeaturedItem
+                            key={i}
                             featTitle={'Lorem ipsum, dolor sit amet consectetur'}
                             featPrice={'₦5,000'}
                             featImg={sofa}
