@@ -64,8 +64,8 @@ const FilterAccordionItem = ({ accordionTitle, items }) => {
                     justifyContent={'start'}
                     alignItems={'start'}>
                     {
-                        items.map(item => (
-                            <Checkbox colorScheme={'orange'}>
+                        items.map((item, i) => (
+                            <Checkbox key={i} colorScheme={'orange'}>
                                 {item}
                             </Checkbox>
                         ))
