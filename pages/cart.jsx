@@ -1,4 +1,4 @@
-import { Box, Button, Circle, Divider, Flex, HStack, IconButton, Text, useToast, VStack } from '@chakra-ui/react'
+import { Box, Button, Circle, Divider, Flex, HStack, IconButton, Text, VStack } from '@chakra-ui/react'
 import { doc, getDoc } from 'firebase/firestore'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -253,9 +253,9 @@ const Cart = () => {
                             alignItems={'start'}
                             paddingBottom={6}>
                             <Text
-                                fontWeight={'normal'}
+                                fontWeight={'bold'}
                                 textColor={'black'}
-                                fontSize={'sm'}
+                                fontSize={'md'}
                                 textAlign={'start'}>
                                 Summary
                             </Text>
