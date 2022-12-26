@@ -47,7 +47,7 @@ export const getProducts = (path) => {
             }))
         } catch (e) {
             dispatch(fetchProducts({
-                ...dataState.data,
+                ...dataState,
                 isLoading: false,
                 isFetching: false,
                 error: e,
