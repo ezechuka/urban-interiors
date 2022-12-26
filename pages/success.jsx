@@ -1,13 +1,25 @@
 import { Button, Stack, Text, VStack } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import Confetti from 'react-confetti'
+import { useSelector } from 'react-redux'
 
 import success from '../public/success.png'
 
 const SuccessPage = () => {
 
     const router = useRouter()
+    const hasNotAuth = useSelector((state) => state.persistFirebase.auth.isEmpty)
+
+    useEffect(() => {
+        if (hasNotAuth) {
+            router.replace('/signup')
+            return
+        }
+    }, [hasNotAuth])
+
+    if (hasNotAuth) return null // don't render any UI since auth state has not been verified
 
     return (
         <VStack
@@ -38,7 +50,7 @@ const SuccessPage = () => {
                 maxW={'sm'}
                 textAlign={'center'}>
                 We have successfully received your order and
-                we'll start processing your purchase right away.
+                we&apos;ll start processing your purchase right away.
             </Text>
 
             <Stack
@@ -50,8 +62,7 @@ const SuccessPage = () => {
                     paddingY={6}
                     textTransform={'none'}
                     fontSize={'sm'}
-                    // onClick={() => router.push('/')}
-                    >
+                    onClick={() => router.replace('/orders')}>
                     My Orders
                 </Button>
                 <Button
@@ -59,7 +70,7 @@ const SuccessPage = () => {
                     paddingY={6}
                     textTransform={'none'}
                     fontSize={'sm'}
-                    onClick={() => router.push('/')}>
+                    onClick={() => router.replace('/')}>
                     Continue shopping
                 </Button>
             </Stack>
