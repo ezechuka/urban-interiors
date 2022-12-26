@@ -25,7 +25,6 @@ const Login = () => {
     const firebase = useFirebase()
 
     const firestore = firebaseCompat.firestore()
-    const userId = useSelector((state) => state.persistFirebase.auth.uid)
 
     const cart = {
         totalItems: 0,
@@ -35,26 +34,39 @@ const Login = () => {
 
     const wishlist = []
 
+    const order = {
+        id: '',
+        date: 0,
+        totalPrice: 0,
+        phone: '',
+        address: '',
+        email: '',
+        fullname: '',
+        city: '',
+        state: '',
+        items: []
+    }
+
     const handleFormChange = (e) => {
         const { name, value } = e.target
         setUserData(data => ({ ...data, [name]: value }))
     }
     const handleShowClick = () => setShow(prev => !prev)
 
-    const signUpWithEmail = ({fullname, email, password}) => {
+    const signUpWithEmail = ({ fullname, email, password }) => {
         setLoading(true)
         setAuthErr('')
         setErrors({})
-    
-        firebase.createUser({email, password}, {fullname, email, cart, wishlist})
-                .then(() => {
-                    setLoading(false)
-                    router.push('/')
-                })
-                .catch((err) => {
-                    setLoading(false)
-                    setAuthErr(err.message)
-                })
+
+        firebase.createUser({ email, password }, { fullname, email, cart, wishlist })
+            .then(() => {
+                setLoading(false)
+                router.push('/')
+            })
+            .catch((err) => {
+                setLoading(false)
+                setAuthErr(err.message)
+            })
     }
 
     const signUpWithGoogle = () => {
@@ -64,11 +76,16 @@ const Login = () => {
         firebase.login({
             provider: 'google',
             type: 'popup',
-        }).then(() => {
+        }).then((res) => {
             firestore
                 .collection('users')
-                .doc(userId)
-                .update({cart, wishlist})
+                .doc(res.user.uid)
+                .update({ cart, wishlist })
+                .then(() => {
+                    const userRef = firestore.collection('users').doc(res.user.uid)
+                    const orderRef = userRef.collection('orders') // create sub collection, 'orders' for each user
+                    orderRef.add(order)
+                })
             router.push('/')
         }).catch(err => {
             setAuthErr(err.message)
@@ -258,8 +275,8 @@ const Login = () => {
                             if (Object.keys(errors).length === 0) {
                                 signUpWithEmail(
                                     {
-                                        fullname: userData.fullname.trim(), 
-                                        email: userData.email.trim(), 
+                                        fullname: userData.fullname.trim(),
+                                        email: userData.email.trim(),
                                         password: userData.password
                                     }
                                 )
@@ -307,7 +324,7 @@ const Login = () => {
                             fontWeight={'medium'}
                             variant={'ghost'}
                             textTransform={'none'}
-                            onClick={() => router.push('login')}>
+                            onClick={() => router.replace('/login')}>
                             Login
                         </Text>
                     </Text>
