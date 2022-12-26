@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { CaretRight, Heart, Minus, Plus } from 'phosphor-react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { ToastContainer } from 'react-toastify'
@@ -112,12 +112,14 @@ const ProductDetail =
         const { isLoading, isFetching, isLoaded, error, data }
             = useSelector((state) => state.product)
 
+        const hasNotAuth = useSelector((state) => state.persistFirebase.profile.isEmpty)
+
         const cart = useSelector((state) => state.persistFirebase.profile.cart)
 
         const wishlist = useSelector((state) => state.persistFirebase.profile.wishlist)
 
         const cartItems = useSelector((state) => state?.persistFirebase?.profile?.cart?.items)
-        
+
         const cartProduct = cartItems && cartItems[pid]
         const isInCart = cartItems && cartItems[pid] ? true : false
 
@@ -300,7 +302,10 @@ const ProductDetail =
                                             textTransform={'uppercase'}
                                             letterSpacing={'wide'}
                                             onClick={() => {
-                                                addToCart(pid, data, cart)
+                                                if (hasNotAuth){
+                                                    router.push('/signup')
+                                                } else
+                                                    addToCart(pid, data, cart)
                                             }}>
                                             Add to cart
                                         </Button>
@@ -315,7 +320,10 @@ const ProductDetail =
                                     borderColor={'gray.300'}
                                     leftIcon={<Heart size={16} color={'#B4BABE'} weight={'fill'} />}
                                     onClick={() => {
-                                        addToWishlist(pid, wishlist)
+                                        if (hasNotAuth)
+                                            router.push('/signup')
+                                        else
+                                            addToWishlist(pid, wishlist)
                                     }}>
                                     Add to wishlist
                                 </Button>
