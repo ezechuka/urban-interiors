@@ -1,12 +1,18 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme } from '@chakra-ui/react';
+
+const config = {
+    initialColorMode: 'light',
+    useSystemColorMode: false,
+}
 
 export const theme = extendTheme({
+    config,
     fonts: {
         body: `'Plus Jakarta Sans', sans-serif`,
     },
     colors: {
-        gold: { 
-            500: 'hsl(38, 58%, 47%)' 
+        gold: {
+            500: 'hsl(38, 58%, 47%)'
         }
     },
     components: {
