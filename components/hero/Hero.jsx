@@ -54,6 +54,7 @@ const Hero = () => {
 
                 <Image
                     src={hero}
+                    alt={''}
                 />
             </Flex>
 
