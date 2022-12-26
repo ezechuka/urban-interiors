@@ -10,7 +10,7 @@ const ProductItem = ({ productId, productTitle, productImg, productPrice, addToW
     const catPath = router.query.products
 
     const wishlist = useSelector((state) => state.persistFirebase.profile.wishlist)
-    const dispatch = useDispatch()
+    const hasNotAuth = useSelector((state) => state.persistFirebase.profile.isEmpty)
 
     return (
         <Flex
@@ -73,7 +73,9 @@ const ProductItem = ({ productId, productTitle, productImg, productPrice, addToW
                             }
                             onClick={(e) => {
                                 e.stopPropagation()
-                                addToWishlist(productId, wishlist)
+                                if (hasNotAuth)
+                                    router.push('/signup')
+                                else addToWishlist(productId, wishlist)
                             }}
                             _hover={{
                                 bgColor: 'gold.500'
