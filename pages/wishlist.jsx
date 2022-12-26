@@ -1,7 +1,7 @@
 import { Box, Button, Circle, Divider, Flex, HStack, IconButton, Text, VStack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { connect, useSelector } from 'react-redux';
 import firebase from 'firebase/compat/app'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
@@ -118,10 +118,15 @@ const Wishlist = ({ addToCart, deleteFromWishlist }) => {
     const router = useRouter()
     const wishlist = useSelector((state) => state.persistFirebase.profile.wishlist)
     const cart = useSelector((state) => state.persistFirebase.profile.cart)
+    const hasNotAuth = useSelector((state) => state.persistFirebase.auth.isEmpty)
     const [product, setProduct] = useState([])
     const firestore = firebase.firestore()
 
     useEffect(() => {
+        if (hasNotAuth) {
+            router.replace('/signup')
+            return
+        }
         let productIds = wishlist ? wishlist : []
         let tempWishlist = []
         const getWishlistItem = async () => {
@@ -134,13 +139,15 @@ const Wishlist = ({ addToCart, deleteFromWishlist }) => {
             setProduct(tempWishlist)
         }
         getWishlistItem()
-    }, [])
+    }, [hasNotAuth])
 
     function deleteItem(id) {
         deleteFromWishlist(id, wishlist)
         const newList = product.filter((item) => item.pid !== id)
         setProduct(newList)
     }
+
+    if (hasNotAuth) return null // don't render any UI since auth state has not been verified
 
     return (
         <>
@@ -170,7 +177,7 @@ const Wishlist = ({ addToCart, deleteFromWishlist }) => {
                         fontWeight={'normal'}
                         fontSize={'sm'}
                         textColor={'black'}>
-                        See an item you like? Click the 'favorite' icon to mark them as favorite.
+                        See an item you like? Click the &apos;favorite&apos; icon to mark them as favorite.
                     </Text>
                     <Button
                         variant={'solid'}
