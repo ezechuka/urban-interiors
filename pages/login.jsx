@@ -242,7 +242,7 @@ const Login = () => {
                             fontWeight={'medium'}
                             variant={'ghost'}
                             textTransform={'none'}
-                            onClick={() => { router.push('signup') }}>
+                            onClick={() => { router.replace('/signup') }}>
                             Create Account
                         </Text>
                     </Text>
