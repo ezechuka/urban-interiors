@@ -9,6 +9,7 @@ import Image from 'next/image'
 import { usePaystackPayment } from 'react-paystack'
 import { useRouter } from 'next/router'
 import { deleteCart } from '../store/cartReducer'
+import { createOrder } from '../firebaseService/createOrder'
 
 const CartItem = ({ item }) => {
 
@@ -72,8 +73,10 @@ const Checkout = ({ clearCart }) => {
     const router = useRouter()
     const fullname = useSelector((state) => state.persistFirebase.profile.displayName)
     const email = useSelector((state) => state.persistFirebase.profile.email)
+    const hasNotAuth = useSelector((state) => state.persistFirebase.auth.isEmpty)
 
     const [userData, setUserData] = useState({
+        email,
         fullname,
         phone: '',
         state: '',
@@ -82,11 +85,8 @@ const Checkout = ({ clearCart }) => {
     })
     const [errors, setErrors] = useState({})
 
-    const handleFormChange = (e) => {
-        const { name, value } = e.target
-        setUserData(data => ({ ...data, [name]: value }))
-    }
-
+    
+    const userId = useSelector((state) => state.persistFirebase.auth.uid)
     const cart = useSelector((state) => state.persistFirebase.profile.cart)
     const [product, setProduct] = useState([])
     const firestore = firebase.firestore()
@@ -100,7 +100,17 @@ const Checkout = ({ clearCart }) => {
     };
     const initializePayment = usePaystackPayment(config);
 
+    const handleFormChange = (e) => {
+        const { name, value } = e.target
+        setUserData(data => ({ ...data, [name]: value }))
+    }
+
     useEffect(() => {
+        if (hasNotAuth) {
+            router.replace('/signup')
+            return
+        }
+
         let productIds = Object.keys(cart ? cart.items : {})
         let tempCart = []
         const getCartItem = async () => {
@@ -118,8 +128,24 @@ const Checkout = ({ clearCart }) => {
 
     const onSuccess = (reference) => {
         clearCart()
-        router.push('/success')
+        const totalPrice = product.reduce(
+            (accumulator, currentProd) => accumulator + Number(currentProd.price), 0
+        )
+        const modifiedItems = []
+        product.forEach(p => modifiedItems.push({
+            title: p.title,
+            color: '',
+            price: p.price,
+            pid: p.pid,
+            img: p.img[0],
+            quantity: p.quantity
+        }))
+
+        createOrder(userId, userData, totalPrice, modifiedItems)
+        router.replace('/success')
     }
+
+    if (hasNotAuth) return null // don't render any UI since auth state has not been verified
 
     return (
         <Flex
