@@ -1,11 +1,12 @@
-import { Box, Button, Circle, Flex, HStack, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Text } from "@chakra-ui/react"
-import { useRouter } from "next/router"
-import { Heart, MagnifyingGlass, ShoppingCart, User } from "phosphor-react"
-import { useSelector } from "react-redux"
+import { Box, Button, Circle, Flex, HStack, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
+import { Heart, MagnifyingGlass, Package, ShoppingCart, SignOut, User, UserCircle } from 'phosphor-react'
+import { GrUserAdmin } from 'react-icons/gr'
+import { useSelector } from 'react-redux'
 
 const Navbar = () => {
     const router = useRouter()
-    const auth = useSelector(state => state.persistFirebase.auth)
+    const auth = useSelector(state => state.persistFirebase.profile)
     const cart = useSelector((state) => state.persistFirebase.profile.cart)
 
     return (
@@ -47,52 +48,77 @@ const Navbar = () => {
                 </InputRightElement>
             </InputGroup>
 
+            <IconButton
+                aria-label={'shopping cart'}
+                bg={'gold.100'}
+                color={'black'}
+                variant={'ghost'}
+                icon={
+                    <GrUserAdmin size={'1.5rem'} />
+                }
+                _hover={{
+                    color: 'gold.500'
+                }}
+                onClick={() => router.push('/admin')} />
+
             <HStack
                 justifyContent={'center'}
                 alignItems={'center'}
             >
                 {
-                    !auth.isEmpty ?
-                        <>
-                            <IconButton
-                                aria-label={'account'}
-                                bg={'gold.100'}
-                                color={'black'}
-                                variant={'ghost'}
-                                icon={
-                                    <User size={24} weight={'regular'} alt={'account'} />
-                                }
+                    auth.isEmpty ?
+                        <HStack spacing={4}>
+                            <Button variant={'ghost'}
+                                fontWeight={'medium'}
+                                shadow={'sm'}
+                                borderWidth={1}
+                                borderColor={'gray.300'}
                                 _hover={{
-                                    color: 'gold.500'
+                                    boxShadow: 'lg',
+                                    backgroundColor: 'gold.500',
+                                    borderColor: 'gold.500',
+                                    color: 'white',
+                                    transition: 'all .3s',
+                                    transform: 'scale(1.05)'
                                 }}
-                                onClick={() => router.push('/account')}
-                            />
-
-                            <IconButton
-                                aria-label={'account'}
-                                bg={'gold.100'}
-                                color={'black'}
-                                variant={'ghost'}
-                                icon={
-                                    <Heart size={24} weight={'regular'} alt={'wishlist'} />
-                                }
-                                _hover={{
-                                    color: 'gold.500'
-                                }}
-                                onClick={() => router.push('/wishlist')}
-                            />
-
-                        </>
-                        :
-                        <>
-                            <Button variant={'ghost'} padding={0} onClick={() => router.push('signup')}>
-                                signup
+                                onClick={() => router.push('/signup')}>
+                                Signup
                             </Button>
-                            <Button variant={'ghost'} padding={0} onClick={() => router.push('login')}>
+                            <Button
+                                variant={'ghost'}
+                                padding={0}
+                                fontWeight={'medium'}
+                                onClick={() => router.push('/login')}>
                                 login
                             </Button>
-                        </>
-
+                        </HStack>
+                        :
+                        <Menu>
+                            <MenuButton
+                                as={IconButton}
+                                aria-label='Options'
+                                icon={<User size={24} weight={'regular'} alt={'account'} />}
+                                variant='ghost'
+                            />
+                            <MenuList fontSize={'sm'}>
+                                <MenuItem icon={<UserCircle size={24} weight={'regular'} />}
+                                    onClick={() => router.push('/account')}>
+                                    My Account
+                                </MenuItem>
+                                <MenuItem icon={<Heart size={24} weight={'regular'} />}
+                                    onClick={() => router.push('/wishlist')}>
+                                    Wishlist
+                                </MenuItem>
+                                <MenuItem icon={<Package size={24} weight={'regular'} />}
+                                    onClick={() => router.push('/orders')}>
+                                    Orders
+                                </MenuItem>
+                                <MenuDivider />
+                                <MenuItem color={'red.500'} icon={<SignOut size={24} weight={'regular'} />} >
+                                    Logout
+                                </MenuItem>
+                            </MenuList>
+                        </Menu>
                 }
 
                 <Box
