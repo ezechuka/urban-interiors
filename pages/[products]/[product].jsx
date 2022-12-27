@@ -108,9 +108,9 @@ const ProductDetail =
         console.log(path)
         const pid = localStorage.getItem('PRODUCT_REF')
 
-        const [imgLoaded, setImgLoaded] = useState(false)
         const { isLoading, isFetching, isLoaded, error, data }
-            = useSelector((state) => state.product)
+        = useSelector((state) => state.product)
+        const [currentImage, setCurrentImage] = useState('')
 
         const hasNotAuth = useSelector((state) => state.persistFirebase.profile.isEmpty)
 
@@ -187,11 +187,14 @@ const ProductDetail =
                                                 as={motion.div}
                                                 key={i}
                                                 boxSize={'100px'}
-                                                rounded={'md'}
-                                                borderWidth={2}
-                                                shadow={'inner'}
-                                                blur={imgLoaded ? 'none' : '2xl'}
-                                                position={'relative'}>
+                                                rounded={'lg'}
+                                                borderWidth={3}
+                                                borderColor={currentImage === img ? 'gold.500' : 'gray.100'}
+                                                position={'relative'}
+                                                _hover={{cursor: 'pointer'}}
+                                                onClick={() => {
+                                                    setCurrentImage(img)}
+                                                }>
                                                 <Image
                                                     className=''
                                                     src={img}
@@ -208,7 +211,7 @@ const ProductDetail =
                                 <Image
                                     width={500}
                                     height={500}
-                                    src={data.img[0]}
+                                    src={currentImage ? currentImage : data.img[0]}
                                     alt={data.title}
                                 />
                             </Flex>
