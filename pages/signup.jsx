@@ -34,19 +34,6 @@ const Login = () => {
 
     const wishlist = []
 
-    const order = {
-        id: '',
-        date: 0,
-        totalPrice: 0,
-        phone: '',
-        address: '',
-        email: '',
-        fullname: '',
-        city: '',
-        state: '',
-        items: []
-    }
-
     const handleFormChange = (e) => {
         const { name, value } = e.target
         setUserData(data => ({ ...data, [name]: value }))
@@ -81,11 +68,6 @@ const Login = () => {
                 .collection('users')
                 .doc(res.user.uid)
                 .update({ cart, wishlist })
-                .then(() => {
-                    const userRef = firestore.collection('users').doc(res.user.uid)
-                    const orderRef = userRef.collection('orders') // create sub collection, 'orders' for each user
-                    orderRef.add(order)
-                })
             router.push('/')
         }).catch(err => {
             setAuthErr(err.message)
