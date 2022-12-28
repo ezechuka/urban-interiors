@@ -100,12 +100,7 @@ const FilterDrawer = ({ isOpen, onClose, btnRef }) => {
                     </DrawerHeader>
 
                     <DrawerBody>
-                        <Accordion allowMultiple>
-                            <FilterAccordionItem
-                                accordionTitle={'Categories'}
-                                items={['Couch', 'Bed pallet', 'Shoe rack',
-                                    'Ward robe', 'Shelf', 'TV Console', 'Table & Chair']}
-                            />
+                        <Accordion defaultIndex={[0]} allowMultiple>
 
                             <FilterAccordionItem
                                 accordionTitle={'Colors'}
