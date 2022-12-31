@@ -98,14 +98,12 @@ const Admin = () => {
 			/>
 			<br />
 			<label htmlFor="color">Color:</label>
-			<select id="color" value={color} onChange={(event) => setColor(event.target.value)}>
-				<option value="#ff0000">Red</option>
-				<option value="#00ff00">Green</option>
-				<option value="#0000ff">Blue</option>
-				<option value="#ffff00">Yellow</option>
-				<option value="#ffa500">Orange</option>
-				<option value="#800080">Purple</option>
-			</select>
+			<input
+				type="color"
+				id="color"
+				value={color}
+				onChange={(event) => setWidth(event.target.value)}
+			/>
 
 		</form>
 	)
