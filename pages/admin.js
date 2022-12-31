@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { firebase } from '../firebase';
 
 const Admin = () => {
-	const [category, setCategory] = useState('');
-	const [description, setDescription] = useState('');
-	const [height, setHeight] = useState('');
-	const [subcategory, setSubCategory] = useState('');
-	const [width, setWidth] = useState('');
+	const [category, setCategory] = useState(0);
+	const [description, setDescription] = useState(0);
+	const [height, setHeight] = useState(0);
+	const [subcategory, setSubCategory] = useState(0);
+	const [width, setWidth] = useState(0);
 	const [color, setColor] = useState({});
 	const [img, setImg] = useState([]);
-	const [length, setLength] = useState('');
-	const [price, setPrice] = useState('');
-	const [title, setTitle] = useState('');
+	const [length, setLength] = useState(0);
+	const [price, setPrice] = useState(0);
+	const [title, setTitle] = useState(0);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -102,7 +102,7 @@ const Admin = () => {
 				type="color"
 				id="color"
 				value={color}
-				onChange={(event) => setWidth(event.target.value)}
+				onChange={(event) => setColor(event.target.value)}
 			/>
 
 		</form>
