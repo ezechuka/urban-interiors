@@ -47,14 +47,15 @@ const ProductItem = ({ productId, productTitle, productImg, productPrice, addToW
                             bgColor={'white'}
                             rounded={'full'}
                             icon={
-                                <Trash size={22} color={'black'} />
+                                <Trash size={22} />
                             }
                             onClick={(e) => {
                                 e.stopPropagation()
                                 deleteFromWishlist(productId, wishlist)
                             }}
                             _hover={{
-                                bgColor: 'gold.500'
+                                bgColor: 'gold.500',
+                                color: 'white'
                             }}
                         />
                     </Tooltip>
@@ -69,7 +70,7 @@ const ProductItem = ({ productId, productTitle, productImg, productPrice, addToW
                             bgColor={'white'}
                             rounded={'full'}
                             icon={
-                                <Heart size={22} color={'black'} />
+                                <Heart size={22} />
                             }
                             onClick={(e) => {
                                 e.stopPropagation()
@@ -78,7 +79,8 @@ const ProductItem = ({ productId, productTitle, productImg, productPrice, addToW
                                 else addToWishlist(productId, wishlist)
                             }}
                             _hover={{
-                                bgColor: 'gold.500'
+                                bgColor: 'gold.500',
+                                color: 'white'
                             }}
                         />
                     </Tooltip>

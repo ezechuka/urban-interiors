@@ -1,7 +1,6 @@
-import { Box, Button, Circle, Flex, HStack, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text } from '@chakra-ui/react'
+import { Box, Button, Circle, Flex, HStack, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Text, Tooltip } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import { Heart, MagnifyingGlass, Package, ShoppingCart, SignOut, User, UserCircle } from 'phosphor-react'
-import { GrUserAdmin } from 'react-icons/gr'
+import { AngularLogo, Heart, MagnifyingGlass, Package, ShoppingCart, SignOut, SquaresFour, User, UserCircle } from 'phosphor-react'
 import { useSelector } from 'react-redux'
 
 const Navbar = () => {
@@ -29,7 +28,7 @@ const Navbar = () => {
 
             <InputGroup
                 size={'lg'}
-                width={'50%'}
+                width={'40%'}
                 m={'auto'}>
                 <InputLeftElement>
                     <MagnifyingGlass size={20} weight={'regular'} />
@@ -48,23 +47,9 @@ const Navbar = () => {
                 </InputRightElement>
             </InputGroup>
 
-            <IconButton
-                aria-label={'shopping cart'}
-                bg={'gold.100'}
-                color={'black'}
-                variant={'ghost'}
-                icon={
-                    <GrUserAdmin size={'1.5rem'} />
-                }
-                _hover={{
-                    color: 'gold.500'
-                }}
-                onClick={() => router.push('/admin')} />
-
             <HStack
                 justifyContent={'center'}
-                alignItems={'center'}
-            >
+                alignItems={'center'}>
                 {
                     auth.isEmpty ?
                         <HStack spacing={4}>
@@ -93,32 +78,105 @@ const Navbar = () => {
                             </Button>
                         </HStack>
                         :
-                        <Menu>
-                            <MenuButton
-                                as={IconButton}
-                                aria-label='Options'
-                                icon={<User size={24} weight={'regular'} alt={'account'} />}
-                                variant='ghost'
-                            />
-                            <MenuList fontSize={'sm'}>
-                                <MenuItem icon={<UserCircle size={24} weight={'regular'} />}
-                                    onClick={() => router.push('/account')}>
-                                    My Account
-                                </MenuItem>
-                                <MenuItem icon={<Heart size={24} weight={'regular'} />}
-                                    onClick={() => router.push('/wishlist')}>
-                                    Wishlist
-                                </MenuItem>
-                                <MenuItem icon={<Package size={24} weight={'regular'} />}
-                                    onClick={() => router.push('/orders')}>
-                                    Orders
-                                </MenuItem>
-                                <MenuDivider />
-                                <MenuItem color={'red.500'} icon={<SignOut size={24} weight={'regular'} />} >
-                                    Logout
-                                </MenuItem>
-                            </MenuList>
-                        </Menu>
+                        <>
+                            <IconButton
+                                aria-label={'shopping cart'}
+                                bg={'gold.100'}
+                                color={'black'}
+                                variant={'ghost'}
+                                icon={
+                                    <Tooltip
+                                        hasArrow
+                                        label={'Admin'}
+                                        placement={'bottom'}
+                                        textColor={'white'}
+                                        bgColor={'gray.900'}>
+                                        <AngularLogo size={24} weight={'regular'} />
+                                    </Tooltip>
+                                }
+                                _hover={{
+                                    color: 'gold.500'
+                                }}
+                                onClick={() => router.push('/admin')} />
+
+                            <Menu>
+                                <MenuButton
+                                    as={IconButton}
+                                    aria-label='Options'
+                                    icon={
+                                        <Tooltip
+                                            hasArrow
+                                            label={'Account'}
+                                            placement={'bottom'}
+                                            textColor={'white'}
+                                            bgColor={'gray.900'}>
+                                            <User size={24} weight={'regular'} alt={''} />
+                                        </Tooltip>
+                                    }
+                                    variant='ghost'
+                                />
+                                <MenuList fontSize={'sm'}>
+                                    <MenuItem icon={<UserCircle size={24} weight={'regular'} />}
+                                        onClick={() => router.push('/account')}>
+                                        My Account
+                                    </MenuItem>
+                                    <MenuItem icon={<Heart size={24} weight={'regular'} />}
+                                        onClick={() => router.push('/wishlist')}>
+                                        Wishlist
+                                    </MenuItem>
+                                    <MenuItem icon={<Package size={24} weight={'regular'} />}
+                                        onClick={() => router.push('/orders')}>
+                                        Orders
+                                    </MenuItem>
+                                    <MenuDivider />
+                                    <MenuItem color={'red.500'} icon={<SignOut size={24} weight={'regular'} />} >
+                                        Logout
+                                    </MenuItem>
+                                </MenuList>
+                            </Menu>
+
+                            <Menu>
+                                <MenuButton
+                                    as={IconButton}
+                                    aria-label='Options'
+                                    icon={
+                                        <Tooltip
+                                            hasArrow
+                                            label={'Category'}
+                                            placement={'bottom'}
+                                            textColor={'white'}
+                                            bgColor={'gray.900'}>
+                                            <SquaresFour size={24} weight={'regular'} />
+                                        </Tooltip>}
+                                    variant='ghost'
+                                />
+                                <MenuList fontSize={'sm'}>
+                                    <MenuGroup title={'Category'}>
+                                        <MenuItem onClick={() => router.push('/account')}>
+                                            Sofa
+                                        </MenuItem>
+                                        <MenuItem onClick={() => router.push('/account')}>
+                                            Bed
+                                        </MenuItem>
+                                        <MenuItem onClick={() => router.push('/account')}>
+                                            Shoe Rack
+                                        </MenuItem>
+                                        <MenuItem onClick={() => router.push('/account')}>
+                                            Ward Robe
+                                        </MenuItem>
+                                        <MenuItem onClick={() => router.push('/account')}>
+                                            Shelf
+                                        </MenuItem>
+                                        <MenuItem onClick={() => router.push('/account')}>
+                                            TV Console
+                                        </MenuItem>
+                                        <MenuItem onClick={() => router.push('/account')}>
+                                            Table and chair
+                                        </MenuItem>
+                                    </MenuGroup>
+                                </MenuList>
+                            </Menu>
+                        </>
                 }
 
                 <Box
@@ -129,7 +187,14 @@ const Navbar = () => {
                         color={'black'}
                         variant={'ghost'}
                         icon={
-                            <ShoppingCart size={24} weight={'regular'} alt={'shopping cart'} />
+                            <Tooltip
+                                hasArrow
+                                label={'Cart'}
+                                placement={'bottom'}
+                                textColor={'white'}
+                                bgColor={'gray.900'}>
+                                <ShoppingCart size={24} weight={'regular'} alt={''} />
+                            </Tooltip>
                         }
                         _hover={{
                             color: 'gold.500'
@@ -156,7 +221,7 @@ const Navbar = () => {
                 </Box>
             </HStack>
 
-        </Flex>
+        </Flex >
     )
 }
 

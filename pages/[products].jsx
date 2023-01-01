@@ -2,7 +2,7 @@ import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPane
 import { useRouter } from 'next/router'
 import { CaretRight, FunnelSimple } from 'phosphor-react'
 import { useEffect, useRef, useState } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import Link from 'next/link'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
@@ -100,12 +100,7 @@ const FilterDrawer = ({ isOpen, onClose, btnRef }) => {
                     </DrawerHeader>
 
                     <DrawerBody>
-                        <Accordion allowMultiple>
-                            <FilterAccordionItem
-                                accordionTitle={'Categories'}
-                                items={['Couch', 'Bed pallet', 'Shoe rack',
-                                    'Ward robe', 'Shelf', 'TV Console', 'Table & Chair']}
-                            />
+                        <Accordion defaultIndex={[0]} allowMultiple>
 
                             <FilterAccordionItem
                                 accordionTitle={'Colors'}
