@@ -45,7 +45,7 @@ const Admin = () => {
 	};
 
 	return (
-		<form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col" onSubmit={handleSubmit}>
+		<form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-8 flex flex-col w-1/2 mx-auto" onSubmit={handleSubmit}>
 			<div class="mb-4">
 				<label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">Category:</label>
 				<input
@@ -77,7 +77,7 @@ const Admin = () => {
 			</div>
 
 			<div class="mb-4">
-				<label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">subCategory:</label>
+				<label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">Sub Category:</label>
 				<input
 					class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 					type="text"
