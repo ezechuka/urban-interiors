@@ -1,113 +1,114 @@
-import React, { useState } from 'react';
-import { firebase } from '../firebase';
+import { Button, Divider, Flex, HStack, Input, Menu, MenuGroup, MenuItem, MenuList, Tab, TabList, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react"
+import UploadProduct from "../components/upload/UploadProduct"
 
 const Admin = () => {
-	const [category, setCategory] = useState(0);
-	const [description, setDescription] = useState(0);
-	const [height, setHeight] = useState(0);
-	const [subcategory, setSubCategory] = useState(0);
-	const [width, setWidth] = useState(0);
-	const [color, setColor] = useState({});
-	const [img, setImg] = useState([]);
-	const [length, setLength] = useState(0);
-	const [price, setPrice] = useState(0);
-	const [title, setTitle] = useState(0);
-
-	const handleSubmit = (event) => {
-		event.preventDefault();
-
-		const product = {
-			category,
-			desc: description,
-			subcategory,
-			width,
-			color,
-			height,
-			img,
-			length,
-			price,
-			title
-		};
-
-		firebase
-			.firestore()
-			.collection('products')
-			.add(product)
-			.then(() => {
-				setCategory('');
-				setDescription('');
-				setHeight('');
-				setImg([]);
-				setLength('');
-				setPrice('');
-				setTitle('');
-			});
-	};
-
 	return (
-		<form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col" onSubmit={handleSubmit}>
-			<div class="mb-4">
-				<label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">Category:</label>
-				<input
-					class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-					type="text"
-					id="category"
-					value={category}
-					onChange={(event) => setCategory(event.target.value)}
-				/>
-			</div>
-			<div class="mb-4">
-				<label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">Description:</label>
-				<textarea
-					class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-					id="description"
-					value={description}
-					onChange={(event) => setDescription(event.target.value)}
-				/>
-			</div>
-			<div class="mb-4">
-				<label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="height">Height:</label>
-				<input
-					class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-					type="number"
-					id="height"
-					value={height}
-					onChange={(event) => setHeight(event.target.value)}
-				/>
-			</div>
+		<Flex
+			width={'full'}
+			minHeight={'60vh'}
+			paddingX={12}
+			paddingY={8}
+			flexDirection={'column'}>
 
-			<div class="mb-4">
-				<label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">subCategory:</label>
-				<input
-					class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-					type="text"
-					id="subCategory"
-					value={subcategory}
-					onChange={(event) => setSubCategory(event.target.value)}
-				/>
-			</div>
+			<Text
+				fontWeight={'bold'}
+				fontSize={'xl'}
+				textColor={'black'}
+				mb={5}>
+				Admin
+			</Text>
 
+			<Tabs variant='enclosed' isFitted>
+				<TabList>
+					<Tab>Upload Product</Tab>
+					<Tab>View Products</Tab>
+					<Tab>Orders</Tab>
+				</TabList>
+				<TabPanels>
+					<TabPanel>
+						<UploadProduct />
+					</TabPanel>
+					<TabPanel>
+						<p>Two</p>
+					</TabPanel>
+				</TabPanels>
+			</Tabs>
 
+			{/* Side bar */}
+			{/* <Flex
+				flexDirection={'column'}
+				flexGrow={2}>
+				<Text
+					fontWeight={'bold'}
+					fontSize={'xl'}
+					textColor={'black'}>
+					Admin
+				</Text>
 
-			<label htmlFor="width">Width:</label>
-			<input
-				type="number"
-				id="width"
-				value={width}
-				onChange={(event) => setWidth(event.target.value)}
-			/>
-			<br />
-			<label htmlFor="color">Color:</label>
-			<input
-				type="color"
-				id="color"
-				value={color}
-				onChange={(event) => setColor(event.target.value)}
-			/>
+				<Divider my={2} orientation={'horizontal'} height={'1'} />
 
-		</form>
+				<VStack
+					justifyContent={'start'}
+					alignItems={'start'}
+					spacing={3}>
+					<Text
+						fontWeight={'semibold'}
+						fontSize={'xs'}
+						textColor={'gray.500'}>
+						Products
+					</Text>
+
+					<Button
+						variant={'ghost'}
+						textTransform={'none'}
+						justifyContent={'start'}
+						textColor={'black'}
+						pl={4}
+						borderWidth={1}
+						width={'full'}>
+						Upload product
+					</Button>
+
+					<Button
+						variant={'ghost'}
+						textTransform={'none'}
+						justifyContent={'start'}
+						textColor={'black'}
+						pl={4}
+						borderWidth={1}
+						width={'full'}>
+						View products
+					</Button>
+				</VStack>
+
+				<VStack
+					justifyContent={'start'}
+					alignItems={'start'}
+					spacing={3}
+					mt={6}>
+					<Text
+						fontWeight={'semibold'}
+						fontSize={'xs'}
+						textColor={'gray.500'}>
+						Orders
+					</Text>
+
+					<Button
+						variant={'ghost'}
+						textTransform={'none'}
+						justifyContent={'start'}
+						textColor={'black'}
+						pl={4}
+						borderWidth={1}
+						width={'full'}>
+						View orders
+					</Button>
+				</VStack>
+
+			</Flex> */}
+
+		</Flex>
 	)
-
 }
 
 export default Admin
