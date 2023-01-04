@@ -51,3 +51,38 @@ export const CheckoutValidation = (fullname, phone, state, city, address) => {
 
     return errors
 }
+
+export const AddProductValidation = (productName, productPrice, category, subcategory, color,
+        width, length, height, images, desc) => {
+    const errors = {}
+    
+    if (productName.length < 5)
+        errors.productName = 'Product name must be at least 5 characters!'
+
+    if (productPrice <= 0)
+        errors.productPrice = 'Product price must be higher than zero'
+
+    if (category.length === 0)
+        errors.category = 'Category has not been selected'
+
+    if (subcategory.length === 0)
+        errors.subcategory = 'Choose at least one sub category'
+
+    if (Object.keys(color).length === 0)
+        errors.color = 'Choose at least one color'
+
+    if (width <= 0)
+        errors.width = 'Specify dimension value for width'
+    if (length <= 0)
+        errors.length = 'Specify dimension value for length'
+    if (height <= 0)
+        errors.height = 'Specify dimension value for height'
+
+    if (images.length < 1)
+        errors.image = 'Please choose at least one image'
+
+    if (desc.length < 10)
+        errors.desc = 'Provide succifient product description'
+
+    return errors
+}
