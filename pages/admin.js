@@ -1,6 +1,9 @@
 import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import UploadProduct from "../components/upload/UploadProduct"
 
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css'
+
 const Admin = () => {
 	return (
 		<Flex
@@ -9,6 +12,7 @@ const Admin = () => {
 			paddingX={12}
 			paddingY={8}
 			flexDirection={'column'}>
+			<ToastContainer />
 
 			<Text
 				fontWeight={'bold'}
