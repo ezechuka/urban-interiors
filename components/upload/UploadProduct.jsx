@@ -1,10 +1,12 @@
 import { Button, Flex, HStack, Input, Menu, MenuButton, MenuItemOption, MenuList, MenuOptionGroup, Text, Textarea, VStack } from "@chakra-ui/react"
 import { CaretDoubleDown, Circle } from "phosphor-react"
 import { useState } from "react"
+import { connect } from "react-redux"
+import { addNewProduct } from "../../store/addProductReducer"
 
 import { AddProductValidation } from '../../utils/validate'
 
-const UploadProduct = () => {
+const UploadProduct = ({ uploadNewProduct }) => {
 
     const [product, setProduct] = useState({
         productName: '',
@@ -24,13 +26,17 @@ const UploadProduct = () => {
     const handleFormChange = (e) => {
         const { name, value } = e.target
         setProduct((prevProd) => ({ ...prevProd, [name]: value }))
-        console.log(product)
     }
 
     const handleFileChange = (e, pos) => {
         const { name, files } = e.target
-        setProduct((prevProd) => ({ ...prevProd, [name]: prevProd.images[pos] = files[0] }))
-        console.log(product)
+        
+        setProduct((prevProd) => {
+            var tempImgs = prevProd.images
+            tempImgs[pos] = files[0]
+        
+            return {...prevProd, [name]: [...tempImgs] }
+        })
     }
 
     const uploadProduct = () => {
@@ -46,8 +52,8 @@ const UploadProduct = () => {
             product.images,
             product.desc
         )
-        if (Object.keys(errors) === 0) {
-            console.log('validated')
+        if (Object.keys(errors).length === 0) {
+            uploadNewProduct(product)
         } else {
             setErrors(errors)
         }
@@ -262,21 +268,21 @@ const UploadProduct = () => {
 
                         <Input
                             type={'file'}
-                            name={'image-one'}
+                            name={'images'}
                             width={'50%'}
                             accept={'image/png, image/jpg'}
                             onChange={(e) => handleFileChange(e, 0)}
                         />
                         <Input
                             type={'file'}
-                            name={'image-two'}
+                            name={'images'}
                             width={'50%'}
                             accept={'image/png, image/jpg'}
                             onChange={(e) => handleFileChange(e, 1)}
                         />
                         <Input
                             type={'file'}
-                            name={'image-three'}
+                            name={'images'}
                             width={'50%'}
                             accept={'image/png, image/jpg'}
                             onChange={(e) => handleFileChange(e, 2)}
@@ -428,4 +434,9 @@ const UploadProduct = () => {
     )
 }
 
-export default UploadProduct
+export const matchDispatchToProps = dispatch => {
+    return {
+        uploadNewProduct: (product) => dispatch(addNewProduct(product))
+    }
+}
+export default connect(null, matchDispatchToProps)(UploadProduct)
