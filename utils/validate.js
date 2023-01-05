@@ -78,7 +78,7 @@ export const AddProductValidation = (productName, productPrice, category, subcat
     if (height <= 0)
         errors.height = 'Specify dimension value for height'
 
-    if (images.length < 1)
+    if (images.length < 0)
         errors.image = 'Please choose at least one image'
 
     if (desc.length < 10)
