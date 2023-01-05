@@ -11,6 +11,7 @@ import productReducer from './productReducer';
 import cartReducer from './cartReducer';
 import wishlistReducer from './wishlistReducer';
 import orderReducer from './orderReducer';
+import addProductReducer from './addProductReducer';
 
 const persistFirebaseAuthConfig = {
     key: 'user',
@@ -28,6 +29,7 @@ export const store = configureStore({
         product: productReducer,
         cart: cartReducer,
         order: orderReducer,
+        addProduct: addProductReducer,
         wishlist: wishlistReducer
     },
     middleware: [thunk.withExtraArgument({ getFirebase })]
