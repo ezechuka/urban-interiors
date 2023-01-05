@@ -13,7 +13,7 @@ const nextConfig = {
     paystackPublicKey: process.env.NEXT_APP_PAYSTACK_PUBLIC_KEY
   },
   images: {
-    domains: ['fakestoreapi.com']
+    domains: ['firebasestorage.googleapis.com']
   }
 }
 
