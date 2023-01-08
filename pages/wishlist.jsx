@@ -32,12 +32,16 @@ const WishlistItem = ({ item, cart, onAddToCart, onDelete }) => {
                 marginEnd={4}
                 alignItems={'center'}>
 
-                <Image
-                    src={item.img[0]}
-                    alt={''}
-                    width={80}
-                    height={80}
-                />
+                <Box
+                    boxSize={'100px'}
+                    rounded={'lg'}
+                    position={'relative'}>
+                    <Image
+                        src={item.images[0]}
+                        alt={''}
+                        fill
+                    />
+                </Box>
 
                 <VStack
                     alignItems={'start'}
@@ -51,7 +55,7 @@ const WishlistItem = ({ item, cart, onAddToCart, onDelete }) => {
                         noOfLines={2}
                         maxWidth={'xs'}
                         textOverflow={'ellipsis'}>
-                        {item.title}
+                        {item.productName}
                     </Text>
 
                     <Text
@@ -59,7 +63,7 @@ const WishlistItem = ({ item, cart, onAddToCart, onDelete }) => {
                         fontSize={'md'}
                         textAlign={'start'}
                         textColor={'black'}>
-                        {`₦${new Intl.NumberFormat().format(item.price)}`}
+                        {`₦${new Intl.NumberFormat().format(item.productPrice)}`}
                     </Text>
 
                 </VStack>
@@ -70,7 +74,7 @@ const WishlistItem = ({ item, cart, onAddToCart, onDelete }) => {
                 justifyContent={'space-between'}
                 spacing={3}>
 
-                { isInCart ?
+                {isInCart ?
                     <Button
                         variant={'ghost'}
                         marginTop={6}
@@ -192,7 +196,8 @@ const Wishlist = ({ addToCart, deleteFromWishlist }) => {
                     width={'full'}
                     justifyContent={'center'}
                     alignItems={'start'}
-                    paddingY={4}
+                    paddingY={8}
+                    height={'60vh'}
                     backgroundColor={'gray.50'}>
                     <ToastContainer />
 

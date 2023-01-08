@@ -27,7 +27,7 @@ const CartItem = ({ item }) => {
                 alignItems={'center'}>
 
                 <Image
-                    src={item.img[0]}
+                    src={item.images[0]}
                     alt={''}
                     width={50}
                     height={50}
@@ -53,7 +53,7 @@ const CartItem = ({ item }) => {
                         fontSize={'sm'}
                         textAlign={'start'}
                         textColor={'black'}>
-                        {`₦${new Intl.NumberFormat().format(item.price)}`}
+                        {`₦${new Intl.NumberFormat().format(item.productPrice)}`}
                     </Text>
 
                 </VStack>
@@ -133,11 +133,11 @@ const Checkout = ({ clearCart }) => {
         )
         const modifiedItems = []
         product.forEach(p => modifiedItems.push({
-            title: p.title,
+            title: p.productName,
             color: '',
-            price: p.price,
+            price: p.productPrice,
             pid: p.pid,
-            img: p.img[0],
+            img: p.images[0],
             quantity: p.quantity
         }))
 

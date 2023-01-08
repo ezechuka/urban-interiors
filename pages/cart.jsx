@@ -29,14 +29,19 @@ const CartItem = ({ item, cart, onDelete }) => {
                 rounded={'lg'}
                 overflow={'hidden'}
                 marginEnd={4}
+                position={'relative'}
                 alignItems={'center'}>
 
-                <Image
-                    src={item.img[0]}
-                    alt={''}
-                    width={80}
-                    height={80}
-                />
+                <Box
+                    boxSize={'100px'}
+                    rounded={'lg'}
+                    position={'relative'}>
+                    <Image
+                        src={item.images[0]}
+                        alt={''}
+                        fill
+                    />
+                </Box>
 
                 <VStack
                     alignItems={'start'}
@@ -50,7 +55,7 @@ const CartItem = ({ item, cart, onDelete }) => {
                         noOfLines={2}
                         maxWidth={'xs'}
                         textOverflow={'ellipsis'}>
-                        {item.title}
+                        {item.productName}
                     </Text>
 
                     <Text
@@ -58,7 +63,7 @@ const CartItem = ({ item, cart, onDelete }) => {
                         fontSize={'md'}
                         textAlign={'start'}
                         textColor={'black'}>
-                        {`₦${new Intl.NumberFormat().format(item.price)}`}
+                        {`₦${new Intl.NumberFormat().format(item.productPrice)}`}
                     </Text>
 
                 </VStack>
@@ -183,7 +188,7 @@ const Cart = () => {
                         <Button
                             variant={'solid'}
                             marginTop={10}
-                            onClick={() => router.push('/')}>
+                            onClick={() => router.replace('/')}>
                             Continue shopping
                         </Button>
                     </VStack>
@@ -193,13 +198,13 @@ const Cart = () => {
                         width={'full'}
                         justifyContent={'center'}
                         alignItems={'start'}
-                        paddingY={4}
+                        paddingY={8}
+                        height={'70vh'}
                         backgroundColor={'gray.50'}>
                         <ToastContainer />
 
                         <VStack
                             flexDirection={'column'}
-                            rounded={'lg'}
                             justifyContent={'center'}
                             alignItems={'start'}
                             marginEnd={12}

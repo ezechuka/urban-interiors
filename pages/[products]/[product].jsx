@@ -1,8 +1,9 @@
-import { Box, Breadcrumb, BreadcrumbItem, Button, Flex, HStack, keyframes, Text, Skeleton, VStack, Stack } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, Button, Flex, HStack, keyframes, Text, Skeleton, VStack, Stack, Circle } from '@chakra-ui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { CaretRight, Heart, Minus, Plus } from 'phosphor-react'
+import { Circle as CircleIcon } from 'phosphor-react'
 import { connect, useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
@@ -109,7 +110,7 @@ const ProductDetail =
         const pid = localStorage.getItem('PRODUCT_REF')
 
         const { isLoading, isFetching, isLoaded, error, data }
-        = useSelector((state) => state.product)
+            = useSelector((state) => state.product)
         const [currentImage, setCurrentImage] = useState('')
 
         const hasNotAuth = useSelector((state) => state.persistFirebase.profile.isEmpty)
@@ -160,7 +161,7 @@ const ProductDetail =
                     </BreadcrumbItem>
 
                     <BreadcrumbItem textColor={'gray.900'} textTransform={'capitalize'} isCurrentPage>
-                        <Text>{isLoaded && data.title}</Text>
+                        <Text>{isLoaded && data.productName}</Text>
                     </BreadcrumbItem>
                 </Breadcrumb>
 
@@ -182,18 +183,19 @@ const ProductDetail =
                                     marginEnd={5}
                                     spacing={3}>
                                     {
-                                        data.img.map((img, i) => (
+                                        data.images.map((img, i) => (
                                             <Box
                                                 as={motion.div}
                                                 key={i}
                                                 boxSize={'100px'}
                                                 rounded={'lg'}
-                                                borderWidth={3}
+                                                borderWidth={2}
                                                 borderColor={currentImage === img ? 'gold.500' : 'gray.100'}
                                                 position={'relative'}
-                                                _hover={{cursor: 'pointer'}}
+                                                _hover={{ cursor: 'pointer' }}
                                                 onClick={() => {
-                                                    setCurrentImage(img)}
+                                                    setCurrentImage(img)
+                                                }
                                                 }>
                                                 <Image
                                                     className=''
@@ -206,12 +208,14 @@ const ProductDetail =
                                     }
                                 </VStack>
 
+
                                 <Image
                                     width={500}
                                     height={500}
-                                    src={currentImage ? currentImage : data.img[0]}
-                                    alt={data.title}
+                                    src={currentImage ? currentImage : data.images[0]}
+                                    alt={data.productName}
                                 />
+
                             </Flex>
 
                             <Flex
@@ -223,7 +227,7 @@ const ProductDetail =
                                     fontSize={'3xl'}
                                     textColor={'black'}
                                     lineHeight={'36px'}>
-                                    {data.title}
+                                    {data.productName}
                                 </Text>
 
                                 <Text
@@ -231,33 +235,56 @@ const ProductDetail =
                                     fontSize={'xl'}
                                     textColor={'gray.900'}
                                     marginTop={2}>
-                                    {`₦${new Intl.NumberFormat().format(data.price)}`}
+                                    {`₦${new Intl.NumberFormat().format(data.productPrice)}`}
                                 </Text>
 
                                 <Text
-                                    marginY={2}
-                                    textColor={'gray.600'}
+                                    marginTop={4}
+                                    textColor={'gray.800'}
                                     textAlign={'justify'}>
                                     {data.desc}
                                 </Text>
 
                                 <Text
+                                    marginTop={2}
+                                    fontSize={'sm'}
+                                    fontWeight={'semibold'}>
+                                    Width: <Text as={'span'} fontWeight={'normal'} textColor={'gray.900'}>{`${data.width}ft `}</Text>
+                                </Text>
+                                <Text
+                                    fontSize={'sm'}
+                                    fontWeight={'semibold'}>
+                                    Length: <Text as={'span'} fontWeight={'normal'} textColor={'gray.900'}>{`${data.length}ft `}</Text>
+                                </Text>
+                                <Text fontSize={'sm'}
+                                    fontWeight={'semibold'}>
+                                    Height: <Text as={'span'} fontWeight={'normal'} textColor={'gray.900'}>{`${data.height}ft`}</Text>
+                                </Text>
+
+                                <Text
+                                    marginTop={4}
                                     fontWeight={'semibold'}
                                     fontSize={'md'}
                                     textColor={'gray.900'}>
-                                    Dimension
+                                    Color
                                 </Text>
-                                <Text
-                                    fontSize={'sm'}>
-                                    Length: <Text as={'span'} fontWeight={'semibold'} textColor={'gray.900'}>{`${data.length}ft `}</Text>
-                                    • Height: <Text as={'span'} fontWeight={'semibold'} textColor={'gray.900'}>{`${data.height}ft`}</Text>
-                                </Text>
+                                {console.log(data.color)}
+                                <HStack
+                                    spacing={1}>
+                                    {
+                                        data.color.map(color => (
+                                            <Circle size={'45px'} borderWidth={1} borderColor={'blackAlpha.500'}>
+                                                <CircleIcon weight={'fill'} color={color} size={45} />
+                                            </Circle>
+                                        ))
+                                    }
+                                </HStack>
 
                                 {
                                     isInCart ?
                                         <HStack
                                             spacing={8}
-                                            marginTop={3}>
+                                            marginTop={4}>
                                             <Button
                                                 variant={'solid'}
                                                 rounded={'md'}
@@ -303,7 +330,7 @@ const ProductDetail =
                                             textTransform={'uppercase'}
                                             letterSpacing={'wide'}
                                             onClick={() => {
-                                                if (hasNotAuth){
+                                                if (hasNotAuth) {
                                                     router.push('/signup')
                                                 } else
                                                     addToCart(pid, data, cart)

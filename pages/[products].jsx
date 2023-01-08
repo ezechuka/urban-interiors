@@ -212,7 +212,7 @@ const Products = ({ getProducts }) => {
                     </BreadcrumbItem>
 
                     <BreadcrumbItem textColor={'gray.900'} textTransform={'capitalize'} isCurrentPage>
-                        <Text>{path.replace('-', ' ')}</Text>
+                        <Text>{path.replaceAll('-', ' ')}</Text>
                     </BreadcrumbItem>
                 </Breadcrumb>
 
@@ -228,13 +228,14 @@ const Products = ({ getProducts }) => {
                         w={'full'}
                         marginY={8}>
                         {
+                            
                             Object.values(data).map(product => (
                                 <ProductItem
                                     key={product.pid}
                                     productId={product.pid}
-                                    productTitle={product.title}
-                                    productImg={product.img[0]}
-                                    productPrice={product.price}
+                                    productTitle={product.productName}
+                                    productImg={product.images[0]}
+                                    productPrice={product.productPrice}
                                 />))
                         }
                     </Grid>

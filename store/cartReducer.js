@@ -39,6 +39,7 @@ export const
 export default cartSlice.reducer
 
 export const addToCart = (productId, cartItem, cart) => {
+    console.log(cartItem)
     return async (dispatch, getState, { getFirebase }) => {
         if (Object.keys(cart).includes(productId)) {
             dispatch(addItemToCart(
@@ -56,7 +57,7 @@ export const addToCart = (productId, cartItem, cart) => {
             .update({
                 'cart': {
                     totalItems: Number(cart.totalItems) + 1,
-                    totalPrice: Number(cart.totalPrice) + Number(cartItem.price),
+                    totalPrice: Number(cart.totalPrice) + Number(cartItem.productPrice),
                     items: {
                         ...cart.items,
                         [`${productId}`]: {
@@ -89,7 +90,7 @@ export const increaseQuantity = (productId, cartItem, cart) => {
             .update({
                 'cart': {
                     totalItems: Number(cart.totalItems) + 1,
-                    totalPrice: Number(cart.totalPrice) + Number(cartItem.price),
+                    totalPrice: Number(cart.totalPrice) + Number(cartItem.productPrice),
                     items: cart.items
                 }
             }).then(() => {
@@ -114,7 +115,7 @@ export const decreaseQuantity = (productId, cartItem, cart) => {
             .update({
                 'cart': {
                     totalItems: Number(cart.totalItems) - 1,
-                    totalPrice: Number(cart.totalPrice) - Number(cartItem.price),
+                    totalPrice: Number(cart.totalPrice) - Number(cartItem.productPrice),
                     items: cart.items
                 }
             }).then(() => {
@@ -134,7 +135,7 @@ export const deleteFromCart = (productId, cartItem, quantity, cart) => {
             .update({
                 'cart': {
                     totalItems: Number(cart.totalItems) - Number(quantity),
-                    totalPrice: Number(cart.totalPrice) - (Number(cartItem.price) * Number(quantity)),
+                    totalPrice: Number(cart.totalPrice) - (Number(cartItem.productPrice) * Number(quantity)),
                     items: cart.items
                 }
             }).then(() => {
