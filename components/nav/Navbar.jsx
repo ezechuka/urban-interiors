@@ -106,42 +106,6 @@ const Navbar = () => {
                                     icon={
                                         <Tooltip
                                             hasArrow
-                                            label={'Account'}
-                                            placement={'bottom'}
-                                            textColor={'white'}
-                                            bgColor={'gray.900'}>
-                                            <User size={24} weight={'regular'} alt={''} />
-                                        </Tooltip>
-                                    }
-                                    variant='ghost'
-                                />
-                                <MenuList fontSize={'sm'}>
-                                    <MenuItem icon={<UserCircle size={24} weight={'regular'} />}
-                                        onClick={() => router.push('/account')}>
-                                        My Account
-                                    </MenuItem>
-                                    <MenuItem icon={<Heart size={24} weight={'regular'} />}
-                                        onClick={() => router.push('/wishlist')}>
-                                        Wishlist
-                                    </MenuItem>
-                                    <MenuItem icon={<Package size={24} weight={'regular'} />}
-                                        onClick={() => router.push('/orders')}>
-                                        Orders
-                                    </MenuItem>
-                                    <MenuDivider />
-                                    <MenuItem color={'red.500'} icon={<SignOut size={24} weight={'regular'} />} >
-                                        Logout
-                                    </MenuItem>
-                                </MenuList>
-                            </Menu>
-
-                            <Menu>
-                                <MenuButton
-                                    as={IconButton}
-                                    aria-label='Options'
-                                    icon={
-                                        <Tooltip
-                                            hasArrow
                                             label={'Category'}
                                             placement={'bottom'}
                                             textColor={'white'}
@@ -174,6 +138,42 @@ const Navbar = () => {
                                             Table and chair
                                         </MenuItem>
                                     </MenuGroup>
+                                </MenuList>
+                            </Menu>
+
+                            <Menu>
+                                <MenuButton
+                                    as={IconButton}
+                                    aria-label='Options'
+                                    icon={
+                                        <Tooltip
+                                            hasArrow
+                                            label={'Account'}
+                                            placement={'bottom'}
+                                            textColor={'white'}
+                                            bgColor={'gray.900'}>
+                                            <User size={24} weight={'regular'} alt={''} />
+                                        </Tooltip>
+                                    }
+                                    variant='ghost'
+                                />
+                                <MenuList fontSize={'sm'}>
+                                    <MenuItem icon={<UserCircle size={24} weight={'regular'} />}
+                                        onClick={() => router.push('/account')}>
+                                        My Account
+                                    </MenuItem>
+                                    <MenuItem icon={<Heart size={24} weight={'regular'} />}
+                                        onClick={() => router.push('/wishlist')}>
+                                        Wishlist
+                                    </MenuItem>
+                                    <MenuItem icon={<Package size={24} weight={'regular'} />}
+                                        onClick={() => router.push('/orders')}>
+                                        Orders
+                                    </MenuItem>
+                                    <MenuDivider />
+                                    <MenuItem color={'red.500'} icon={<SignOut size={24} weight={'regular'} />} >
+                                        Logout
+                                    </MenuItem>
                                 </MenuList>
                             </Menu>
                         </>
