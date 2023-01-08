@@ -1,4 +1,4 @@
-import { Flex, IconButton, Text, Tooltip } from '@chakra-ui/react'
+import { Box, Flex, IconButton, Text, Tooltip } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { Heart, Trash } from 'phosphor-react'
@@ -15,12 +15,12 @@ const ProductItem = ({ productId, productTitle, productImg, productPrice, addToW
     return (
         <Flex
             rounded={'lg'}
-            shadow={'inner'}
+            boxShadow={'lg'}
             overflow={'hidden'}
             flexDirection={'column'}
             justifyContent={'center'}
             transition={'all'}
-            bgColor={'blackAlpha.100'}
+            bgColor={'blackAlpha.200'}
             position={'relative'}
             _hover={{ shadow: 'md', cursor: 'pointer' }}
             width={'220px'}
@@ -29,11 +29,16 @@ const ProductItem = ({ productId, productTitle, productImg, productPrice, addToW
                 router.push(`${catPath}/${productId}`)
             }}>
 
-            <Image
-                src={productImg}
-                width={'220'}
-                height={50}
-                alt={productTitle} />
+            <Box
+                boxSize={'200px'}
+                rounded={'lg'}
+                alignSelf={'center'}
+                position={'relative'}>
+                <Image
+                    src={productImg}
+                    fill
+                    alt={productTitle} />
+            </Box>
 
             {
                 wishlist?.includes(productId) ?
