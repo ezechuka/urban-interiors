@@ -110,13 +110,13 @@ const Category = () => {
                 marginTop={8}
                 spacing={5}
                 justifyContent={'space-between'}>
-                <CategoryItem catImg={couch} catTitle={'sofa'} />
-                <CategoryItem catImg={bed} catTitle={'bed'} />
-                <CategoryItem catImg={shoeRack} catTitle={'shoe rack'} />
-                <CategoryItem catImg={wardrobe} catTitle={'ward robe'} />
-                <CategoryItem catImg={shelf} catTitle={'shelf'} />
-                <CategoryItem catImg={console} catTitle={'tv console'} />
-                <CategoryItem catImg={chair} catTitle={'table & chair'} />
+                <CategoryItem catImg={couch} catTitle={'Sofa'} />
+                <CategoryItem catImg={bed} catTitle={'Bed'} />
+                <CategoryItem catImg={shoeRack} catTitle={'Shoe rack'} />
+                <CategoryItem catImg={wardrobe} catTitle={'Ward robe'} />
+                <CategoryItem catImg={shelf} catTitle={'Shelf'} />
+                <CategoryItem catImg={console} catTitle={'TV console'} />
+                <CategoryItem catImg={chair} catTitle={'Table-and-chair'} />
             </Stack>
 
 
