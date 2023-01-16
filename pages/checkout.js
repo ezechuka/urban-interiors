@@ -129,7 +129,7 @@ const Checkout = ({ clearCart }) => {
     const onSuccess = (reference) => {
         clearCart()
         const totalPrice = product.reduce(
-            (accumulator, currentProd) => accumulator + Number(currentProd.price), 0
+            (accumulator, currentProd) => accumulator + Number(currentProd.productPrice), 0
         )
         const modifiedItems = []
         product.forEach(p => modifiedItems.push({
