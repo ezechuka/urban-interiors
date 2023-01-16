@@ -53,7 +53,14 @@ const UploadProduct = ({ uploadNewProduct }) => {
             product.desc
         )
         if (Object.keys(errors).length === 0) {
-            uploadNewProduct(product)
+            const newProd = {
+                ...product,
+                productPrice: Number(product.productPrice),
+                width: Number(product.width),
+                length: Number(product.length),
+                height: Number(product.height)
+            }
+            uploadNewProduct(newProd)
         } else {
             setErrors(errors)
         }
