@@ -38,10 +38,9 @@ export const
 
 export default cartSlice.reducer
 
-export const addToCart = (productId, cartItem, cart) => {
-    console.log(cartItem)
+export const addToCart = (productId, productPrice, cart) => {
     return async (dispatch, getState, { getFirebase }) => {
-        if (Object.keys(cart).includes(productId)) {
+        if (Object.keys(cart.items).includes(productId)) {
             dispatch(addItemToCart(
                 {
                     info: 'FAIL'
@@ -57,7 +56,7 @@ export const addToCart = (productId, cartItem, cart) => {
             .update({
                 'cart': {
                     totalItems: Number(cart.totalItems) + 1,
-                    totalPrice: Number(cart.totalPrice) + Number(cartItem.productPrice),
+                    totalPrice: Number(cart.totalPrice) + Number(productPrice),
                     items: {
                         ...cart.items,
                         [`${productId}`]: {
@@ -73,9 +72,8 @@ export const addToCart = (productId, cartItem, cart) => {
     }
 }
 
-export const increaseQuantity = (productId, cartItem, cart) => {
+export const increaseQuantity = (productId, productPrice, cart) => {
     let cartProduct = cart.items[productId]
-    console.log(cartProduct)
     let newCartItem = {
         quantity: cartProduct.quantity + 1
     }
@@ -90,7 +88,7 @@ export const increaseQuantity = (productId, cartItem, cart) => {
             .update({
                 'cart': {
                     totalItems: Number(cart.totalItems) + 1,
-                    totalPrice: Number(cart.totalPrice) + Number(cartItem.productPrice),
+                    totalPrice: Number(cart.totalPrice) + Number(productPrice),
                     items: cart.items
                 }
             }).then(() => {
@@ -99,7 +97,7 @@ export const increaseQuantity = (productId, cartItem, cart) => {
     }
 }
 
-export const decreaseQuantity = (productId, cartItem, cart) => {
+export const decreaseQuantity = (productId, productPrice, cart) => {
     let cartProduct = cart.items[productId]
     let newCartItem = {
         quantity: cartProduct.quantity - 1
@@ -115,7 +113,7 @@ export const decreaseQuantity = (productId, cartItem, cart) => {
             .update({
                 'cart': {
                     totalItems: Number(cart.totalItems) - 1,
-                    totalPrice: Number(cart.totalPrice) - Number(cartItem.productPrice),
+                    totalPrice: Number(cart.totalPrice) - Number(productPrice),
                     items: cart.items
                 }
             }).then(() => {
@@ -124,7 +122,7 @@ export const decreaseQuantity = (productId, cartItem, cart) => {
     }
 }
 
-export const deleteFromCart = (productId, cartItem, quantity, cart) => {
+export const deleteFromCart = (productId, productPrice, quantity, cart) => {
     return async (dispatch, getState, { getFirebase }) => {
         const firestore = getFirebase().firestore()
         const userId = getState().persistFirebase.auth.uid
@@ -135,7 +133,7 @@ export const deleteFromCart = (productId, cartItem, quantity, cart) => {
             .update({
                 'cart': {
                     totalItems: Number(cart.totalItems) - Number(quantity),
-                    totalPrice: Number(cart.totalPrice) - (Number(cartItem.productPrice) * Number(quantity)),
+                    totalPrice: Number(cart.totalPrice) - (Number(productPrice) * Number(quantity)),
                     items: cart.items
                 }
             }).then(() => {

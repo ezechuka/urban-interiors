@@ -1,8 +1,8 @@
-import { Box, Breadcrumb, BreadcrumbItem, Button, Flex, HStack, keyframes, Text, Skeleton, VStack, Stack, Circle } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, Button, Flex, HStack, keyframes, Text, Skeleton, VStack, Stack, Circle, IconButton } from '@chakra-ui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { CaretRight, Heart, Minus, Plus } from 'phosphor-react'
+import { CaretRight, CheckCircle, Heart, Minus, Plus } from 'phosphor-react'
 import { Circle as CircleIcon } from 'phosphor-react'
 import { connect, useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
@@ -266,16 +266,25 @@ const ProductDetail =
                                     fontWeight={'semibold'}
                                     fontSize={'md'}
                                     textColor={'gray.900'}>
-                                    Color
+                                    Choose color
                                 </Text>
                                 {console.log(data.color)}
                                 <HStack
                                     spacing={1}>
                                     {
                                         data.color.map(color => (
-                                            <Circle size={'45px'} borderWidth={1} borderColor={'blackAlpha.500'}>
-                                                <CircleIcon weight={'fill'} color={color} size={45} />
-                                            </Circle>
+                                            <IconButton
+                                                variant={'ghost'}
+                                                icon={
+                                                    <Circle size={'32px'} borderWidth={1} borderColor={'blackAlpha.500'}>
+                                                        { false ?
+                                                            <CircleIcon weight={'fill'} color={color} size={32} />
+                                                            :
+                                                            <CheckCircle weight={'fill'} color={color} size={32} />
+                                                        }
+                                                    </Circle>
+                                                }
+                                                />
                                         ))
                                     }
                                 </HStack>
@@ -298,7 +307,7 @@ const ProductDetail =
                                                 }}
                                                 onClick={() => {
                                                     if (cartProduct.quantity > 1)
-                                                        decreaseItemQuantity(pid, product, cart)
+                                                        decreaseItemQuantity(pid, data.productPrice, cart)
                                                 }}>
                                                 <Minus color={'hsl(38, 58%, 47%)'} size={16} weight={'bold'} alt={'decrease item'} />
                                             </Button>
@@ -319,7 +328,7 @@ const ProductDetail =
                                                 _active={{
                                                     bgColor: 'none'
                                                 }}
-                                                onClick={() => increaseItemQuantity(pid, data, cart)}>
+                                                onClick={() => increaseItemQuantity(pid, data.productPrice, cart)}>
                                                 <Plus color={'hsl(38, 58%, 47%)'} size={16} weight={'bold'} alt={'increase item'} />
                                             </Button>
                                         </HStack>
@@ -333,7 +342,7 @@ const ProductDetail =
                                                 if (hasNotAuth) {
                                                     router.push('/signup')
                                                 } else
-                                                    addToCart(pid, data, cart)
+                                                    addToCart(pid, data.productPrice, cart)
                                             }}>
                                             Add to cart
                                         </Button>
@@ -368,12 +377,12 @@ export const matchDispatchToProps = dispatch => {
     return {
         getProduct: (productId) =>
             dispatch(getProduct(productId)),
-        addToCart: (productId, cartItem, prevCart) =>
-            dispatch(addToCart(productId, cartItem, prevCart)),
-        increaseItemQuantity: (productId, cartItem, prevCart) =>
-            dispatch(increaseQuantity(productId, cartItem, prevCart)),
-        decreaseItemQuantity: (productId, cartItem, prevCart) =>
-            dispatch(decreaseQuantity(productId, cartItem, prevCart)),
+        addToCart: (productId, productPrice, prevCart) =>
+            dispatch(addToCart(productId, productPrice, prevCart)),
+        increaseItemQuantity: (productId, productPrice, prevCart) =>
+            dispatch(increaseQuantity(productId, productPrice, prevCart)),
+        decreaseItemQuantity: (productId, productPrice, prevCart) =>
+            dispatch(decreaseQuantity(productId, productPrice, prevCart)),
         addToWishlist: (productId, prevWishlist) =>
             dispatch(addToWishlist(productId, prevWishlist))
     }

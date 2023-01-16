@@ -117,7 +117,7 @@ const CartItem = ({ item, cart, onDelete }) => {
                     variant={'ghost'}
                     p={0}
                     onClick={() => {
-                        dispatch(deleteFromCart(item.pid, item, cartProduct.quantity, cart))
+                        dispatch(deleteFromCart(item.pid, item.productPrice, cartProduct.quantity, cart))
                         onDelete(item.pid)
                     }}
                     icon={<Trash size={20} color={'#E53E3E'} />}
@@ -164,6 +164,8 @@ const Cart = () => {
                         justifyContent={'center'}
                         alignItems={'center'}
                         flexDirection={'column'}>
+                        <ToastContainer />
+
                         <Circle
                             bgColor={'gray.200'}
                             size={'140px'}>
@@ -201,7 +203,6 @@ const Cart = () => {
                         paddingY={8}
                         height={'70vh'}
                         backgroundColor={'gray.50'}>
-                        <ToastContainer />
 
                         <VStack
                             flexDirection={'column'}
