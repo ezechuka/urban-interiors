@@ -91,7 +91,7 @@ const Category = () => {
                 flexDirection={'column'}>
                 <Text
                     fontWeight={'bold'}
-                    fontSize={'xl'}
+                    fontSize={'3xl'}
                     textAlign={'center'}
                     textColor={'black'}>
                     Browse by Category
