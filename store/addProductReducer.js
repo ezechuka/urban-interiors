@@ -51,7 +51,6 @@ export const addNewProduct = (product) => {
         const firestore = getFirebase().firestore()
         const prodImgs = product.images
         const modProduct = { ...product, images: [] }
-        // console.log(modProduct)
 
         firestore.collection('products').add(modProduct)
             .then(async (docRef) => {
