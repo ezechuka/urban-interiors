@@ -18,11 +18,15 @@ export const productSlice = createSlice({
         },
         filterProductsByPrice(state, action) {
             return action.payload
+        },
+        filterProductsBySubCategory(state, action) {
+            return action.payload
         }
     }
 })
 
-export const { fetchProducts, filterProductsByPrice } = productSlice.actions
+export const { fetchProducts, filterProductsByPrice, filterProductsBySubCategory } 
+    = productSlice.actions
 
 export default productSlice.reducer
 
@@ -69,7 +73,7 @@ export const getProductsByPrice = (path, minPrice, maxPrice) => {
         const firestore = getFirebase().firestore()
         const productRef = collection(firestore, 'products')
         const priceFilterQuery = query(productRef, where('category', '==', path),
-            where('price', '>=', minPrice), where('price', '<=', maxPrice))
+            where('productPrice', '>=', minPrice), where('productPrice', '<=', maxPrice))
         const result = {}
         try {
             const querySnapshot = await getDocs(priceFilterQuery)
@@ -85,6 +89,41 @@ export const getProductsByPrice = (path, minPrice, maxPrice) => {
             }))
         } catch (e) {
             dispatch(fetchProducts({
+                ...dataState,
+                isLoading: false,
+                isFetching: false,
+                error: e,
+                data: null
+            }))
+        }
+    }
+}
+
+export const getProductsBySubCategory = (subCategory) => {
+    return async (dispatch, getState, { getFirebase }) => {
+        dispatch(filterProductsBySubCategory({
+            ...dataState, isFetching: true
+        }))
+
+        const firestore = getFirebase().firestore()
+        const productRef = collection(firestore, 'products')
+        const subCategoryQuery = query(productRef, where('subcategory', 'array-contains', subCategory))
+        const result = {}
+        try {
+            const querySnapshot = await getDocs(subCategoryQuery)
+            querySnapshot.forEach((product) => {
+                result[product.id] = { pid: product.id, ...product.data() }
+            })
+
+            dispatch(filterProductsBySubCategory({
+                ...dataState,
+                isLoading: false,
+                isFetching: false,
+                isLoaded: true,
+                data: result
+            }))
+        } catch (e) {
+            dispatch(filterProductsBySubCategory({
                 ...dataState,
                 isLoading: false,
                 isFetching: false,
