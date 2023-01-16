@@ -1,4 +1,4 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Flex, Grid, HStack, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack, Skeleton, SkeletonCircle, Stack, Text, useDisclosure, VStack } from '@chakra-ui/react'
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Circle, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Flex, Grid, HStack, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack, Skeleton, SkeletonCircle, Stack, Text, useDisclosure, VStack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { CaretRight, FunnelSimple } from 'phosphor-react'
 import { useEffect, useRef, useState } from 'react'
@@ -7,8 +7,10 @@ import Link from 'next/link'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 
+import noFilter from '../public/no_filter.png'
 import ProductItem from '../components/product/ProductItem'
-import { getProducts } from '../store/productsReducer'
+import { getProducts, getProductsByPrice } from '../store/productsReducer'
+import Image from 'next/image'
 
 const LoadingSkeleton = () => {
     return (
@@ -76,7 +78,7 @@ const FilterAccordionItem = ({ accordionTitle, items }) => {
     )
 }
 
-const FilterDrawer = ({ isOpen, onClose, btnRef }) => {
+const FilterDrawer = ({ isOpen, onClose, btnRef, cat, filterByPrice }) => {
 
     const [priceRange, setPriceRange] = useState([100000, 250000])
 
@@ -150,7 +152,8 @@ const FilterDrawer = ({ isOpen, onClose, btnRef }) => {
                                 marginTop={4}
                                 paddingX={18}
                                 paddingY={2}
-                                _hover={{ bgColor: 'blackAlpha.100', color: 'gold.500' }}>
+                                _hover={{ bgColor: 'blackAlpha.100', color: 'gold.500' }}
+                                onClick={() => filterByPrice(cat, priceRange[0], priceRange[1])}>
                                 Apply
                             </Button>
                         </Accordion>
@@ -161,7 +164,7 @@ const FilterDrawer = ({ isOpen, onClose, btnRef }) => {
     )
 }
 
-const Products = ({ getProducts }) => {
+const Products = ({ getProducts, getProductsByPrice }) => {
     const router = useRouter()
     const path = router.asPath.replace('/', '')
 
@@ -219,6 +222,48 @@ const Products = ({ getProducts }) => {
             </Flex>
 
             {
+                isLoaded && Object.values(data).length === 0 &&
+                <VStack
+                    width={'full'}
+                    height={'60vh'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    flexDirection={'column'}>
+
+                    <Circle
+                        bgColor={'gray.200'}
+                        size={'140px'}>
+                        <Image
+                            src={noFilter}
+                            alt={'Not match found'}
+                            width={85}
+                        />
+                    </Circle>
+
+                    <Text
+                        fontWeight={'medium'}
+                        fontSize={'md'}
+                        textColor={'black'}>
+                        No product match!
+                    </Text>
+
+                    <Text
+                        fontWeight={'normal'}
+                        fontSize={'sm'}
+                        textColor={'black'}>
+                        No product found within the price range
+                    </Text>
+
+                    <Button
+                        variant={'solid'}
+                        marginTop={10}
+                        onClick={() => router.reload()}>
+                        Refresh page
+                    </Button>
+                </VStack>
+            }
+
+            {
                 isFetching ?
                     <LoadingSkeleton />
                     :
@@ -228,7 +273,6 @@ const Products = ({ getProducts }) => {
                         w={'full'}
                         marginY={8}>
                         {
-                            
                             Object.values(data).map(product => (
                                 <ProductItem
                                     key={product.pid}
@@ -274,6 +318,8 @@ const Products = ({ getProducts }) => {
                 isOpen={isOpen}
                 onClose={onClose}
                 btnRef={buttonDrawerRef}
+                cat={path}
+                filterByPrice={getProductsByPrice}
             />
 
         </Flex>
@@ -283,7 +329,9 @@ const Products = ({ getProducts }) => {
 export const matchDispatchToProps = dispatch => {
     return {
         getProducts: (path) =>
-            dispatch(getProducts(path))
+            dispatch(getProducts(path)),
+        getProductsByPrice: (cat, minPrice, maxPrice) =>
+            dispatch(getProductsByPrice(cat, minPrice, maxPrice))
     }
 }
 
