@@ -6,8 +6,30 @@ import { useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { useFirebase } from 'react-redux-firebase'
 
+import { motion } from 'framer-motion'
+
 import armchair from '../public/armchair.png'
 import { LoginValidation } from '../utils/validate'
+
+const imagePaneVariant = {
+    fromTop: {
+        y: '-100vh'
+    },
+    toBottom: {
+        y: 0,
+        transition: { delay: 0.5, type: 'spring', stiffness: 100 }
+    }
+}
+
+const formPaneVariant = {
+    fromRight: {
+        x: '150vw'
+    },
+    toLeft: {
+        x: 0,
+        transition: { delay: 0.8, type: 'spring', stiffness: 30, damping: 8 }
+    }
+}
 
 const Login = () => {
     const [loading, setLoading] = useState(false)
@@ -31,7 +53,7 @@ const Login = () => {
         setAuthErr('')
         setErrors({})
         setLoading(true)
-        
+
         firebase.login({ email, password }).then((result) => {
             setLoading(false)
             router.push('/')
@@ -57,33 +79,42 @@ const Login = () => {
     return (
         <Flex
             w={'full'}
-            h={'100vh'}>
+            h={'100vh'}
+            overflow={'hidden'}>
 
             <Flex
                 w={'60%'}
                 h={'100vh'}
-                bgColor={'gold.500'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                flexDirection={'column'}>
+                bgColor={'gold.500'}>
 
-                <Image src={armchair} alt={''} />
+                <Flex
+                    as={motion.div}
+                    w={'full'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    flexDirection={'column'}
+                    variants={imagePaneVariant}
+                    initial={'fromTop'}
+                    animate={'toBottom'}>
 
-                <Text
-                    fontSize={'5xl'}
-                    fontWeight={'extrabold'}
-                    textAlign={'center'}
-                    textColor={'white'}>
-                    Welcome back!
-                </Text>
+                    <Image src={armchair} alt={''} />
 
-                <Text
-                    textColor={'white'}
-                    fontWeight={'normal'}
-                    fontSize={'sm'}>
-                    Please login to your account
-                </Text>
+                    <Text
+                        fontSize={'5xl'}
+                        fontWeight={'extrabold'}
+                        textAlign={'center'}
+                        textColor={'white'}>
+                        Welcome back!
+                    </Text>
 
+                    <Text
+                        textColor={'white'}
+                        fontWeight={'normal'}
+                        fontSize={'sm'}>
+                        Please login to your account
+                    </Text>
+
+                </Flex>
             </Flex>
 
             <Flex
@@ -93,15 +124,19 @@ const Login = () => {
                 alignItems={'center'}>
 
                 <Flex
+                    as={motion.div}
                     paddingX={4}
                     paddingY={12}
                     spacing={4}
                     flexDirection={'column'}
                     justifyContent={'center'}
                     alignItems={'center'}
-                    width={'70%'}>
+                    width={'70%'}
+                    variants={formPaneVariant}
+                    initial={'fromRight'}
+                    animate={'toLeft'}>
 
-                    <Text
+                    < Text
                         fontSize={'4xl'}
                         fontWeight={'extrabold'}
                         textAlign={'center'}
@@ -250,7 +285,7 @@ const Login = () => {
                 </Flex>
 
             </Flex>
-        </Flex>
+        </Flex >
     )
 }
 

@@ -1,15 +1,36 @@
-import { Button, Flex, IconButton, Input, InputGroup, InputRightElement, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Flex, IconButton, Input, InputGroup, InputRightElement, Text, VStack } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { Eye, EyeClosed } from 'phosphor-react'
 import { useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
-import { useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
 import firebaseCompat from 'firebase/compat/app'
 
+import { motion } from 'framer-motion'
+
 import sofa from '../public/sofa.png'
 import { SignupValidation } from '../utils/validate'
+
+const imagePaneVariant = {
+    fromTop: {
+        y: '-100vh'
+    },
+    toBottom: {
+        y: 0,
+        transition: { delay: 0.5, type: 'spring', stiffness: 100 }
+    }
+}
+
+const formPaneVariant = {
+    fromRight: {
+        x: '150vw'
+    },
+    toLeft: {
+        x: 0,
+        transition: { delay: 0.8, type: 'spring', stiffness: 30, damping: 8 }
+    }
+}
 
 const Login = () => {
     const [authErr, setAuthErr] = useState('')
@@ -77,32 +98,39 @@ const Login = () => {
         <Flex
             w={'full'}
             h={'100vh'}
-            overflowY={'hidden'}>
+            overflow={'hidden'}>
 
             <Flex
                 w={'60%'}
                 h={'100vh'}
-                bgColor={'gold.500'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                flexDirection={'column'}>
+                bgColor={'gold.500'}>
 
-                <Image src={sofa} alt={''} />
+                <Flex
+                    as={motion.div}
+                    w={'full'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    flexDirection={'column'}
+                    variants={imagePaneVariant}
+                    initial={'fromTop'}
+                    animate={'toBottom'}>
+                    <Image src={sofa} alt={''} />
 
-                <Text
-                    fontSize={'5xl'}
-                    fontWeight={'extrabold'}
-                    textAlign={'center'}
-                    textColor={'white'}>
-                    Hello There!
-                </Text>
+                    <Text
+                        fontSize={'5xl'}
+                        fontWeight={'extrabold'}
+                        textAlign={'center'}
+                        textColor={'white'}>
+                        Hello There!
+                    </Text>
 
-                <Text
-                    textColor={'white'}
-                    fontWeight={'normal'}
-                    fontSize={'sm'}>
-                    Please create an account
-                </Text>
+                    <Text
+                        textColor={'white'}
+                        fontWeight={'normal'}
+                        fontSize={'sm'}>
+                        Please create an account
+                    </Text>
+                </Flex>
 
             </Flex>
 
@@ -113,13 +141,17 @@ const Login = () => {
                 alignItems={'center'}>
 
                 <Flex
+                    as={motion.div}
                     paddingX={4}
                     paddingY={12}
                     spacing={4}
                     flexDirection={'column'}
                     justifyContent={'center'}
                     alignItems={'center'}
-                    width={'70%'}>
+                    width={'70%'}
+                    variants={formPaneVariant}
+                    initial={'fromRight'}
+                    animate={'toLeft'}>
 
                     <Text
                         fontSize={'4xl'}
@@ -228,7 +260,7 @@ const Login = () => {
                             <InputRightElement>
                                 <IconButton variant={'ghost'} onClick={handleShowClick}
                                     icon={
-                                        show ? <EyeClosed color={'black'} size={20} weight={'regular'} /> : <Eye color={'black'} size={20} weight={'regular'} />
+                                        show ? <Eye color={'black'} size={20} weight={'regular'} /> : <EyeClosed color={'black'} size={20} weight={'regular'} />
                                     }>
                                 </IconButton>
                             </InputRightElement>

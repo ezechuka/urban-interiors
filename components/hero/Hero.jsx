@@ -1,7 +1,52 @@
-import { Button, Flex, Text, VStack } from "@chakra-ui/react"
+import { Button, Flex, Text, VStack } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import Image from "next/image"
 
 import hero from '../../public/hero.png'
+
+const slideLeftVariant = {
+    fromLeft: {
+        x: '-50vw'
+    },
+    toRight: {
+        x: 0,
+        transition: {
+            delay: 0.6,
+            type: 'spring',
+            stiffness: 85,
+            when: 'beforeChildren'
+        }
+    }
+}
+
+const slideRightVariant = {
+    fromRight: {
+        x: '100vw'
+    },
+    toLeft: {
+        x: 0,
+        transition: {
+            delay: 1,
+            type: 'spring',
+            stiffness: 85
+        }
+    }
+}
+
+const fadeInVariant = {
+    hidden: {
+        opacity: 0,
+        y: 10
+    },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            type: 'tween',
+            duration: 1
+        }
+    }
+}
 
 const Hero = () => {
     return (
@@ -13,11 +58,15 @@ const Hero = () => {
             alignItems={'center'}>
 
             <VStack
+                as={motion.div}
                 flexDirection={'column'}
                 alignItems={'start'}
                 justifyContent={'space-evenly'}
                 maxWidth={'45%'}
-                spacing={8}>
+                spacing={8}
+                variants={slideLeftVariant}
+                initial={'fromLeft'}
+                animate={'toRight'}>
 
                 <Text
                     as={'h1'}
@@ -36,7 +85,12 @@ const Hero = () => {
                     Shop with us to get amazing offers.
                 </Text>
 
-                <Button variant={'solid'}
+                <Button
+                    as={motion.div}
+                    variants={fadeInVariant}
+                    initial={'hidden'}
+                    animate={'visible'}
+                    variant={'solid'}
                     onClick={() => {
                         const element = document.getElementById('products')
                         element?.scrollIntoView({
@@ -48,13 +102,17 @@ const Hero = () => {
             </VStack>
 
             <Flex
+                as={motion.div}
                 rounded={'20%'}
                 minW={'55%'}
-                justifyContent={'end'}>
-
+                justifyContent={'end'}
+                variants={slideRightVariant}
+                initial={'fromRight'}
+                animate={'toLeft'}>
                 <Image
                     src={hero}
                     alt={''}
+                    priority={true}
                 />
             </Flex>
 
