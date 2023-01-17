@@ -23,7 +23,7 @@ const LoadingSkeleton = () => {
                         alignItems={'start'}>
                         <Skeleton
                             width={'220px'}
-                            height={'100px'}
+                            height={'200px'}
                             rounded={'lg'}
                             fadeDuration={2}
                         />
@@ -51,10 +51,10 @@ const FeaturedItem = ({ productId, productName, productPrice,
 
     const router = useRouter()
     const cart = useSelector((state) => state.persistFirebase.profile.cart)
+    const hasNotAuth = useSelector((state) => state.persistFirebase.profile.isEmpty)
 
     return (
         <Flex
-            as={'button'}
             rounded={'lg'}
             boxShadow={'lg'}
             overflow={'hidden'}
@@ -102,15 +102,16 @@ const FeaturedItem = ({ productId, productName, productPrice,
                     <Button
                         variant={'secondary'}
                         rounded={'lg'}
-                        borderWidth={1}
                         paddingY={6}
                         fontWeight={'bold'}
                         w={'full'}
                         backgroundColor={'gold.500'}
                         textTransform={'uppercase'}
                         letterSpacing={'wider'}
+                        transition={'all .4s'}
                         _hover={{
                             color: 'white',
+                            bgColor: 'blackAlpha.900',
                             shadow: 'lg'
                         }}
                         onClick={() => router.push('/cart')}>
@@ -129,7 +130,12 @@ const FeaturedItem = ({ productId, productName, productPrice,
                         _hover={{
                             bgColor: 'blackAlpha.500'
                         }}
-                        onClick={() => addToCart(productId, productPrice, cart)}>
+                        onClick={() => {
+                            if (hasNotAuth) {
+                                router.push('/signup')
+                            } else
+                                addToCart(productId, productPrice, cart)
+                        }}>
                         Add to cart
                     </Button>
             }
