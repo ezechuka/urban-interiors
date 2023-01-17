@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import Footer from './footer/Footer'
+import Meta from './meta/Meta'
 import Navbar from './nav/Navbar'
 
 const Layout = ({ children }) => {
@@ -18,6 +19,7 @@ const Layout = ({ children }) => {
                 </Box>
             }
 
+            <Meta />
             <Box
                 as={'main'}
                 zIndex={'base'}>
