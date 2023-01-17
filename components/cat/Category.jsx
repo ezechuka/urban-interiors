@@ -88,7 +88,8 @@ const Category = () => {
             alignItems={'center'}>
 
             <Flex
-                flexDirection={'column'}>
+                flexDirection={'column'}
+                alignItems={'center'}>
                 <Text
                     fontWeight={'bold'}
                     fontSize={'3xl'}
