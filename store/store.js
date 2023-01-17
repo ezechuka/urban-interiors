@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { firebaseReducer, getFirebase } from 'react-redux-firebase'
 import { firestoreReducer } from 'redux-firestore'
 import thunk from 'redux-thunk'
@@ -12,6 +12,7 @@ import cartReducer from './cartReducer';
 import wishlistReducer from './wishlistReducer';
 import orderReducer from './orderReducer';
 import addProductReducer from './addProductReducer';
+import logoutReducer from './logoutReducer';
 
 const persistFirebaseAuthConfig = {
     key: 'user',
@@ -21,17 +22,27 @@ const persistFirebaseAuthConfig = {
 
 const persistFirebaseReducer = persistReducer(persistFirebaseAuthConfig, firebaseReducer)
 
+const combinedReducers = combineReducers({
+    persistFirebase: persistFirebaseReducer,
+    firestore: firestoreReducer,
+    products: productsReducer,
+    product: productReducer,
+    cart: cartReducer,
+    order: orderReducer,
+    addProduct: addProductReducer,
+    wishlist: wishlistReducer,
+    logout: logoutReducer
+})
+
+const rootReducer = (state, action) => {
+    if (action.type === 'app/logout') {
+        state = undefined
+    }
+    return combinedReducers(state, action)
+}
+
 export const store = configureStore({
-    reducer: {
-        persistFirebase: persistFirebaseReducer,
-        firestore: firestoreReducer,
-        products: productsReducer,
-        product: productReducer,
-        cart: cartReducer,
-        order: orderReducer,
-        addProduct: addProductReducer,
-        wishlist: wishlistReducer
-    },
+    reducer: rootReducer,
     middleware: [thunk.withExtraArgument({ getFirebase })]
 })
 
