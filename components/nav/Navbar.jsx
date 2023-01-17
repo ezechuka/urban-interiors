@@ -1,12 +1,14 @@
 import { Box, Button, Circle, Flex, HStack, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Text, Tooltip } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { AngularLogo, Heart, MagnifyingGlass, Package, ShoppingCart, SignOut, SquaresFour, User, UserCircle } from 'phosphor-react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { signOut } from '../../store/logoutReducer'
 
 const Navbar = () => {
     const router = useRouter()
     const auth = useSelector(state => state.persistFirebase.profile)
     const cart = useSelector((state) => state.persistFirebase.profile.cart)
+    const dispatch = useDispatch()
 
     return (
         <Flex
@@ -148,7 +150,7 @@ const Navbar = () => {
                                     icon={
                                         <Tooltip
                                             hasArrow
-                                            label={'Account'}
+                                            label={'My Account'}
                                             placement={'bottom'}
                                             textColor={'white'}
                                             bgColor={'gray.900'}>
@@ -160,7 +162,7 @@ const Navbar = () => {
                                 <MenuList fontSize={'sm'}>
                                     <MenuItem icon={<UserCircle size={24} weight={'regular'} />}
                                         onClick={() => router.push('/account')}>
-                                        My Account
+                                        Account
                                     </MenuItem>
                                     <MenuItem icon={<Heart size={24} weight={'regular'} />}
                                         onClick={() => router.push('/wishlist')}>
@@ -171,7 +173,10 @@ const Navbar = () => {
                                         Orders
                                     </MenuItem>
                                     <MenuDivider />
-                                    <MenuItem color={'red.500'} icon={<SignOut size={24} weight={'regular'} />} >
+                                    <MenuItem color={'red.500'} icon={<SignOut size={24} weight={'regular'} />}
+                                        onClick={() => {
+                                            dispatch(signOut())
+                                        }}>
                                         Logout
                                     </MenuItem>
                                 </MenuList>
