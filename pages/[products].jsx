@@ -27,7 +27,7 @@ const LoadingSkeleton = () => {
                         alignItems={'start'}>
                         <Skeleton
                             width={'220px'}
-                            height={'100px'}
+                            height={'200px'}
                             rounded={'lg'}
                             fadeDuration={2}
                         />
@@ -210,7 +210,7 @@ const Products = ({ getProducts, getProductsByPrice }) => {
                     fontWeight={'medium'}
                     fontSize={'sm'}
                     textDecoration={'none'}>
-                    <BreadcrumbItem textColor={'gray.600'} _hover={{ color: 'gold.500' }}>
+                    <BreadcrumbItem textColor={'gray.600'} transition={'all .2s'} _hover={{ color: 'gold.500' }}>
                         <Link href='/'>Home</Link>
                     </BreadcrumbItem>
 

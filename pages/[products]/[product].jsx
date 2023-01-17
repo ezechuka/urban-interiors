@@ -146,11 +146,11 @@ const ProductDetail =
                     fontWeight={'medium'}
                     fontSize={'sm'}
                     textDecoration={'none'}>
-                    <BreadcrumbItem textColor={'gray.600'} _hover={{ color: 'gold.500' }}>
+                    <BreadcrumbItem textColor={'gray.600'} transition={'all .2s'} _hover={{ color: 'gold.500' }}>
                         <Link href='/'>Home</Link>
                     </BreadcrumbItem>
 
-                    <BreadcrumbItem textColor={'gray.600'} textTransform={'capitalize'} _hover={{ color: 'gold.500' }}>
+                    <BreadcrumbItem textColor={'gray.600'} transition={'all .2s'} textTransform={'capitalize'} _hover={{ color: 'gold.500' }}>
                         <Text
                             as={'button'}
                             fontWeight={'medium'}
