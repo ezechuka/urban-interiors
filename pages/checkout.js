@@ -85,7 +85,7 @@ const Checkout = ({ clearCart }) => {
     })
     const [errors, setErrors] = useState({})
 
-    
+
     const userId = useSelector((state) => state.persistFirebase.auth.uid)
     const cart = useSelector((state) => state.persistFirebase.profile.cart)
     const [product, setProduct] = useState([])
@@ -388,15 +388,15 @@ const Checkout = ({ clearCart }) => {
 
                     {
                         product.map((item, i) => (
-                            <>
+                            <Box key={item.pid}>
                                 <CartItem
-                                    key={item.pid}
                                     item={item}
                                 />
                                 {i !== product.length - 1 &&
-                                    <Divider orientation={'horizontal'} bgColor={'gray.200'} h={'.1px'} />
+                                    <Divider orientation={'horizontal'}
+                                        bgColor={'gray.200'} h={'.1px'} />
                                 }
-                            </>
+                            </Box>
                         ))
                     }
 
