@@ -1,7 +1,8 @@
-import { Box, Button, Circle, Divider, Flex, Skeleton, Stack, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Circle, color, Divider, Flex, Skeleton, Stack, Text, VStack } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useEffect } from 'react'
 import { connect, useSelector } from 'react-redux'
+import { Circle as CircleIcon } from 'phosphor-react'
 import { retrieveOrders } from '../store/orderReducer'
 
 import emptyOrder from '../public/package.png'
@@ -77,6 +78,20 @@ const OrderItem = ({ order }) => {
                         </Text>
                     </VStack>
                 </Flex>
+
+                <VStack
+                    justifyContent={'center'}>
+
+                    <Circle size={'32px'} borderWidth={1} borderColor={'blackAlpha.500'}>
+                        <CircleIcon weight={'fill'} color={order.color.value} size={32} />
+                    </Circle>
+
+                    <Text textTransform={'capitalize'}>
+                        {order.color.name}
+                    </Text>
+
+                </VStack>
+
                 <Text
                     textAlign={'end'}
                     fontWeight={'normal'}
