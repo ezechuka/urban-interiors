@@ -147,7 +147,7 @@ const ModalDialogItem = ({ productName, productPrice, colorValue, colorName, pid
                 px={5}
                 transition={'all .3s'}
                 _active={{ transform: 'scale(0.9)' }}
-                onClick={() => onAdd(pid, productPrice, colorValue, cart)}>
+                onClick={() => onAdd(pid, productPrice, colorName, colorValue, cart)}>
                 add
             </Button>
         </Flex>
@@ -451,8 +451,8 @@ export const matchDispatchToProps = dispatch => {
     return {
         getProduct: (productId) =>
             dispatch(getProduct(productId)),
-        addToCart: (productId, productPrice, colorValue, prevCart) =>
-            dispatch(addToCart(productId, productPrice, colorValue, prevCart)),
+        addToCart: (productId, productPrice, colorName, colorValue, prevCart) =>
+            dispatch(addToCart(productId, productPrice, colorName, colorValue, prevCart)),
         increaseItemQuantity: (productId, productPrice, prevCart) =>
             dispatch(increaseQuantity(productId, productPrice, prevCart)),
         decreaseItemQuantity: (productId, productPrice, prevCart) =>
