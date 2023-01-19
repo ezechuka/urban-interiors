@@ -324,6 +324,7 @@ const Cart = () => {
                                 variant={'solid'}
                                 w={'full'}
                                 marginY={10}
+                                textTransform={'uppercase'}
                                 onClick={() => router.push('/checkout')}>
                                 Checkout
                             </Button>
@@ -333,7 +334,7 @@ const Cart = () => {
                                 borderColor={'gray.300'}
                                 w={'full'}
                                 paddingY={6}
-                                textTransform={'none'}
+                                textTransform={'uppercase'}
                                 onClick={() => router.push('/')}>
                                 Continue shopping
                             </Button>
