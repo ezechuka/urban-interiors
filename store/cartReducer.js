@@ -38,7 +38,7 @@ export const
 
 export default cartSlice.reducer
 
-export const addToCart = (productId, productPrice, cart) => {
+export const addToCart = (productId, productPrice, colorValue, cart) => {
     return async (dispatch, getState, { getFirebase }) => {
         if (Object.keys(cart.items).includes(productId)) {
             dispatch(addItemToCart(
@@ -60,7 +60,8 @@ export const addToCart = (productId, productPrice, cart) => {
                     items: {
                         ...cart.items,
                         [`${productId}`]: {
-                            quantity: 1
+                            quantity: 1,
+                            color: colorValue
                         }
                     }
                 }
@@ -75,6 +76,7 @@ export const addToCart = (productId, productPrice, cart) => {
 export const increaseQuantity = (productId, productPrice, cart) => {
     let cartProduct = cart.items[productId]
     let newCartItem = {
+        ...cartProduct,
         quantity: cartProduct.quantity + 1
     }
 
@@ -100,6 +102,7 @@ export const increaseQuantity = (productId, productPrice, cart) => {
 export const decreaseQuantity = (productId, productPrice, cart) => {
     let cartProduct = cart.items[productId]
     let newCartItem = {
+        ...cartProduct,
         quantity: cartProduct.quantity - 1
     }
 
