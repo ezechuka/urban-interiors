@@ -11,7 +11,7 @@ const UploadProduct = ({ uploadNewProduct }) => {
     const [product, setProduct] = useState({
         productName: '',
         productPrice: '',
-        category: '',
+        category: 'bed',
         subcategory: [],
         color: [],
         width: '',
@@ -30,12 +30,12 @@ const UploadProduct = ({ uploadNewProduct }) => {
 
     const handleFileChange = (e, pos) => {
         const { name, files } = e.target
-        
+
         setProduct((prevProd) => {
             var tempImgs = prevProd.images
             tempImgs[pos] = files[0]
-        
-            return {...prevProd, [name]: [...tempImgs] }
+
+            return { ...prevProd, [name]: [...tempImgs] }
         })
     }
 
@@ -53,13 +53,28 @@ const UploadProduct = ({ uploadNewProduct }) => {
             product.desc
         )
         if (Object.keys(errors).length === 0) {
+            const colors = {
+                '#FFFFFF': 'white',
+                '#902C3E': 'velvet',
+                '#090909': 'matte-black',
+                '#8B4513': 'brown'
+            }
+
+            let selectedColor = {}
+            product.color.forEach(c => {
+                if (colors[c]) {
+                    selectedColor = { ...selectedColor, [c]: colors[c] }
+                }
+            })
             const newProd = {
                 ...product,
                 productPrice: Number(product.productPrice),
                 width: Number(product.width),
                 length: Number(product.length),
-                height: Number(product.height)
+                height: Number(product.height),
+                color: selectedColor
             }
+
             uploadNewProduct(newProd)
         } else {
             setErrors(errors)
@@ -207,6 +222,7 @@ const UploadProduct = ({ uploadNewProduct }) => {
                                     <MenuItemOption value={'featured'}>Featured</MenuItemOption>
                                     <MenuItemOption value={'on-sale'}>On Sale</MenuItemOption>
                                     <MenuItemOption value={'new-arrival'}>New Arrival</MenuItemOption>
+                                    <MenuItemOption value={'none'}>None</MenuItemOption>
                                 </MenuOptionGroup>
                             </MenuList>
                         </Menu>
