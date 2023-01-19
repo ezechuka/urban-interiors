@@ -1,4 +1,4 @@
-import { Box, Breadcrumb, BreadcrumbItem, Button, Flex, HStack, keyframes, Text, Skeleton, VStack, Stack, Circle, IconButton } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, Button, Flex, HStack, keyframes, Text, Skeleton, VStack, Stack, Circle, IconButton, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalFooter, useDisclosure, ModalBody } from '@chakra-ui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -102,11 +102,62 @@ const LoadingSkeleton = () => {
     )
 }
 
+const ModalDialogItem = ({ productName, productPrice, colorValue, colorName, pid, cart, onAdd }) => {
+    return (
+        <Flex
+            justifyContent={'space-between'}
+            alignItems={'center'}
+            mb={4}>
+            <VStack
+                alignItems={'start'}>
+                <Text
+                    fontWeight={'bold'}
+                    fontSize={'lg'}
+                    textColor={'black'}>
+                    {productName}
+                </Text>
+                <Text
+                    fontWeight={'medium'}
+                    fontSize={'md'}
+                    textColor={'gray.900'}>
+                    {`₦${new Intl.NumberFormat().format(productPrice)}`}
+                </Text>
+            </VStack>
+
+            <VStack
+                justifyContent={'center'}>
+
+                <Circle size={'32px'} borderWidth={1} borderColor={'blackAlpha.500'}>
+                    <CircleIcon weight={'fill'} color={colorValue} size={32} />
+                </Circle>
+
+                <Text textTransform={'capitalize'}>
+                    {colorName}
+                </Text>
+
+            </VStack>
+
+            <Button
+                variant={'ghost'}
+                textTransform={'uppercase'}
+                letterSpacing={'wide'}
+                borderWidth={1}
+                paddingY={3}
+                borderColor={'gray.300'}
+                px={5}
+                transition={'all .3s'}
+                _active={{ transform: 'scale(0.9)' }}
+                onClick={() => onAdd(pid, productPrice, colorValue, cart)}>
+                add
+            </Button>
+        </Flex>
+    )
+}
+
 const ProductDetail =
     ({ getProduct, addToCart, increaseItemQuantity, decreaseItemQuantity, addToWishlist }) => {
         const router = useRouter()
         const path = router.asPath.split('/')
-        console.log(path)
         const pid = localStorage.getItem('PRODUCT_REF')
 
         const { isLoading, isFetching, isLoaded, error, data }
@@ -120,6 +171,8 @@ const ProductDetail =
         const wishlist = useSelector((state) => state.persistFirebase.profile.wishlist)
 
         const cartItems = useSelector((state) => state?.persistFirebase?.profile?.cart?.items)
+
+        const { isOpen, onOpen, onClose } = useDisclosure()
 
         const cartProduct = cartItems && cartItems[pid]
         const isInCart = cartItems && cartItems[pid] ? true : false
@@ -139,6 +192,42 @@ const ProductDetail =
                 justifyContent={'center'}
                 alignItems={'start'}>
                 <ToastContainer />
+
+                <Modal isOpen={isOpen} onClose={onClose} motionPreset='slideInRight'>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>Add to cart (choose color)</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            {
+                                isLoaded && Object.keys(data.color).map(color => (
+                                    <ModalDialogItem
+                                        key={color}
+                                        productName={data.productName}
+                                        productPrice={data.productPrice}
+                                        colorValue={color}
+                                        colorName={data.color[color]}
+                                        pid={pid}
+                                        cart={cart}
+                                        onAdd={addToCart}
+                                    />
+                                ))
+
+                            }
+                        </ModalBody>
+
+                        <ModalFooter>
+                            <Button
+                                px={0}
+                                py={2}
+                                variant={'solid'}
+                                textTransform={'uppercase'}
+                                onClick={() => router.push('/cart')}>
+                                Go to cart
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
 
                 <Breadcrumb
                     spacing={2}
@@ -185,7 +274,6 @@ const ProductDetail =
                                     {
                                         data.images.map((img, i) => (
                                             <Box
-                                                as={motion.div}
                                                 key={i}
                                                 boxSize={'100px'}
                                                 rounded={'lg'}
@@ -208,7 +296,7 @@ const ProductDetail =
                                     }
                                 </VStack>
 
-
+                                {console.log(data.images[0])}
                                 <Image
                                     width={500}
                                     height={500}
@@ -266,25 +354,16 @@ const ProductDetail =
                                     fontWeight={'semibold'}
                                     fontSize={'md'}
                                     textColor={'gray.900'}>
-                                    Choose color
+                                    Available colors
                                 </Text>
-                                {console.log(data.color)}
+
                                 <HStack
                                     spacing={1}>
                                     {
-                                        data.color.map(color => (
-                                            <IconButton
-                                                variant={'ghost'}
-                                                icon={
-                                                    <Circle size={'32px'} borderWidth={1} borderColor={'blackAlpha.500'}>
-                                                        { false ?
-                                                            <CircleIcon weight={'fill'} color={color} size={32} />
-                                                            :
-                                                            <CheckCircle weight={'fill'} color={color} size={32} />
-                                                        }
-                                                    </Circle>
-                                                }
-                                                />
+                                        Object.keys(data.color).map(color => (
+                                            <Circle size={'32px'} borderWidth={1} borderColor={'blackAlpha.500'}>
+                                                <CircleIcon weight={'fill'} color={color} size={32} />
+                                            </Circle>
                                         ))
                                     }
                                 </HStack>
@@ -338,12 +417,7 @@ const ProductDetail =
                                             marginTop={6}
                                             textTransform={'uppercase'}
                                             letterSpacing={'wide'}
-                                            onClick={() => {
-                                                if (hasNotAuth) {
-                                                    router.push('/signup')
-                                                } else
-                                                    addToCart(pid, data.productPrice, cart)
-                                            }}>
+                                            onClick={onOpen}>
                                             Add to cart
                                         </Button>
                                 }
@@ -377,8 +451,8 @@ export const matchDispatchToProps = dispatch => {
     return {
         getProduct: (productId) =>
             dispatch(getProduct(productId)),
-        addToCart: (productId, productPrice, prevCart) =>
-            dispatch(addToCart(productId, productPrice, prevCart)),
+        addToCart: (productId, productPrice, colorValue, prevCart) =>
+            dispatch(addToCart(productId, productPrice, colorValue, prevCart)),
         increaseItemQuantity: (productId, productPrice, prevCart) =>
             dispatch(increaseQuantity(productId, productPrice, prevCart)),
         decreaseItemQuantity: (productId, productPrice, prevCart) =>
