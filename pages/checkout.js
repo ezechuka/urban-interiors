@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Flex, Input, Stack, Text, useDisclosure, VStack } from '@chakra-ui/react'
+import { Box, Button, color, Divider, Flex, Input, Stack, Text, useDisclosure, VStack } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { connect, useSelector } from 'react-redux'
@@ -118,8 +118,11 @@ const Checkout = ({ clearCart }) => {
                 const docRef = doc(firestore, `products/${id}`)
                 const docSnap = await getDoc(docRef)
                 const quantity = cart.items[id].quantity
+                const color = cart.items[id].color
+
                 if (docSnap.exists)
-                    tempCart.push({ pid: id, quantity, ...docSnap.data() })
+                    tempCart.push({ pid: id, quantity, colorName: color.name, 
+                        colorValue: color.value, ...docSnap.data() })
             }))
             setProduct(tempCart)
         }
@@ -134,7 +137,10 @@ const Checkout = ({ clearCart }) => {
         const modifiedItems = []
         product.forEach(p => modifiedItems.push({
             title: p.productName,
-            color: '',
+            color: {
+                name: p.colorName,
+                value: p.colorValue
+            },
             price: p.productPrice,
             pid: p.pid,
             img: p.images[0],
