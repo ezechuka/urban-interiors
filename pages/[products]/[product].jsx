@@ -199,13 +199,13 @@ const ProductDetail =
                         <ModalCloseButton />
                         <ModalBody>
                             {
-                                isLoaded && Object.keys(data.color).map(color => (
+                                isLoaded && Object.values(data.colorValue).map((colorValue, i) => (
                                     <ModalDialogItem
-                                        key={color}
+                                        key={colorValue}
                                         productName={data.productName}
                                         productPrice={data.productPrice}
-                                        colorValue={color}
-                                        colorName={data.color[color]}
+                                        colorValue={colorValue}
+                                        colorName={data.color[i]}
                                         pid={pid}
                                         cart={cart}
                                         onAdd={addToCart}
@@ -359,7 +359,7 @@ const ProductDetail =
                                 <HStack
                                     spacing={1}>
                                     {
-                                        Object.keys(data.color).map(color => (
+                                        Object.values(data.colorValue).map(color => (
                                             <Circle size={'32px'} borderWidth={1} borderColor={'blackAlpha.500'}>
                                                 <CircleIcon weight={'fill'} color={color} size={32} />
                                             </Circle>
