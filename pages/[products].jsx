@@ -1,4 +1,36 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Circle, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Flex, Grid, HStack, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack, Skeleton, SkeletonCircle, Stack, Text, useDisclosure, VStack } from '@chakra-ui/react'
+import {
+    Accordion,
+    AccordionButton,
+    AccordionIcon,
+    AccordionItem,
+    AccordionPanel,
+    Box,
+    Breadcrumb,
+    BreadcrumbItem,
+    Button,
+    Circle,
+    Drawer,
+    DrawerBody,
+    DrawerCloseButton,
+    DrawerContent,
+    DrawerHeader,
+    DrawerOverlay,
+    Flex,
+    Grid,
+    HStack,
+    IconButton,
+    Radio,
+    RadioGroup,
+    RangeSlider,
+    RangeSliderFilledTrack,
+    RangeSliderThumb,
+    RangeSliderTrack,
+    Skeleton,
+    Stack,
+    Text,
+    useDisclosure,
+    VStack,
+} from '@chakra-ui/react';
 import { useRouter } from 'next/router'
 import { CaretRight, FunnelSimple } from 'phosphor-react'
 import { useEffect, useRef, useState } from 'react'
@@ -9,7 +41,7 @@ import 'react-toastify/dist/ReactToastify.min.css'
 
 import noFilter from '../public/no_filter.png'
 import ProductItem from '../components/product/ProductItem'
-import { getProducts, getProductsByPrice } from '../store/productsReducer'
+import { getProducts, getProductsByColor, getProductsByPrice } from '../store/productsReducer'
 import Image from 'next/image'
 
 const LoadingSkeleton = () => {
@@ -50,7 +82,8 @@ const LoadingSkeleton = () => {
     )
 }
 
-const FilterAccordionItem = ({ accordionTitle, items }) => {
+const FilterAccordionItem = ({ accordionTitle, cat, filterByColor, items }) => {
+
     return (
         <AccordionItem>
             <h2>
@@ -66,11 +99,21 @@ const FilterAccordionItem = ({ accordionTitle, items }) => {
                     justifyContent={'start'}
                     alignItems={'start'}>
                     {
-                        items.map((item, i) => (
-                            <Checkbox key={i} colorScheme={'orange'}>
-                                {item}
-                            </Checkbox>
-                        ))
+                        <RadioGroup>
+                            <Stack spacing={2} direction='column'>
+                                {
+                                    items.map((item, i) => (
+                                        <Radio
+                                            key={i}
+                                            value={item}
+                                            colorScheme={'orange'}
+                                            onChange={e => filterByColor(cat, e.currentTarget.value.toLowerCase())}>
+                                            {item}
+                                        </Radio>
+                                    ))
+                                }
+                            </Stack>
+                        </RadioGroup>
                     }
                 </VStack>
             </AccordionPanel>
@@ -78,7 +121,7 @@ const FilterAccordionItem = ({ accordionTitle, items }) => {
     )
 }
 
-const FilterDrawer = ({ isOpen, onClose, btnRef, cat, filterByPrice }) => {
+const FilterDrawer = ({ isOpen, onClose, btnRef, cat, fetchProducts, filterByColor, filterByPrice }) => {
 
     const [priceRange, setPriceRange] = useState([100000, 250000])
 
@@ -106,7 +149,9 @@ const FilterDrawer = ({ isOpen, onClose, btnRef, cat, filterByPrice }) => {
 
                             <FilterAccordionItem
                                 accordionTitle={'Colors'}
-                                items={['White', 'Black', 'Velvet', 'Matte', 'Brown']}
+                                cat={cat}
+                                filterByColor={filterByColor}
+                                items={['White', 'Matte black', 'Velvet', 'Brown']}
                             />
 
                             <Text
@@ -146,16 +191,29 @@ const FilterDrawer = ({ isOpen, onClose, btnRef, cat, filterByPrice }) => {
                                 </Text>
                             </Flex>
 
-                            <Button
-                                variant={'ghost'}
-                                borderWidth={1}
-                                marginTop={4}
-                                paddingX={18}
-                                paddingY={2}
-                                _hover={{ bgColor: 'blackAlpha.100', color: 'gold.500' }}
-                                onClick={() => filterByPrice(cat, priceRange[0], priceRange[1])}>
-                                Apply
-                            </Button>
+                            <Flex
+                                mt={4}
+                                alignItems={'center'}>
+                                <Button
+                                    variant={'solid'}
+                                    paddingX={18}
+                                    paddingY={2}
+                                    mr={3}
+                                    textTransform={'uppercase'}
+                                    _hover={{ bgColor: 'blackAlpha.100', color: 'gold.500' }}
+                                    onClick={() => filterByPrice(cat, priceRange[0], priceRange[1])}>
+                                    Apply
+                                </Button>
+                                <Button
+                                    variant={'ghost'}
+                                    borderWidth={1}
+                                    paddingX={18}
+                                    paddingY={2}
+                                    _hover={{ bgColor: 'blackAlpha.100', color: 'gold.500' }}
+                                    onClick={() => fetchProducts(cat)}>
+                                    clear
+                                </Button>
+                            </Flex>
                         </Accordion>
                     </DrawerBody>
                 </DrawerContent>
@@ -164,7 +222,7 @@ const FilterDrawer = ({ isOpen, onClose, btnRef, cat, filterByPrice }) => {
     )
 }
 
-const Products = ({ getProducts, getProductsByPrice }) => {
+const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
     const router = useRouter()
     const path = router.asPath.replace('/', '')
 
@@ -284,41 +342,14 @@ const Products = ({ getProducts, getProductsByPrice }) => {
                         }
                     </Grid>
             }
-            {/* <Flex
-                flexDirection={'column'}
-                alignItems={'start'}
-                width={'full'}
-                marginTop={8}>
-
-                <Text
-                    fontSize={'xl'}
-                    textColor={'black'}>
-                    Recently Viewed
-                </Text>
-
-                <Grid
-                    gridTemplateColumns={'repeat(5, 1fr)'}
-                    gap={8}
-                    w={'full'}
-                    marginY={8}>
-
-                    {
-                        [1, 2, 3, 4, 5].map(i => (
-                            <ProductItem
-                                featTitle={'Three seater sofa with an elongated end'}
-                                featImg={sofa}
-                                featPrice={'₦3,000'}
-                            />))
-                    }
-                </Grid> 
-
-                </Flex> */}
 
             <FilterDrawer
                 isOpen={isOpen}
                 onClose={onClose}
                 btnRef={buttonDrawerRef}
                 cat={path}
+                fetchProducts={getProducts}
+                filterByColor={getProductsByColor}
                 filterByPrice={getProductsByPrice}
             />
 
@@ -330,6 +361,8 @@ export const matchDispatchToProps = dispatch => {
     return {
         getProducts: (path) =>
             dispatch(getProducts(path)),
+        getProductsByColor: (cat, color) =>
+            dispatch(getProductsByColor(cat, color)),
         getProductsByPrice: (cat, minPrice, maxPrice) =>
             dispatch(getProductsByPrice(cat, minPrice, maxPrice))
     }

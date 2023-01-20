@@ -64,6 +64,40 @@ export const getProducts = (path) => {
     }
 }
 
+export const getProductsByColor = (path, color) => {
+    return async (dispatch, getState, { getFirebase }) => {
+        dispatch(fetchProducts({
+            ...dataState, isFetching: true
+        }))
+
+        const firestore = getFirebase().firestore()
+        const productRef = collection(firestore, 'products')
+        const priceFilterQuery = query(productRef, where('color', 'array-contains', color))
+        const result = {}
+        try {
+            const querySnapshot = await getDocs(priceFilterQuery)
+            querySnapshot.forEach((product) => {
+                result[product.id] = { pid: product.id, ...product.data() }
+            })
+            dispatch(fetchProducts({
+                ...dataState,
+                isLoading: false,
+                isFetching: false,
+                isLoaded: true,
+                data: result
+            }))
+        } catch (e) {
+            dispatch(fetchProducts({
+                ...dataState,
+                isLoading: false,
+                isFetching: false,
+                error: e,
+                data: null
+            }))
+        }
+    }
+}
+
 export const getProductsByPrice = (path, minPrice, maxPrice) => {
     return async (dispatch, getState, { getFirebase }) => {
         dispatch(fetchProducts({
