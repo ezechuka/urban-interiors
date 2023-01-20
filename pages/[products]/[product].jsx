@@ -360,7 +360,7 @@ const ProductDetail =
                                     spacing={1}>
                                     {
                                         Object.values(data.colorValue).map(color => (
-                                            <Circle size={'32px'} borderWidth={1} borderColor={'blackAlpha.500'}>
+                                            <Circle key={color} size={'32px'} borderWidth={1} borderColor={'blackAlpha.500'}>
                                                 <CircleIcon weight={'fill'} color={color} size={32} />
                                             </Circle>
                                         ))
