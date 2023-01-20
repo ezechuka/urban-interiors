@@ -56,14 +56,16 @@ const UploadProduct = ({ uploadNewProduct }) => {
             const colors = {
                 '#FFFFFF': 'white',
                 '#902C3E': 'velvet',
-                '#090909': 'matte-black',
+                '#090909': 'matte black',
                 '#8B4513': 'brown'
             }
 
-            let selectedColor = {}
+            let selectedColorName = []
+            let selectedColorValue = []
             product.color.forEach(c => {
                 if (colors[c]) {
-                    selectedColor = { ...selectedColor, [c]: colors[c] }
+                    selectedColorName.push(colors[c])
+                    selectedColorValue.push(c)
                 }
             })
             const newProd = {
@@ -72,7 +74,8 @@ const UploadProduct = ({ uploadNewProduct }) => {
                 width: Number(product.width),
                 length: Number(product.length),
                 height: Number(product.height),
-                color: selectedColor
+                color: selectedColorName,
+                colorValue: selectedColorValue
             }
 
             uploadNewProduct(newProd)
