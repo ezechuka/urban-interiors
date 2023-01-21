@@ -416,7 +416,13 @@ const ProductDetail =
                                             marginTop={6}
                                             textTransform={'uppercase'}
                                             letterSpacing={'wide'}
-                                            onClick={onOpen}>
+                                            onClick={() => {
+                                                if (hasNotAuth) {
+                                                    router.push('/signup')
+                                                    return
+                                                }
+                                                onOpen
+                                            }}>
                                             Add to cart
                                         </Button>
                                 }
