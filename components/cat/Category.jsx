@@ -37,11 +37,11 @@ const CategoryItem = ({ catImg, catTitle }) => {
                     borderStyle={'solid'}
                     _hover={{
                         borderStyle: 'dashed',
-                        borderColor: 'gold.500',
+                        borderColor: 'accent.500',
                         animation: rotateAnimation,
                         animationTimingFunction: 'linear'
                     }}
-                    transition={'all .2s'}
+                    transition={'all .6s'}
                     inset={0}
                     borderRadius={'50%'}
                     position={'absolute'}></Box>
@@ -117,7 +117,7 @@ const Category = () => {
                 <CategoryItem catImg={wardrobe} catTitle={'Ward robe'} />
                 <CategoryItem catImg={shelf} catTitle={'Shelf'} />
                 <CategoryItem catImg={console} catTitle={'TV console'} />
-                <CategoryItem catImg={chair} catTitle={'Table-and-chair'} />
+                <CategoryItem catImg={chair} catTitle={'Table and chair'} />
             </Stack>
 
 
