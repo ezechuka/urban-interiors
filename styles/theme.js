@@ -13,6 +13,9 @@ export const theme = extendTheme({
     colors: {
         gold: {
             500: 'hsl(38, 58%, 47%)'
+        },
+        accent: {
+            500: '#3265BD'
         }
     },
     components: {
