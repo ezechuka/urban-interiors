@@ -12,6 +12,7 @@ import Image from 'next/image'
 import { addToCart } from '../store/cartReducer'
 import emptyFav from '../public/empty_fav.png'
 import { deleteFromWishlist } from '../store/wishlistReducer'
+import Meta from '../components/meta/Meta';
 
 const WishlistItem = ({ item, cart, onAddToCart, onDelete }) => {
 
@@ -162,6 +163,7 @@ const Wishlist = ({ addToCart, deleteFromWishlist }) => {
                     justifyContent={'center'}
                     alignItems={'center'}
                     flexDirection={'column'}>
+                    <Meta title={'Wishlist | Fobath Woodwork'} />
                     <Circle
                         bgColor={'gray.200'}
                         size={'140px'}>
@@ -199,6 +201,7 @@ const Wishlist = ({ addToCart, deleteFromWishlist }) => {
                     paddingY={8}
                     height={'60vh'}
                     backgroundColor={'gray.50'}>
+                    <Meta title={'Wishlist | Fobath Woodwork'} />
                     <ToastContainer />
 
                     <VStack

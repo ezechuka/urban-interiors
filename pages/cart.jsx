@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.min.css'
 import { useRouter } from 'next/router'
 
 import emptyCart from '../public/empty_cart.png'
+import Meta from '../components/meta/Meta'
 
 const CartItem = ({ item, cart, onDelete }) => {
 
@@ -164,6 +165,7 @@ const Cart = () => {
                         justifyContent={'center'}
                         alignItems={'center'}
                         flexDirection={'column'}>
+                            <Meta title={'Cart | Fobath Woodwork'} />
                         <ToastContainer />
 
                         <Circle

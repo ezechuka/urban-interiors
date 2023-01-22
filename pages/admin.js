@@ -3,6 +3,7 @@ import UploadProduct from "../components/upload/UploadProduct"
 
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
+import Meta from "../components/meta/Meta";
 
 const Admin = () => {
 	return (
@@ -12,6 +13,7 @@ const Admin = () => {
 			paddingX={12}
 			paddingY={8}
 			flexDirection={'column'}>
+			<Meta title={'Admin | Fobath Woodwork'}/>
 			<ToastContainer />
 
 			<Text

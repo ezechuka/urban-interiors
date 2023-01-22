@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.min.css'
 import { addToCart, decreaseQuantity, increaseQuantity } from '../../store/cartReducer'
 import { addToWishlist } from '../../store/wishlistReducer'
 import { getProduct } from '../../store/productReducer'
+import Meta from '../../components/meta/Meta'
 
 const blurKeyframes = keyframes`
     from {
@@ -110,14 +111,14 @@ const ModalDialogItem = ({ productName, productPrice, colorValue, colorName, pid
             <VStack
                 alignItems={'start'}>
                 <Text
-                    fontWeight={'bold'}
-                    fontSize={'lg'}
+                    fontWeight={'semibold'}
+                    fontSize={'md'}
                     textColor={'black'}>
                     {productName}
                 </Text>
                 <Text
                     fontWeight={'medium'}
-                    fontSize={'md'}
+                    fontSize={'sm'}
                     textColor={'gray.900'}>
                     {`₦${new Intl.NumberFormat().format(productPrice)}`}
                 </Text>
@@ -130,7 +131,7 @@ const ModalDialogItem = ({ productName, productPrice, colorValue, colorName, pid
                     <CircleIcon weight={'fill'} color={colorValue} size={32} />
                 </Circle>
 
-                <Text textTransform={'capitalize'}>
+                <Text textTransform={'capitalize'} fontSize={'sm'}>
                     {colorName}
                 </Text>
 
@@ -157,7 +158,7 @@ const ProductDetail =
     ({ getProduct, addToCart, increaseItemQuantity, decreaseItemQuantity, addToWishlist }) => {
         const router = useRouter()
         const path = router.asPath.split('/')
-        const pid = localStorage.getItem('PRODUCT_REF')
+        const pid = path[2]
 
         const { isLoading, isFetching, isLoaded, error, data }
             = useSelector((state) => state.product)
@@ -190,6 +191,11 @@ const ProductDetail =
                 flexDirection={'column'}
                 justifyContent={'center'}
                 alignItems={'start'}>
+
+                <Meta
+                    title={isLoading ? 'Please wait... | Fobath Woodwork' :
+                        `${data.productName} | Fobath Woodwork`}
+                />
                 <ToastContainer />
 
                 <Modal isOpen={isOpen} onClose={onClose} motionPreset='slideInRight'>
@@ -295,7 +301,6 @@ const ProductDetail =
                                     }
                                 </VStack>
 
-                                {console.log(data.images[0])}
                                 <Image
                                     width={500}
                                     height={500}
@@ -421,7 +426,7 @@ const ProductDetail =
                                                     router.push('/signup')
                                                     return
                                                 }
-                                                onOpen
+                                                onOpen()
                                             }}>
                                             Add to cart
                                         </Button>

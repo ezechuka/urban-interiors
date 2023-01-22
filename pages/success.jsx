@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import Confetti from 'react-confetti'
 import { useSelector } from 'react-redux'
+import Meta from '../components/meta/Meta'
 
 import success from '../public/success.png'
 
@@ -29,6 +30,8 @@ const SuccessPage = () => {
             paddingX={12}
             paddingY={8}
             flexDirection={'column'}>
+
+            <Meta title={'Thank you | Fobath Woodwork'} />
 
             <Confetti />
 

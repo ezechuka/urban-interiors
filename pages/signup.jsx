@@ -11,6 +11,7 @@ import { motion } from 'framer-motion'
 
 import sofa from '../public/sofa.png'
 import { SignupValidation } from '../utils/validate'
+import Meta from '../components/meta/Meta'
 
 const imagePaneVariant = {
     fromTop: {
@@ -152,6 +153,7 @@ const Login = () => {
                     variants={formPaneVariant}
                     initial={'fromRight'}
                     animate={'toLeft'}>
+                    <Meta title={'Signup | Fobath Woodwork'} />
 
                     <Text
                         fontSize={'4xl'}
