@@ -10,6 +10,7 @@ import { motion } from 'framer-motion'
 
 import armchair from '../public/armchair.png'
 import { LoginValidation } from '../utils/validate'
+import Meta from '../components/meta/Meta'
 
 const imagePaneVariant = {
     fromTop: {
@@ -86,6 +87,7 @@ const Login = () => {
                 w={'60%'}
                 h={'100vh'}
                 bgColor={'gold.500'}>
+                    <Meta title={'Login | Fobath Woodwork'} />
 
                 <Flex
                     as={motion.div}

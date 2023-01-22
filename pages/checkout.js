@@ -10,6 +10,7 @@ import { usePaystackPayment } from 'react-paystack'
 import { useRouter } from 'next/router'
 import { deleteCart } from '../store/cartReducer'
 import { createOrder } from '../firebaseService/createOrder'
+import Meta from '../components/meta/Meta'
 
 const CartItem = ({ item }) => {
 
@@ -159,6 +160,7 @@ const Checkout = ({ clearCart }) => {
             paddingX={12}
             paddingY={8}
             flexDirection={'column'}>
+            <Meta title={'Checkout | Fobath Woodwork'} />
 
             <Text
                 color={'gold.500'}
