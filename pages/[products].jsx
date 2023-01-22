@@ -39,10 +39,11 @@ import Link from 'next/link'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 
-import noFilter from '../public/no_filter.png'
+import noProduct from '../public/no_product.png'
 import ProductItem from '../components/product/ProductItem'
 import { getProducts, getProductsByColor, getProductsByPrice } from '../store/productsReducer'
 import Image from 'next/image'
+import Meta from '../components/meta/Meta';
 
 const LoadingSkeleton = () => {
     return (
@@ -250,6 +251,7 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
             alignItems={'center'}>
 
             <ToastContainer />
+            <Meta title={`${path.replaceAll('-', ' ')} | Fobath Woodwork`} />
 
             <Flex
                 alignItems={'center'}
@@ -292,24 +294,26 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
                         bgColor={'gray.200'}
                         size={'140px'}>
                         <Image
-                            src={noFilter}
+                            src={noProduct}
                             alt={'Not match found'}
                             width={85}
                         />
                     </Circle>
 
                     <Text
-                        fontWeight={'medium'}
-                        fontSize={'md'}
+                        fontWeight={'bold'}
+                        fontSize={'2xl'}
                         textColor={'black'}>
-                        No product match!
+                        No products found!
                     </Text>
 
                     <Text
-                        fontWeight={'normal'}
-                        fontSize={'sm'}
-                        textColor={'black'}>
-                        No product found within the price range
+                        fontWeight={'medium'}
+                        fontSize={'md'}
+                        textColor={'gray.800'}
+                        noOfLines={2}
+                        maxW={'md'}>
+                        Sorry, no matching products were found for the query.
                     </Text>
 
                     <Button
