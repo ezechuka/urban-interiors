@@ -1,10 +1,12 @@
-import { Box, Button, Flex, Grid, Skeleton, Tab, TabList, TabPanel, TabPanels, Tabs, Text, VStack } from '@chakra-ui/react'
+import { Badge, Box, Button, Circle, Flex, Grid, Skeleton, Tab, TabList, TabPanel, TabPanels, Tabs, Text, VStack } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
+
+import noProduct from '../../public/no_product.png'
 
 import { addToCart } from '../../store/cartReducer'
 import { getProductsBySubCategory } from '../../store/productsReducer'
@@ -47,11 +49,9 @@ const LoadingSkeleton = () => {
 }
 
 const FeaturedItem = ({ productId, productName, productPrice,
-    productImg, addToCart }) => {
+    productImg, productCat }) => {
 
     const router = useRouter()
-    const cart = useSelector((state) => state.persistFirebase.profile.cart)
-    const hasNotAuth = useSelector((state) => state.persistFirebase.profile.isEmpty)
 
     return (
         <Flex
@@ -65,6 +65,16 @@ const FeaturedItem = ({ productId, productName, productPrice,
             bgColor={'blackAlpha.200'}
             position={'relative'}
             _hover={{ shadow: 'md' }}>
+
+            <Badge
+                top={2}
+                right={2}
+                colorScheme='red'
+                fontSize={'sm'}
+                px={2}
+                position={'absolute'}>
+                {productCat}
+            </Badge>
 
             <Box
                 boxSize={'200px'}
@@ -97,58 +107,70 @@ const FeaturedItem = ({ productId, productName, productPrice,
                 {`₦${new Intl.NumberFormat().format(productPrice)}`}
             </Text>
 
-            {
-                Object.keys(cart ? cart.items : {}).includes(productId) ?
-                    <Button
-                        variant={'secondary'}
-                        rounded={'lg'}
-                        paddingY={6}
-                        fontWeight={'bold'}
-                        w={'full'}
-                        backgroundColor={'gold.500'}
-                        textTransform={'uppercase'}
-                        letterSpacing={'wider'}
-                        transition={'all .4s'}
-                        _hover={{
-                            color: 'white',
-                            bgColor: 'blackAlpha.900',
-                            shadow: 'lg'
-                        }}
-                        onClick={() => router.push('/cart')}>
-                        Go to cart
-                    </Button>
-                    :
-                    <Button
-                        variant={'secondary'}
-                        rounded={'lg'}
-                        paddingY={6}
-                        w={'full'}
-                        fontWeight={'bold'}
-                        backgroundColor={'blackAlpha.800'}
-                        textTransform={'uppercase'}
-                        letterSpacing={'wider'}
-                        _hover={{
-                            bgColor: 'blackAlpha.500'
-                        }}
-                        onClick={() => {
-                            if (hasNotAuth) {
-                                router.push('/signup')
-                            } else
-                                addToCart(productId, productPrice, cart)
-                        }}>
-                        Add to cart
-                    </Button>
-            }
+            <Button
+                variant={'secondary'}
+                rounded={'lg'}
+                paddingY={6}
+                w={'full'}
+                fontWeight={'bold'}
+                backgroundColor={'#291E0B'}
+                textTransform={'uppercase'}
+                letterSpacing={'wider'}
+                _hover={{
+                    bgColor: '#827A6E'
+                }}
+                onClick={() => router.push(`/${productCat}/${productId}`)}>
+                View item
+            </Button>
 
         </Flex>
     )
 }
 
-const ProductCollection = ({ productState, addToCart }) => {
+const ProductCollection = ({ productState }) => {
     const { isLoading, isFetching, isLoaded, error, data }
         = productState
 
     if (isFetching) return <LoadingSkeleton />
+
+    if (isLoaded && Object.values(data).length === 0) {
+        return (
+            <VStack
+                width={'full'}
+                height={'60vh'}
+                justifyContent={'center'}
+                alignItems={'center'}
+                flexDirection={'column'}>
+
+                <Circle
+                    bgColor={'gray.200'}
+                    size={'150px'}>
+                    <Image
+                        src={noProduct}
+                        alt={'Not match found'}
+                        width={100}
+                    />
+                </Circle>
+
+                <Text
+                    fontWeight={'bold'}
+                    fontSize={'2xl'}
+                    textColor={'black'}>
+                    No products found!
+                </Text>
+
+                <Text
+                    fontWeight={'medium'}
+                    fontSize={'md'}
+                    textColor={'gray.800'}
+                    noOfLines={3}
+                    maxW={'md'}>
+                    Unfortunately, we couldn't find any products for this collection at the moment. Please come back later for updated inventory.
+                </Text>
+
+            </VStack>
+        )
+    }
 
     return (
         <Grid
@@ -164,7 +186,7 @@ const ProductCollection = ({ productState, addToCart }) => {
                         productName={product.productName}
                         productPrice={product.productPrice}
                         productImg={product.images[0]}
-                        addToCart={addToCart}
+                        productCat={product.category}
                     />
                 ))
             }
@@ -172,7 +194,7 @@ const ProductCollection = ({ productState, addToCart }) => {
     )
 }
 
-const Featured = ({ getProductsBySubCategory, addToCart }) => {
+const Featured = ({ getProductsBySubCategory }) => {
     const subCategory = ['Trending', 'Featured', 'On Sale', 'New Arrival']
 
     const productState = useSelector((state) => state.products)
@@ -246,7 +268,6 @@ const Featured = ({ getProductsBySubCategory, addToCart }) => {
                                 <TabPanel key={index}>
                                     <ProductCollection
                                         productState={productState}
-                                        addToCart={addToCart}
                                     />
                                 </TabPanel>
                             )}
@@ -262,9 +283,7 @@ const Featured = ({ getProductsBySubCategory, addToCart }) => {
 export const matchDispatchToProps = dispatch => {
     return {
         getProductsBySubCategory: (subCategory) =>
-            dispatch(getProductsBySubCategory(subCategory)),
-        addToCart: (productId, productPrice, prevCart) =>
-            dispatch(addToCart(productId, productPrice, prevCart))
+            dispatch(getProductsBySubCategory(subCategory))
     }
 }
 
