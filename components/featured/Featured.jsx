@@ -165,7 +165,7 @@ const ProductCollection = ({ productState }) => {
                     textColor={'gray.800'}
                     noOfLines={3}
                     maxW={'md'}>
-                    Unfortunately, we couldn't find any products for this collection at the moment. Please come back later for updated inventory.
+                    Unfortunately, we couldn&apos;t find any products for this collection at the moment. Please come back later for updated inventory.
                 </Text>
 
             </VStack>
