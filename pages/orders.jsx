@@ -7,6 +7,7 @@ import { retrieveOrders } from '../store/orderReducer'
 
 import emptyOrder from '../public/package.png'
 import { useRouter } from 'next/router'
+import Meta from '../components/meta/Meta'
 
 const InfoText = ({ subtitle, info }) => {
     return (
@@ -229,6 +230,7 @@ const Orders = ({ getOrders }) => {
                 justifyContent={'center'}
                 alignItems={'center'}
                 flexDirection={'column'}>
+                <Meta title={'Orders | Fobath Woodwork'} />
                 <Circle
                     bgColor={'gray.200'}
                     size={'140px'}>
@@ -270,6 +272,7 @@ const Orders = ({ getOrders }) => {
                     justifyContent={'center'}
                     alignItems={'start'}
                     width={'full'}>
+                    <Meta title={'Orders | Fobath Woodwork'} />
                     <Text
                         fontWeight={'bold'}
                         fontSize={'2xl'}
