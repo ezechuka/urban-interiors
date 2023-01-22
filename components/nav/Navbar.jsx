@@ -1,6 +1,7 @@
-import { Box, Button, Circle, Flex, HStack, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Text, Tooltip } from '@chakra-ui/react'
+import { Avatar, Box, Button, Circle, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Flex, HStack, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Text, Tooltip, useDisclosure } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { AngularLogo, Heart, MagnifyingGlass, Package, ShoppingCart, SignOut, SquaresFour, User, UserCircle } from 'phosphor-react'
+import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { signOut } from '../../store/logoutReducer'
 
@@ -9,6 +10,8 @@ const Navbar = () => {
     const auth = useSelector(state => state.persistFirebase.profile)
     const cart = useSelector((state) => state.persistFirebase.profile.cart)
     const dispatch = useDispatch()
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const btnRef = useRef()
 
     return (
         <Flex
@@ -19,12 +22,44 @@ const Navbar = () => {
             paddingY={4}
             boxShadow={'sm'}>
 
+            <Drawer
+                isOpen={isOpen}
+                placement='right'
+                onClose={onClose}
+                finalFocusRef={btnRef}>
+                <DrawerOverlay />
+                <DrawerContent>
+                    <DrawerCloseButton />
+                    <DrawerHeader>Account</DrawerHeader>
+
+                    <DrawerBody>
+                        <Flex
+                            flexDirection={'column'}
+                            alignItems={'center'}>
+                                <Avatar name={auth.displayName} src={auth.avatarUrl} />
+                            <Text
+                                fontWeight={'medium'}>
+                                {auth.displayName}
+                            </Text>
+                            <Text
+                                fontWeight={'normal'}>
+                                {auth.email}
+                            </Text>
+                        </Flex>
+                    </DrawerBody>
+
+                </DrawerContent>
+            </Drawer>
+
             <Text
                 fontWeight={'semibold'}
                 fontSize={'md'}
                 letterSpacing={'widest'}
                 textColor={'black'}
-                textTransform={'uppercase'}>
+                textTransform={'uppercase'}
+                transition={'all .4s'}
+                onClick={() => router.replace('/')}
+                _hover={{ cursor: 'pointer', color: 'gold.500'}}>
                 fobath woodwork
             </Text>
 
@@ -60,12 +95,12 @@ const Navbar = () => {
                                 shadow={'sm'}
                                 borderWidth={1}
                                 borderColor={'gray.300'}
+                                transition={'all .5s'}
                                 _hover={{
                                     boxShadow: 'lg',
                                     backgroundColor: 'gold.500',
                                     borderColor: 'gold.500',
                                     color: 'white',
-                                    transition: 'all .3s',
                                     transform: 'scale(1.05)'
                                 }}
                                 onClick={() => router.push('/signup')}>
@@ -74,6 +109,7 @@ const Navbar = () => {
                             <Button
                                 variant={'ghost'}
                                 padding={0}
+                                transition={'all .5s'}
                                 fontWeight={'medium'}
                                 onClick={() => router.push('/login')}>
                                 login
@@ -118,25 +154,25 @@ const Navbar = () => {
                                 />
                                 <MenuList fontSize={'sm'}>
                                     <MenuGroup title={'Category'}>
-                                        <MenuItem onClick={() => router.push('/account')}>
+                                        <MenuItem onClick={() => router.push('/sofa')}>
                                             Sofa
                                         </MenuItem>
-                                        <MenuItem onClick={() => router.push('/account')}>
+                                        <MenuItem onClick={() => router.push('/bed')}>
                                             Bed
                                         </MenuItem>
-                                        <MenuItem onClick={() => router.push('/account')}>
+                                        <MenuItem onClick={() => router.push('/shoe-rack')}>
                                             Shoe Rack
                                         </MenuItem>
-                                        <MenuItem onClick={() => router.push('/account')}>
+                                        <MenuItem onClick={() => router.push('/ward-robe')}>
                                             Ward Robe
                                         </MenuItem>
-                                        <MenuItem onClick={() => router.push('/account')}>
+                                        <MenuItem onClick={() => router.push('/shelf')}>
                                             Shelf
                                         </MenuItem>
-                                        <MenuItem onClick={() => router.push('/account')}>
+                                        <MenuItem onClick={() => router.push('/tv-console')}>
                                             TV Console
                                         </MenuItem>
-                                        <MenuItem onClick={() => router.push('/account')}>
+                                        <MenuItem onClick={() => router.push('/table-and-chair')}>
                                             Table and chair
                                         </MenuItem>
                                     </MenuGroup>
@@ -160,8 +196,8 @@ const Navbar = () => {
                                     variant='ghost'
                                 />
                                 <MenuList fontSize={'sm'}>
-                                    <MenuItem icon={<UserCircle size={24} weight={'regular'} />}
-                                        onClick={() => router.push('/account')}>
+                                    <MenuItem ref={btnRef} icon={<UserCircle size={24} weight={'regular'} />}
+                                        onClick={onOpen}>
                                         Account
                                     </MenuItem>
                                     <MenuItem icon={<Heart size={24} weight={'regular'} />}
@@ -176,6 +212,7 @@ const Navbar = () => {
                                     <MenuItem color={'red.500'} icon={<SignOut size={24} weight={'regular'} />}
                                         onClick={() => {
                                             dispatch(signOut())
+                                            router.replace('/')
                                         }}>
                                         Logout
                                     </MenuItem>
