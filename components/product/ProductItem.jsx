@@ -2,7 +2,7 @@ import { Box, Flex, IconButton, Text, Tooltip } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { Heart, Trash } from 'phosphor-react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { addToWishlist, deleteFromWishlist } from '../../store/wishlistReducer'
 
 const ProductItem = ({ productId, productTitle, productImg, productPrice, addToWishlist, deleteFromWishlist }) => {
