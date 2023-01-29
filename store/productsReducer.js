@@ -1,12 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, limit, orderBy, query, startAfter, where } from "firebase/firestore";
 
 const dataState = {
     isLoading: true,
     isFetching: false,
     isLoaded: false,
     error: null,
-    data: {}
+    data: {},
+    lastVisible: null,
+    endOfData: false
 }
 
 export const productSlice = createSlice({
@@ -25,12 +27,12 @@ export const productSlice = createSlice({
     }
 })
 
-export const { fetchProducts, filterProductsByPrice, filterProductsBySubCategory } 
+export const { fetchProducts, filterProductsByPrice, filterProductsBySubCategory }
     = productSlice.actions
 
 export default productSlice.reducer
 
-export const getProducts = (path) => {
+export const getProducts = (path, prevData, lastVisible) => {
     return async (dispatch, getState, { getFirebase }) => {
         dispatch(fetchProducts({
             ...dataState, isFetching: true
@@ -38,19 +40,24 @@ export const getProducts = (path) => {
 
         const firestore = getFirebase().firestore()
         const productRef = collection(firestore, 'products')
-        const productQuery = query(productRef, where('category', '==', path))
+        const productQuery = query(productRef, where('category', '==', path),
+            orderBy('createdAt'), startAfter(lastVisible || 0), limit(20))
         const result = {}
         try {
             const querySnapshot = await getDocs(productQuery)
+            const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1]
             querySnapshot.forEach((product) => {
                 result[product.id] = { pid: product.id, ...product.data() }
             })
+
             dispatch(fetchProducts({
                 ...dataState,
                 isLoading: false,
                 isFetching: false,
                 isLoaded: true,
-                data: result
+                data: {...prevData, ...result},
+                lastVisible: lastVisible,
+                endOfData: querySnapshot.empty
             }))
         } catch (e) {
             dispatch(fetchProducts({
@@ -64,41 +71,7 @@ export const getProducts = (path) => {
     }
 }
 
-export const getProductsByColor = (path, color) => {
-    return async (dispatch, getState, { getFirebase }) => {
-        dispatch(fetchProducts({
-            ...dataState, isFetching: true
-        }))
-
-        const firestore = getFirebase().firestore()
-        const productRef = collection(firestore, 'products')
-        const priceFilterQuery = query(productRef, where('color', 'array-contains', color))
-        const result = {}
-        try {
-            const querySnapshot = await getDocs(priceFilterQuery)
-            querySnapshot.forEach((product) => {
-                result[product.id] = { pid: product.id, ...product.data() }
-            })
-            dispatch(fetchProducts({
-                ...dataState,
-                isLoading: false,
-                isFetching: false,
-                isLoaded: true,
-                data: result
-            }))
-        } catch (e) {
-            dispatch(fetchProducts({
-                ...dataState,
-                isLoading: false,
-                isFetching: false,
-                error: e,
-                data: null
-            }))
-        }
-    }
-}
-
-export const getProductsByPrice = (path, minPrice, maxPrice) => {
+export const getProductsByColor = (path, color, lastVisible) => {
     return async (dispatch, getState, { getFirebase }) => {
         dispatch(fetchProducts({
             ...dataState, isFetching: true
@@ -107,10 +80,12 @@ export const getProductsByPrice = (path, minPrice, maxPrice) => {
         const firestore = getFirebase().firestore()
         const productRef = collection(firestore, 'products')
         const priceFilterQuery = query(productRef, where('category', '==', path),
-            where('productPrice', '>=', minPrice), where('productPrice', '<=', maxPrice))
+            orderBy('createdAt'), where('color', 'array-contains', color),
+            startAfter(lastVisible || 0), limit(20))
         const result = {}
         try {
             const querySnapshot = await getDocs(priceFilterQuery)
+            const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1]
             querySnapshot.forEach((product) => {
                 result[product.id] = { pid: product.id, ...product.data() }
             })
@@ -119,7 +94,46 @@ export const getProductsByPrice = (path, minPrice, maxPrice) => {
                 isLoading: false,
                 isFetching: false,
                 isLoaded: true,
-                data: result
+                data: result,
+                lastVisible
+            }))
+        } catch (e) {
+            dispatch(fetchProducts({
+                ...dataState,
+                isLoading: false,
+                isFetching: false,
+                error: e,
+                data: null
+            }))
+        }
+    }
+}
+
+export const getProductsByPrice = (path, minPrice, maxPrice, lastVisible) => {
+    return async (dispatch, getState, { getFirebase }) => {
+        dispatch(fetchProducts({
+            ...dataState, isFetching: true
+        }))
+
+        const firestore = getFirebase().firestore()
+        const productRef = collection(firestore, 'products')
+        const priceFilterQuery = query(productRef, orderBy('productPrice'),
+            where('category', '==', path), where('productPrice', '>=', minPrice), 
+            where('productPrice', '<=', maxPrice), startAfter(lastVisible || 0), limit(20))
+        const result = {}
+        try {
+            const querySnapshot = await getDocs(priceFilterQuery)
+            const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1]
+            querySnapshot.forEach((product) => {
+                result[product.id] = { pid: product.id, ...product.data() }
+            })
+            dispatch(fetchProducts({
+                ...dataState,
+                isLoading: false,
+                isFetching: false,
+                isLoaded: true,
+                data: result,
+                lastVisible
             }))
         } catch (e) {
             dispatch(fetchProducts({
@@ -141,7 +155,8 @@ export const getProductsBySubCategory = (subCategory) => {
 
         const firestore = getFirebase().firestore()
         const productRef = collection(firestore, 'products')
-        const subCategoryQuery = query(productRef, where('subcategory', 'array-contains', subCategory))
+        const subCategoryQuery = query(productRef, where('subcategory', 'array-contains', subCategory),
+            orderBy('createdAt'), startAfter(dataState.lastVisible || 0), limit(20))
         const result = {}
         try {
             const querySnapshot = await getDocs(subCategoryQuery)
