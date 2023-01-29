@@ -9,7 +9,7 @@ import emptyOrder from '../public/package.png'
 import { useRouter } from 'next/router'
 import Meta from '../components/meta/Meta'
 
-const InfoText = ({ subtitle, info }) => {
+const InfoText = ({ subtitle, info, color }) => {
     return (
         <VStack spacing={0}
             alignItems={'start'}>
@@ -23,7 +23,7 @@ const InfoText = ({ subtitle, info }) => {
             <Text
                 fontWeight={'semibold'}
                 fontSize={'sm'}
-                textColor={'black'}>
+                textColor={color}>
                 {info}
             </Text>
         </VStack>
@@ -138,14 +138,22 @@ const OrderLayout = ({ order }) => {
                 <InfoText
                     subtitle={'Order ID'}
                     info={`#${order.pid}`}
+                    color={'black'}
                 />
                 <InfoText
                     subtitle={'Date'}
                     info={`${order.date.toDate().toDateString().replace(' ', ', ')}`}
+                    color={'black'}
                 />
                 <InfoText
                     subtitle={'Total Amount'}
                     info={`₦${new Intl.NumberFormat().format(order.totalPrice)}`}
+                    color={'black'}
+                />
+                <InfoText
+                    subtitle={'Status'}
+                    info={`${order.status}`}
+                    color={'gold.500'}
                 />
             </Stack>
             <Stack
@@ -153,14 +161,14 @@ const OrderLayout = ({ order }) => {
                 direction={'column'}>
                 {
                     order.items.map((item, i) => (
-                        <>
-                            <OrderItem key={item.pid} order={item} />
+                        <Box key={item.pid}>
+                            <OrderItem order={item} />
                             {
                                 i !== order.items.length - 1 &&
                                 <Divider orientation={'horizontal'} bgColor={'gray.100'}
                                     h={'1px'} />
                             }
-                        </>
+                        </Box>
                     ))
                 }
             </Stack>
@@ -289,7 +297,7 @@ const Orders = ({ getOrders }) => {
                     <Box
                         width={'full'}>
                         {
-                            isFetching ? <LoadingSkeleton /> :
+                            isLoading ? <LoadingSkeleton /> :
 
                                 data.map((order) =>
                                     <OrderLayout
