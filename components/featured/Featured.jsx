@@ -69,9 +69,10 @@ const FeaturedItem = ({ productId, productName, productPrice,
             <Badge
                 top={2}
                 right={2}
-                colorScheme='red'
+                colorScheme={'red'}
                 fontSize={'sm'}
                 px={2}
+                variant={'subtle'}
                 position={'absolute'}>
                 {productCat}
             </Badge>
