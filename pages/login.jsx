@@ -87,7 +87,7 @@ const Login = () => {
                 w={'60%'}
                 h={'100vh'}
                 bgColor={'gold.500'}>
-                    <Meta title={'Login | Fobath Woodwork'} />
+                <Meta title={'Login | Fobath Woodwork'} />
 
                 <Flex
                     as={motion.div}
