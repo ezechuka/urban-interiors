@@ -1,16 +1,17 @@
 import { Box, Button, color, Divider, Flex, Input, Stack, Text, useDisclosure, VStack } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { connect, useSelector } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { CheckoutValidation } from '../utils/validate'
 import firebase from 'firebase/compat/app'
 import { doc, getDoc } from 'firebase/firestore'
 import Image from 'next/image'
 import { usePaystackPayment } from 'react-paystack'
 import { useRouter } from 'next/router'
+
 import { deleteCart } from '../store/cartReducer'
-import { createOrder } from '../firebaseService/createOrder'
 import Meta from '../components/meta/Meta'
+import { addOrder } from '../store/orderReducer'
 
 const CartItem = ({ item }) => {
 
@@ -69,7 +70,7 @@ const CartItem = ({ item }) => {
     )
 }
 
-const Checkout = ({ clearCart }) => {
+const Checkout = ({ addOrder, clearCart }) => {
 
     const router = useRouter()
     const fullname = useSelector((state) => state.persistFirebase.profile.displayName)
@@ -85,9 +86,9 @@ const Checkout = ({ clearCart }) => {
         address: ''
     })
     const [errors, setErrors] = useState({})
+    const dispatch = useDispatch()
 
-
-    const userId = useSelector((state) => state.persistFirebase.auth.uid)
+    const order = useSelector((state) => state.order.data)
     const cart = useSelector((state) => state.persistFirebase.profile.cart)
     const [product, setProduct] = useState([])
     const firestore = firebase.firestore()
@@ -130,6 +131,8 @@ const Checkout = ({ clearCart }) => {
         getCartItem()
     }, [cart])
 
+    if (Object.keys(order).length > 0) router.push('/success')
+
     const onSuccess = (reference) => {
         clearCart()
         const totalPrice = product.reduce(
@@ -148,8 +151,7 @@ const Checkout = ({ clearCart }) => {
             quantity: p.quantity
         }))
 
-        createOrder(userId, userData, totalPrice, modifiedItems)
-        router.replace('/success')
+        dispatch(addOrder(userData, totalPrice, modifiedItems))
     }
 
     if (hasNotAuth) return null // don't render any UI since auth state has not been verified
@@ -473,6 +475,8 @@ const Checkout = ({ clearCart }) => {
 
 export const matchDispatchToProps = dispatch => {
     return {
+        addOrder: (userInfo, totalPrice, items) =>
+            dispatch(addOrder(userInfo, totalPrice, items)),
         clearCart: () => dispatch(deleteCart())
     }
 }
