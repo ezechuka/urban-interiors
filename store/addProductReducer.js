@@ -1,5 +1,4 @@
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { addDoc, collection } from 'firebase/firestore'
 
 import { createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
@@ -46,7 +45,7 @@ const uploadImage = async (category, images, prodRef, db) => {
     return productImages
 }
 
-export const addNewProduct = (product) => {
+export const addNewProduct = (product, changeLoadState) => {
     return async (dispatch, getState, { getFirebase }) => {
         const firestore = getFirebase().firestore()
         const prodImgs = product.images
@@ -61,6 +60,7 @@ export const addNewProduct = (product) => {
                     isLoaded: true,
                     data: docRef.id
                 }))
+                changeLoadState()
             })
             .catch((e) => {
                 dispatch(addProduct({
