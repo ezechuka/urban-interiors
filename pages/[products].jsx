@@ -83,7 +83,7 @@ const LoadingSkeleton = () => {
     )
 }
 
-const FilterAccordionItem = ({ accordionTitle, cat, filterByColor, items }) => {
+const FilterAccordionItem = ({ accordionTitle, cat, filterByColor, items, lastVisible }) => {
 
     return (
         <AccordionItem>
@@ -108,7 +108,7 @@ const FilterAccordionItem = ({ accordionTitle, cat, filterByColor, items }) => {
                                             key={i}
                                             value={item}
                                             colorScheme={'orange'}
-                                            onChange={e => filterByColor(cat, e.currentTarget.value.toLowerCase())}>
+                                            onChange={e => filterByColor(cat, e.currentTarget.value.toLowerCase(), lastVisible)}>
                                             {item}
                                         </Radio>
                                     ))
@@ -122,7 +122,7 @@ const FilterAccordionItem = ({ accordionTitle, cat, filterByColor, items }) => {
     )
 }
 
-const FilterDrawer = ({ isOpen, onClose, btnRef, cat, fetchProducts, filterByColor, filterByPrice }) => {
+const FilterDrawer = ({ isOpen, onClose, btnRef, cat, lastVisible, fetchProducts, filterByColor, filterByPrice }) => {
 
     const [priceRange, setPriceRange] = useState([100000, 250000])
 
@@ -153,6 +153,7 @@ const FilterDrawer = ({ isOpen, onClose, btnRef, cat, fetchProducts, filterByCol
                                 cat={cat}
                                 filterByColor={filterByColor}
                                 items={['White', 'Matte black', 'Velvet', 'Brown']}
+                                lastVisible={lastVisible}
                             />
 
                             <Text
@@ -202,7 +203,7 @@ const FilterDrawer = ({ isOpen, onClose, btnRef, cat, fetchProducts, filterByCol
                                     mr={3}
                                     textTransform={'uppercase'}
                                     _hover={{ bgColor: 'blackAlpha.100', color: 'gold.500' }}
-                                    onClick={() => filterByPrice(cat, priceRange[0], priceRange[1])}>
+                                    onClick={() => filterByPrice(cat, priceRange[0], priceRange[1], lastVisible)}>
                                     Apply
                                 </Button>
                                 <Button
@@ -211,7 +212,7 @@ const FilterDrawer = ({ isOpen, onClose, btnRef, cat, fetchProducts, filterByCol
                                     paddingX={18}
                                     paddingY={2}
                                     _hover={{ bgColor: 'blackAlpha.100', color: 'gold.500' }}
-                                    onClick={() => fetchProducts(cat)}>
+                                    onClick={() => fetchProducts(cat, {}, lastVisible)}>
                                     clear
                                 </Button>
                             </Flex>
@@ -229,17 +230,20 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const buttonDrawerRef = useRef()
+    const containerRef = useRef(null)
 
-    useEffect(() => {
-        getProducts(path)
-    }, [path])
-
-    const { isLoading, isFetching, isLoaded, error, data }
+    const { isLoading, isFetching, isLoaded, error, data, lastVisible, endOfData }
         = useSelector((state) => state.products)
 
-    // if (isLoading) return <LoadingSkeleton />
+    useEffect(() => {
+        fetchProducts(path, {}, null)
+    }, [path])
 
     if (error) return <Text>An error occurred.</Text>
+
+    const fetchProducts = (path, data, lastVisible) => {
+        getProducts(path, data, lastVisible)
+    }
 
     return (
         <Flex
@@ -295,7 +299,7 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
                         size={'140px'}>
                         <Image
                             src={noProduct}
-                            alt={'Not match found'}
+                            alt={'No product found'}
                             width={85}
                         />
                     </Circle>
@@ -329,22 +333,53 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
                 isFetching ?
                     <LoadingSkeleton />
                     :
-                    <Grid
-                        gridTemplateColumns={'repeat(5, 1fr)'}
-                        gap={8}
+                    // isLoaded && Object.values(data).length > 0 &&
+                    <Flex
                         w={'full'}
-                        marginY={8}>
-                        {
-                            Object.values(data).map(product => (
-                                <ProductItem
-                                    key={product.pid}
-                                    productId={product.pid}
-                                    productTitle={product.productName}
-                                    productImg={product.images[0]}
-                                    productPrice={product.productPrice}
-                                />))
+                        marginY={8}
+                        flexDirection={'column'}
+                        justifyContent={'center'}
+                        alignItems={'center'}>
+                        <Grid
+                            gridTemplateColumns={'repeat(5, 1fr)'}
+                            gap={8}
+                            ref={containerRef}
+                            css={{
+                                '&::-webkit-scrollbar': {
+                                    display: 'none'
+                                }
+                            }}>
+                            {
+                                Object.values(data).map(product => (
+                                    <ProductItem
+                                        key={product.pid}
+                                        productId={product.pid}
+                                        productTitle={product.productName}
+                                        productImg={product.images[0]}
+                                        productPrice={product.productPrice}
+                                    />))
+                            }
+                        </Grid>
+
+                        {!endOfData ?
+                            <Button variant={'ghost'}
+                                fontWeight={'medium'}
+                                shadow={'sm'}
+                                borderWidth={1}
+                                borderColor={'gray.300'}
+                                transition={'all .5s'}
+                                mt={6}
+                                textTransform={'capitalize'}
+                                onClick={() => fetchProducts(path, data, lastVisible)}>
+                                Load more
+                            </Button>
+                            :
+                            Object.values(data).length > 0 &&
+                                <Text mt={6} fontWeight={'semibold'}>
+                                    End of products listing
+                                </Text>
                         }
-                    </Grid>
+                    </Flex>
             }
 
             <FilterDrawer
@@ -352,6 +387,7 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
                 onClose={onClose}
                 btnRef={buttonDrawerRef}
                 cat={path}
+                lastVisible={lastVisible}
                 fetchProducts={getProducts}
                 filterByColor={getProductsByColor}
                 filterByPrice={getProductsByPrice}
@@ -363,12 +399,12 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
 
 export const matchDispatchToProps = dispatch => {
     return {
-        getProducts: (path) =>
-            dispatch(getProducts(path)),
-        getProductsByColor: (cat, color) =>
-            dispatch(getProductsByColor(cat, color)),
-        getProductsByPrice: (cat, minPrice, maxPrice) =>
-            dispatch(getProductsByPrice(cat, minPrice, maxPrice))
+        getProducts: (path, data, lastVisible) =>
+            dispatch(getProducts(path, data, lastVisible)),
+        getProductsByColor: (cat, color, lastVisible) =>
+            dispatch(getProductsByColor(cat, color, lastVisible)),
+        getProductsByPrice: (cat, minPrice, maxPrice, lastVisible) =>
+            dispatch(getProductsByPrice(cat, minPrice, maxPrice, lastVisible))
     }
 }
 
