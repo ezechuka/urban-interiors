@@ -1,9 +1,10 @@
 import { Flex, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
-import UploadProduct from "../components/upload/UploadProduct"
+import UploadProduct from "../components/admin/UploadProduct"
 
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 import Meta from "../components/meta/Meta";
+import ViewOrders from "../components/admin/ViewOrders";
 
 const Admin = () => {
 	return (
@@ -20,7 +21,7 @@ const Admin = () => {
 				fontWeight={'bold'}
 				fontSize={'xl'}
 				textColor={'black'}
-				mb={5}>
+				mb={3}>
 				Admin
 			</Text>
 
@@ -36,6 +37,9 @@ const Admin = () => {
 					</TabPanel>
 					<TabPanel>
 						<p>Two</p>
+					</TabPanel>
+					<TabPanel>
+						<ViewOrders />
 					</TabPanel>
 				</TabPanels>
 			</Tabs>
