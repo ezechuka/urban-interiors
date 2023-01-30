@@ -89,7 +89,7 @@ const CartItem = ({ item, cart, onDelete }) => {
                         }}
                         onClick={() => {
                             if (cartProduct.quantity > 1)
-                                dispatch(decreaseQuantity(item.pid, item, cart))
+                                dispatch(decreaseQuantity(item.pid, item.productPrice, cart))
                         }}>
                         <Minus color={'hsl(38, 58%, 47%)'} size={16} weight={'bold'} alt={'decrease item'} />
                     </Button>
@@ -109,7 +109,7 @@ const CartItem = ({ item, cart, onDelete }) => {
                         _active={{
                             bgColor: 'none'
                         }}
-                        onClick={() => dispatch(increaseQuantity(item.pid, item, cart))}>
+                        onClick={() => dispatch(increaseQuantity(item.pid, item.productPrice, cart))}>
                         <Plus color={'hsl(38, 58%, 47%)'} size={16} weight={'bold'} alt={'increase item'} />
                     </Button>
                 </HStack>
@@ -165,7 +165,7 @@ const Cart = () => {
                         justifyContent={'center'}
                         alignItems={'center'}
                         flexDirection={'column'}>
-                            <Meta title={'Cart | Fobath Woodwork'} />
+                        <Meta title={'Cart | Fobath Woodwork'} />
                         <ToastContainer />
 
                         <Circle
@@ -205,6 +205,7 @@ const Cart = () => {
                         paddingY={8}
                         height={'70vh'}
                         backgroundColor={'gray.50'}>
+                        <Meta title={'Cart | Fobath Woodwork'} />
 
                         <VStack
                             flexDirection={'column'}
