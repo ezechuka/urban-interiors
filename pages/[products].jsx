@@ -376,7 +376,7 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
                             :
                             Object.values(data).length > 0 &&
                                 <Text mt={6} fontWeight={'light'} fontSize={'sm'}>
-                                    You've reached the end of products listing
+                                    You&apos;ve reached the end of products listing
                                 </Text>
                         }
                     </Flex>
