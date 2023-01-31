@@ -243,7 +243,7 @@ const UploadProduct = ({ uploadNewProduct }) => {
                                 textColor={'red.500'}
                                 fontWeight={'light'}
                                 fontSize={'xs'}>
-                                {errors.category}
+                                {errors.subcategory}
                             </Text>
                         }
                     </VStack>
