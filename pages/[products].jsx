@@ -375,8 +375,8 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
                             </Button>
                             :
                             Object.values(data).length > 0 &&
-                                <Text mt={6} fontWeight={'semibold'}>
-                                    End of products listing
+                                <Text mt={6} fontWeight={'light'} fontSize={'sm'}>
+                                    You've reached the end of products listing
                                 </Text>
                         }
                     </Flex>
