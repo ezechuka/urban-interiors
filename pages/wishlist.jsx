@@ -94,7 +94,7 @@ const WishlistItem = ({ item, cart, onAddToCart, onDelete }) => {
                     <Button
                         variant={'solid'}
                         marginTop={6}
-                        textTransform={'none'}
+                        textTransform={'uppercase'}
                         letterSpacing={'wide'}
                         paddingX={4}
                         fontSize={'sm'}
@@ -199,7 +199,7 @@ const Wishlist = ({ addToCart, deleteFromWishlist }) => {
                     justifyContent={'center'}
                     alignItems={'start'}
                     paddingY={8}
-                    height={'60vh'}
+                    height={'70vh'}
                     backgroundColor={'gray.50'}>
                     <Meta title={'Wishlist | Fobath Woodwork'} />
                     <ToastContainer />
