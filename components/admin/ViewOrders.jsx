@@ -3,17 +3,9 @@ import { DotsThreeOutlineVertical } from "phosphor-react";
 
 import { useEffect } from "react";
 import { connect, useSelector } from "react-redux"
-import { retrieveAllOrders } from "../../store/orderReducer"
+import { retrieveAllOrders, updateOrderStatus } from "../../store/orderReducer"
 
-const OrderItem = () => {
-    return (
-        <Flex>
-
-        </Flex>
-    )
-}
-
-const ViewOrders = ({ getAllOrders }) => {
+const ViewOrders = ({ getAllOrders, updateOrder }) => {
 
     const { isLoading, isFetching, isLoaded, error, data } =
         useSelector((state) => state.order)
@@ -21,7 +13,7 @@ const ViewOrders = ({ getAllOrders }) => {
     useEffect(() => {
         getAllOrders()
     }, [])
-    { console.log(data) }
+
     return (
         <Flex
             width={'full'}
@@ -62,16 +54,26 @@ const ViewOrders = ({ getAllOrders }) => {
                                                 variant='outline'
                                             />
                                             <MenuList>
-                                                <MenuItem>
+                                                <MenuItem onClick={() => {
+                                                    updateOrder(item.uid, item.orderId, 'Pending')
+                                                }}>
                                                     Pending
                                                 </MenuItem>
-                                                <MenuItem>
+                                                <MenuItem onClick={() => {
+                                                    updateOrder(item.uid, item.orderId, 'In progress')
+                                                }}>
                                                     In progress
                                                 </MenuItem>
-                                                <MenuItem>
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        updateOrder(item.uid, item.orderId, 'In transit')
+                                                    }}>
                                                     In transit
                                                 </MenuItem>
-                                                <MenuItem>
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        updateOrder(item.uid, item.orderId, 'Delivered')
+                                                    }}>
                                                     Delivered
                                                 </MenuItem>
                                             </MenuList>
@@ -90,7 +92,8 @@ const ViewOrders = ({ getAllOrders }) => {
 
 export const matchDispatchToProps = dispatch => {
     return {
-        getAllOrders: () => dispatch(retrieveAllOrders())
+        getAllOrders: () => dispatch(retrieveAllOrders()),
+        updateOrder: (uid, oid, status) => dispatch(updateOrderStatus(uid, oid, status))
     }
 }
 

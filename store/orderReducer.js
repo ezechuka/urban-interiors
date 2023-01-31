@@ -1,6 +1,7 @@
 import { createSlice, isPending } from "@reduxjs/toolkit"
-import { collection, getDocs } from "firebase/firestore"
+import { collection, doc, getDocs, onSnapshot, updateDoc } from "firebase/firestore"
 import firebase from 'firebase/compat/app'
+import { toast } from "react-toastify"
 
 const dataState = {
     isLoading: true,
@@ -19,11 +20,15 @@ const orderSlice = createSlice({
         },
         createOrder(state, action) {
             return action.payload
+        },
+        updateStatus(state, action) {
+            toast.info(action.payload)
+            return
         }
     }
 })
 
-export const { fetchOrders, createOrder } = orderSlice.actions
+export const { fetchOrders, createOrder, updateStatus } = orderSlice.actions
 
 export default orderSlice.reducer
 
@@ -112,29 +117,41 @@ export const retrieveAllOrders = () => {
 
         const userId = []
         const firestore = getFirebase().firestore()
-        
+
         try {
-            let result = []
             const querySnapshot = await getDocs(collection(firestore, 'users'))
             querySnapshot.forEach((doc) => {
                 userId.push(doc.id)
             })
 
-            await Promise.all(userId.map(async (id) => {
-                const orderQuerySnapshot = await getDocs(collection(firestore, 'users',
-                    `${id}`, 'orders'))
-                orderQuerySnapshot.forEach((order) => {
-                    result.push({ orderId: order.id, ...order.data() })
-                })
-            }))
+            userId.forEach((id) => {
+                onSnapshot(collection(firestore, 'users', `${id}`, 'orders'),
+                    (querySnapshot) => {
+                        let result = []
+                        querySnapshot.docChanges().forEach((change) => {
+                            console.log(change)
+                            result.push({ orderId: change.doc.id, ...change.doc.data() })
+                        })
 
-            dispatch(fetchOrders({
-                ...dataState,
-                isLoading: false,
-                isFetching: false,
-                isLoaded: true,
-                data: result
-            }))
+                        dispatch(fetchOrders({
+                            ...dataState,
+                            isLoading: false,
+                            isFetching: false,
+                            isLoaded: true,
+                            data: result
+                        }))
+                    },
+                    onerror => {
+                        dispatch(fetchOrders({
+                            ...dataState,
+                            isLoading: false,
+                            isFetching: false,
+                            isLoaded: true,
+                            data: null,
+                            error: onerror.message
+                        }))
+                    })
+            })
         } catch (e) {
             dispatch(fetchOrders({
                 ...dataState,
@@ -144,6 +161,29 @@ export const retrieveAllOrders = () => {
                 data: null,
                 error: e
             }))
+        }
+    }
+}
+
+export const updateOrderStatus = (uid, oid, status) => {
+    // uid - user id
+    // oid - order id
+    return async (dispatch, getState, { getFirebase }) => {
+        dispatch(updateStatus({
+            ...dataState, isFetching: true
+        }))
+
+        const firestore = getFirebase().firestore()
+        try {
+            const orderRef = doc(firestore, 'users', uid, 'orders', oid)
+
+            await updateDoc(orderRef, {
+                status: status
+            })
+
+            dispatch(updateStatus('Order status has been updated'))
+        } catch (e) {
+            dispatch(updateStatus('Order status failed to update'))
         }
     }
 }
