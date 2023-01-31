@@ -73,11 +73,13 @@ const CartItem = ({ item }) => {
 const Checkout = ({ addOrder, clearCart }) => {
 
     const router = useRouter()
+    const uid = useSelector((state) => state.persistFirebase.auth.uid)
     const fullname = useSelector((state) => state.persistFirebase.profile.displayName)
     const email = useSelector((state) => state.persistFirebase.profile.email)
     const hasNotAuth = useSelector((state) => state.persistFirebase.auth.isEmpty)
 
     const [userData, setUserData] = useState({
+        uid,
         email,
         fullname,
         phone: '',
