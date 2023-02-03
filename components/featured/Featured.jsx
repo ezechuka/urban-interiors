@@ -18,9 +18,10 @@ const LoadingSkeleton = () => {
                 md: 'repeat(3, 1fr)',
                 lg: 'repeat(5, 1fr)'
             }}
-            rowGap={{ base: 3, lg: 8 }}
-            columnGap={{ base: 3, lg: 8 }}
+            rowGap={{ base: 2, lg: 8 }}
+            columnGap={{ base: 2, lg: 8 }}
             paddingX={{ base: 1, lg: 0 }}
+            placeItems={'center'}
             marginY={8}>
             {
                 [...Array(10).keys()].map(item => (
@@ -29,7 +30,7 @@ const LoadingSkeleton = () => {
                         justifyContent={'start'}
                         alignItems={'start'}>
                         <Skeleton
-                            width={{ base: '165px', md: '220px' }}
+                            width={{ base: '160px', md: '220px' }}
                             height={{ base: '180px', md: '220px' }}
                             rounded={'lg'}
                             fadeDuration={2}
