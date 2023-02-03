@@ -263,11 +263,11 @@ const Featured = ({ getProductsBySubCategory }) => {
             </Text>
 
             <Tabs
-                orientation={{ base: 'vertical', lg: 'horizontal' }}
                 align={'center'}
                 marginTop={4}
                 colorScheme={'orange'}
-                variant={'soft-rounded'}
+                variant={{base: 'line', md: 'soft-rounded'}}
+                size={{base: 'sm', md: 'md'}}
                 onChange={(index) => fetchSubCategory(index)}>
                 <TabList
                     paddingX={{ base: 6, lg: 0 }}>
