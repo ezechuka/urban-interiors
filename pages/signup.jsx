@@ -104,7 +104,8 @@ const Login = () => {
             <Flex
                 w={'60%'}
                 h={'100vh'}
-                bgColor={'gold.500'}>
+                bgColor={'gold.500'}
+                display={{base: 'none', lg: 'flex'}}>
 
                 <Flex
                     as={motion.div}
@@ -136,7 +137,7 @@ const Login = () => {
             </Flex>
 
             <Flex
-                w={'40%'}
+                w={{base: '100%', lg: '40%'}}
                 h={'100vh'}
                 justifyContent={'center'}
                 alignItems={'center'}>
@@ -149,7 +150,7 @@ const Login = () => {
                     flexDirection={'column'}
                     justifyContent={'center'}
                     alignItems={'center'}
-                    width={'70%'}
+                    width={{base: '85%', md: '70%', lg: '70%'}}
                     variants={formPaneVariant}
                     initial={'fromRight'}
                     animate={'toLeft'}>
