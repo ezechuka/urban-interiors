@@ -22,7 +22,8 @@ const Layout = ({ children }) => {
             <Meta />
             <Box
                 as={'main'}
-                zIndex={'base'}>
+                zIndex={'base'}
+                overflowX={'hidden'}>
                 {children}
             </Box>
 
