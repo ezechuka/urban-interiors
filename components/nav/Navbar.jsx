@@ -1,6 +1,6 @@
 import { Avatar, Box, Button, Circle, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Flex, HStack, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Text, Tooltip, useDisclosure } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import { AngularLogo, Heart, MagnifyingGlass, Package, ShoppingCart, SignOut, SquaresFour, User, UserCircle } from 'phosphor-react'
+import { AngularLogo, Heart, List, MagnifyingGlass, Package, ShoppingCart, SignOut, SquaresFour, User, UserCircle } from 'phosphor-react'
 import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { signOut } from '../../store/logoutReducer'
@@ -18,7 +18,7 @@ const Navbar = () => {
             as={'nav'}
             justifyContent={'space-between'}
             alignItems={'center'}
-            paddingX={12}
+            paddingX={{ base: 6, lg: 12 }}
             paddingY={4}
             boxShadow={'sm'}>
 
@@ -36,7 +36,7 @@ const Navbar = () => {
                         <Flex
                             flexDirection={'column'}
                             alignItems={'center'}>
-                                <Avatar name={auth.displayName} src={auth.avatarUrl} />
+                            <Avatar name={auth.displayName} src={auth.avatarUrl} />
                             <Text
                                 fontWeight={'medium'}>
                                 {auth.displayName}
@@ -53,20 +53,21 @@ const Navbar = () => {
 
             <Text
                 fontWeight={'semibold'}
-                fontSize={'md'}
+                fontSize={{base: 'sm', md: 'md'}}
                 letterSpacing={'widest'}
                 textColor={'black'}
                 textTransform={'uppercase'}
                 transition={'all .4s'}
                 onClick={() => router.replace('/')}
-                _hover={{ cursor: 'pointer', color: 'gold.500'}}>
+                _hover={{ cursor: 'pointer', color: 'gold.500' }}>
                 fobath woodwork
             </Text>
 
             <InputGroup
                 size={'lg'}
                 width={'40%'}
-                m={'auto'}>
+                m={'auto'}
+                display={{ base: 'none', lg: 'block' }}>
                 <InputLeftElement>
                     <MagnifyingGlass size={20} weight={'regular'} />
                 </InputLeftElement>
@@ -86,7 +87,8 @@ const Navbar = () => {
 
             <HStack
                 justifyContent={'center'}
-                alignItems={'center'}>
+                alignItems={'center'}
+                display={{ base: 'none', lg: 'flex' }}>
                 {
                     auth.isEmpty ?
                         <HStack spacing={4}>
@@ -263,6 +265,23 @@ const Navbar = () => {
                 </Box>
             </HStack>
 
+            {/* Mobile hamburger icon button */}
+            <IconButton
+                aria-label={'mobile menu'}
+                bg={'gold.100'}
+                color={'black'}
+                variant={'ghost'}
+                icon={
+                    <Tooltip
+                        hasArrow
+                        label={'Cart'}
+                        placement={'bottom'}
+                        textColor={'white'}
+                        bgColor={'gray.900'}>
+                        <List size={24} weight={'regular'} alt={''} />
+                    </Tooltip>
+                }
+                onClick={() => {} } />
         </Flex >
     )
 }
