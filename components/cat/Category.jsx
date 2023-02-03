@@ -1,4 +1,4 @@
-import { Box, Circle, Flex, keyframes, Stack, Text } from '@chakra-ui/react'
+import { Box, Circle, Flex, Grid, Stack, keyframes, Text } from '@chakra-ui/react'
 
 import couch from '../../public/couch.png'
 import console from '../../public/console.png'
@@ -82,8 +82,8 @@ const Category = () => {
             id={'products'}
             as={'section'}
             flexDirection={'column'}
-            paddingX={12}
-            paddingY={16}
+            paddingX={{ base: 6, lg: 12 }}
+            paddingY={{base: 8, lg: 16}}
             justifyContent={'space-between'}
             alignItems={'center'}>
 
@@ -92,7 +92,7 @@ const Category = () => {
                 alignItems={'center'}>
                 <Text
                     fontWeight={'bold'}
-                    fontSize={'3xl'}
+                    fontSize={{ base: '2xl', lg: '3xl' }}
                     textAlign={'center'}
                     textColor={'black'}>
                     Browse by Category
@@ -107,6 +107,7 @@ const Category = () => {
             </Flex>
 
             <Stack
+                display={{ base: 'none', lg: 'flex' }}
                 direction={'row'}
                 marginTop={8}
                 spacing={5}
@@ -119,6 +120,23 @@ const Category = () => {
                 <CategoryItem catImg={console} catTitle={'TV console'} />
                 <CategoryItem catImg={chair} catTitle={'Table and chair'} />
             </Stack>
+
+            <Grid
+                display={{ base: 'grid', lg: 'none' }}
+                marginTop={8}
+                gap={4}
+                gridTemplateColumns={{
+                    base: 'repeat(1, 1fr)',
+                    md: 'repeat(2, 1fr)'
+                }}>
+                <CategoryItem catImg={couch} catTitle={'Sofa'} />
+                <CategoryItem catImg={bed} catTitle={'Bed'} />
+                <CategoryItem catImg={shoeRack} catTitle={'Shoe rack'} />
+                <CategoryItem catImg={wardrobe} catTitle={'Ward robe'} />
+                <CategoryItem catImg={shelf} catTitle={'Shelf'} />
+                <CategoryItem catImg={console} catTitle={'TV console'} />
+                <CategoryItem catImg={chair} catTitle={'Table and chair'} />
+            </Grid>
 
 
         </Flex>
