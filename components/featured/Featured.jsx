@@ -8,14 +8,19 @@ import 'react-toastify/dist/ReactToastify.min.css'
 
 import noProduct from '../../public/no_product.png'
 
-import { addToCart } from '../../store/cartReducer'
 import { getProductsBySubCategory } from '../../store/productsReducer'
 
 const LoadingSkeleton = () => {
     return (
         <Grid
-            gridTemplateColumns={'repeat(5, 1fr)'}
-            gap={8}
+            gridTemplateColumns={{
+                base: 'repeat(2, 1fr)',
+                md: 'repeat(3, 1fr)',
+                lg: 'repeat(5, 1fr)'
+            }}
+            paddingX={{ base: 6, lg: 0 }}
+            rowGap={{ base: 6, lg: 8 }}
+            columnGap={{ base: 5, lg: 8 }}
             marginY={8}>
             {
                 [...Array(10).keys()].map(item => (
@@ -24,8 +29,8 @@ const LoadingSkeleton = () => {
                         justifyContent={'start'}
                         alignItems={'start'}>
                         <Skeleton
-                            width={'220px'}
-                            height={'200px'}
+                            width={{ base: '165px', md: '220px' }}
+                            height={{ base: '165px', md: '220px' }}
                             rounded={'lg'}
                             fadeDuration={2}
                         />
@@ -69,16 +74,17 @@ const FeaturedItem = ({ productId, productName, productPrice,
             <Badge
                 top={2}
                 right={2}
-                colorScheme={'red'}
+                colorScheme={'orange'}
                 fontSize={'sm'}
                 px={2}
                 variant={'subtle'}
+                zIndex={'docked'}
                 position={'absolute'}>
                 {productCat}
             </Badge>
 
             <Box
-                boxSize={'200px'}
+                boxSize={{ base: '150px', md: '200px' }}
                 rounded={'lg'}
                 alignSelf={'center'}
                 position={'relative'}>
@@ -175,8 +181,13 @@ const ProductCollection = ({ productState }) => {
 
     return (
         <Grid
-            gridTemplateColumns={'repeat(5, 1fr)'}
-            gap={8}
+            gridTemplateColumns={{
+                base: 'repeat(2, 1fr)',
+                md: 'repeat(3, 1fr)',
+                lg: 'repeat(5, 1fr)'
+            }}
+            rowGap={{ base: 6, lg: 8 }}
+            columnGap={{ base: 5, lg: 8 }}
             marginTop={8}>
 
             {
@@ -224,58 +235,57 @@ const Featured = ({ getProductsBySubCategory }) => {
     return (
         <Flex
             as={'section'}
-            paddingX={12}
-            paddingY={16}
+            paddingX={{ base: 0, lg: 12 }}
+            paddingY={{ base: 8, lg: 16 }}
             flexDirection={'column'}
             justifyContent={'center'}
             alignItems={'center'}>
             <ToastContainer />
 
-            <Flex
-                flexDirection={'column'}
-                justifyContent={'center'}
-                alignItems={'center'}>
-                <Text
-                    fontWeight={'bold'}
-                    fontSize={'3xl'}
-                    textAlign={'center'}
-                    textColor={'black'}>
-                    Our Products
-                </Text>
-                <Text
-                    fontWeight={'medium'}
-                    fontSize={'sm'}
-                    textColor={'gray.700'}
-                    marginTop={1}>
-                    Discover varieties of selected amazing products collection
-                </Text>
+            <Text
+                fontWeight={'bold'}
+                fontSize={{ base: '2xl', lg: '3xl' }}
+                textAlign={'center'}
+                textColor={'black'}
+                paddingX={{ base: 6, lg: 0 }}>
+                Our Products
+            </Text>
+            <Text
+                fontWeight={'medium'}
+                fontSize={'sm'}
+                textColor={'gray.700'}
+                marginTop={1}
+                textAlign={{ base: 'center' }}
+                paddingX={{ base: 6, lg: 0 }}>
+                Discover varieties of selected amazing products collection
+            </Text>
 
-                <Tabs
-                    align={'center'}
-                    marginTop={4}
-                    colorScheme={'orange'}
-                    variant={'soft-rounded'}
-                    onChange={(index) => fetchSubCategory(index)}>
-                    <TabList>
-                        {
-                            subCategory.map((item, index) =>
-                                <Tab key={index}>{item}</Tab>
-                            )
-                        }
-                    </TabList>
-                    <TabPanels>
-                        {
-                            subCategory.map((item, index) =>
-                                <TabPanel key={index}>
-                                    <ProductCollection
-                                        productState={productState}
-                                    />
-                                </TabPanel>
-                            )}
-                    </TabPanels>
-                </Tabs>
-            </Flex>
-
+            <Tabs
+                orientation={{ base: 'vertical', lg: 'horizontal' }}
+                align={'center'}
+                marginTop={4}
+                colorScheme={'orange'}
+                variant={'soft-rounded'}
+                onChange={(index) => fetchSubCategory(index)}>
+                <TabList
+                    paddingX={{ base: 6, lg: 0 }}>
+                    {
+                        subCategory.map((item, index) =>
+                            <Tab key={index}>{item}</Tab>
+                        )
+                    }
+                </TabList>
+                <TabPanels>
+                    {
+                        subCategory.map((item, index) =>
+                            <TabPanel key={index}>
+                                <ProductCollection
+                                    productState={productState}
+                                />
+                            </TabPanel>
+                        )}
+                </TabPanels>
+            </Tabs>
         </Flex>
     )
 }
