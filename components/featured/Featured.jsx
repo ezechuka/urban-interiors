@@ -186,8 +186,8 @@ const ProductCollection = ({ productState }) => {
                 md: 'repeat(3, 1fr)',
                 lg: 'repeat(5, 1fr)'
             }}
-            rowGap={{ base: 3, lg: 8 }}
-            columnGap={{ base: 3, lg: 8 }}
+            rowGap={{ base: 2, lg: 8 }}
+            columnGap={{ base: 2, lg: 8 }}
             paddingX={{ base: 1, lg: 0 }}
             marginTop={8}>
 
