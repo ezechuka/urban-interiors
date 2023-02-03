@@ -23,14 +23,13 @@ const ProductItem = ({ productId, productTitle, productImg, productPrice, addToW
             bgColor={'blackAlpha.200'}
             position={'relative'}
             _hover={{ shadow: 'md', cursor: 'pointer' }}
-            width={'220px'}
             onClick={(e) => {
                 localStorage.setItem('PRODUCT_REF', productId)
                 router.push(`${catPath}/${productId}`)
             }}>
 
             <Box
-                boxSize={'200px'}
+                boxSize={{ base: '150px', md: '200px' }}
                 rounded={'lg'}
                 alignSelf={'center'}
                 position={'relative'}>
