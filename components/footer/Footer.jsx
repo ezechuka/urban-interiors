@@ -25,7 +25,7 @@ const Footer = () => {
                     flexGrow={1}>
                     <Text
                         fontWeight={'black'}
-                        fontSize={'3xl'}
+                        fontSize={{base: 'xl', lg: '3xl'}}
                         textColor={'white'}
                         textTransform={'capitalize'}>
                         fobath woodwork
