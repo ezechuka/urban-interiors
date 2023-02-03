@@ -52,17 +52,19 @@ const Hero = () => {
     return (
         <Flex
             as={'section'}
-            minHeight={'85vh'}
-            paddingX={12}
-            justifyContent={'space-between'}
-            alignItems={'center'}>
+            minHeight={{base: '70vh', lg: '85vh'}}
+            paddingX={{base: 6, lg: 12}}
+            justifyContent={{base: 'start', lg: 'space-between'}}
+            alignItems={'center'}
+            flexDirection={{base: 'column-reverse', lg: 'row'}}>
 
             <VStack
                 as={motion.div}
                 flexDirection={'column'}
                 alignItems={'start'}
                 justifyContent={'space-evenly'}
-                maxWidth={'45%'}
+                mt={{base: 8, lg: 0}}
+                maxWidth={{base: '100%', lg: '45%'}}
                 spacing={8}
                 variants={slideLeftVariant}
                 initial={'fromLeft'}
@@ -71,7 +73,7 @@ const Hero = () => {
                 <Text
                     as={'h1'}
                     fontWeight={'black'}
-                    fontSize={'5xl'}
+                    fontSize={{base: '3xl', md: '4xl', lg: '5xl'}}
                     textColor={'black'}
                     lineHeight={'shorter'}>
                     Discover innovative ways to <Text as={'span'} fontStyle={'italic'}>decorate</Text>
@@ -103,7 +105,6 @@ const Hero = () => {
 
             <Flex
                 as={motion.div}
-                rounded={'20%'}
                 minW={'55%'}
                 justifyContent={'end'}
                 variants={slideRightVariant}
