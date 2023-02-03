@@ -48,8 +48,15 @@ import Meta from '../components/meta/Meta';
 const LoadingSkeleton = () => {
     return (
         <Grid
-            gridTemplateColumns={'repeat(5, 1fr)'}
-            gap={8}
+            gridTemplateColumns={{
+                base: 'repeat(2, 1fr)',
+                md: 'repeat(3, 1fr)',
+                lg: 'repeat(5, 1fr)'
+            }}
+            rowGap={{ base: 2, lg: 8 }}
+            columnGap={{ base: 2, lg: 8 }}
+            paddingX={{ base: 1, lg: 0 }}
+            placeItems={'center'}
             w={'full'}
             marginY={8}>
             {
@@ -59,8 +66,8 @@ const LoadingSkeleton = () => {
                         justifyContent={'start'}
                         alignItems={'start'}>
                         <Skeleton
-                            width={'220px'}
-                            height={'200px'}
+                            width={{ base: '160px', md: '220px' }}
+                            height={{ base: '180px', md: '220px' }}
                             rounded={'lg'}
                             fadeDuration={2}
                         />
@@ -248,7 +255,7 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
     return (
         <Flex
             as={'section'}
-            paddingX={12}
+            paddingX={{ base: 6, lg: 12 }}
             paddingY={8}
             flexDirection={'column'}
             justifyContent={'center'}
@@ -264,7 +271,7 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
                     variant={'ghost'}
                     ref={buttonDrawerRef}
                     onClick={onOpen}
-                    marginEnd={8}
+                    marginEnd={{ base: 3, md: 8 }}
                     icon={<FunnelSimple size={24} weight={'regular'} />}
                     _hover={{ background: 'gray.100', color: 'gold.500' }} />
 
@@ -341,8 +348,14 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
                         justifyContent={'center'}
                         alignItems={'center'}>
                         <Grid
-                            gridTemplateColumns={'repeat(5, 1fr)'}
-                            gap={8}
+                            w={'full'}
+                            gridTemplateColumns={{
+                                base: 'repeat(2, 1fr)',
+                                md: 'repeat(3, 1fr)',
+                                lg: 'repeat(5, 1fr)'
+                            }}
+                            rowGap={{ base: 2, lg: 8 }}
+                            columnGap={{ base: 2, lg: 8 }}
                             ref={containerRef}
                             css={{
                                 '&::-webkit-scrollbar': {
@@ -375,9 +388,9 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
                             </Button>
                             :
                             Object.values(data).length > 0 &&
-                                <Text mt={6} fontWeight={'light'} fontSize={'sm'}>
-                                    You&apos;ve reached the end of products listing
-                                </Text>
+                            <Text mt={6} fontWeight={'light'} fontSize={'sm'}>
+                                You&apos;ve reached the end of products listing
+                            </Text>
                         }
                     </Flex>
             }
