@@ -271,6 +271,7 @@ const Navbar = () => {
                 bg={'gold.100'}
                 color={'black'}
                 variant={'ghost'}
+                display={{base: 'block', lg: 'none'}}
                 icon={
                     <Tooltip
                         hasArrow
