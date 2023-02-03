@@ -18,9 +18,9 @@ const LoadingSkeleton = () => {
                 md: 'repeat(3, 1fr)',
                 lg: 'repeat(5, 1fr)'
             }}
-            paddingX={{ base: 6, lg: 0 }}
-            rowGap={{ base: 6, lg: 8 }}
-            columnGap={{ base: 5, lg: 8 }}
+            rowGap={{ base: 3, lg: 8 }}
+            columnGap={{ base: 3, lg: 8 }}
+            paddingX={{ base: 1, lg: 0 }}
             marginY={8}>
             {
                 [...Array(10).keys()].map(item => (
@@ -30,7 +30,7 @@ const LoadingSkeleton = () => {
                         alignItems={'start'}>
                         <Skeleton
                             width={{ base: '165px', md: '220px' }}
-                            height={{ base: '165px', md: '220px' }}
+                            height={{ base: '180px', md: '220px' }}
                             rounded={'lg'}
                             fadeDuration={2}
                         />
@@ -186,8 +186,9 @@ const ProductCollection = ({ productState }) => {
                 md: 'repeat(3, 1fr)',
                 lg: 'repeat(5, 1fr)'
             }}
-            rowGap={{ base: 6, lg: 8 }}
-            columnGap={{ base: 5, lg: 8 }}
+            rowGap={{ base: 3, lg: 8 }}
+            columnGap={{ base: 3, lg: 8 }}
+            paddingX={{ base: 1, lg: 0 }}
             marginTop={8}>
 
             {
