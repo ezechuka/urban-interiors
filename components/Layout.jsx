@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
                 <Box
                     as={'header'}
                     position={'sticky'}
-                    zIndex={'docked'}
+                    zIndex={'dropdown'}
                     top={0}
                     bg={'white'}>
                     <Navbar />
