@@ -268,10 +268,10 @@ const Navbar = () => {
             {/* Mobile hamburger icon button */}
             <IconButton
                 aria-label={'mobile menu'}
-                bg={'gold.100'}
                 color={'black'}
                 variant={'ghost'}
-                display={{base: 'block', lg: 'none'}}
+                justifyContent={'end'}
+                display={{base: 'flex', lg: 'none'}}
                 icon={
                     <Tooltip
                         hasArrow
