@@ -114,10 +114,15 @@ const ModalDialogItem = ({ productName, productPrice, colorValue, colorName, pid
     return (
         <Flex
             justifyContent={'space-between'}
-            alignItems={'center'}
-            mb={4}>
-            <VStack
-                alignItems={'start'}>
+            alignItems={{ base: 'start', lg: 'center' }}
+            mb={4}
+            w={'full'}
+            flexDirection={{ base: 'column', lg: 'row' }}>
+            <Stack
+                w={{base: 'full', lg: 'fit-content'}}
+                direction={{ base: 'row', lg: 'column' }}
+                justifyContent={{ base: 'space-between', lg: 'start' }}
+                alignItems={{ base: 'center', lg: 'start' }}>
                 <Text
                     fontWeight={'semibold'}
                     fontSize={'md'}
@@ -130,10 +135,11 @@ const ModalDialogItem = ({ productName, productPrice, colorValue, colorName, pid
                     textColor={'gray.900'}>
                     {`₦${new Intl.NumberFormat().format(productPrice)}`}
                 </Text>
-            </VStack>
+            </Stack>
 
             <VStack
-                justifyContent={'center'}>
+                justifyContent={'center'}
+                display={{ base: 'none', lg: 'flex' }}>
 
                 <Circle size={'32px'} borderWidth={1} borderColor={'blackAlpha.500'}>
                     <CircleIcon weight={'fill'} color={colorValue} size={32} />
@@ -154,10 +160,46 @@ const ModalDialogItem = ({ productName, productPrice, colorValue, colorName, pid
                 borderColor={'gray.300'}
                 px={5}
                 transition={'all .3s'}
+                display={{ base: 'none', lg: 'flex' }}
                 _active={{ transform: 'scale(0.9)' }}
                 onClick={() => onAdd(pid, productPrice, colorName, colorValue, cart)}>
                 add
             </Button>
+
+            <Flex
+                w={'full'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
+                mt={4}
+                display={{ base: 'flex', lg: 'none' }}>
+                <VStack
+                    justifyContent={'center'}
+                    spacing={1}>
+
+                    <Circle size={'32px'} borderWidth={1} borderColor={'blackAlpha.500'}>
+                        <CircleIcon weight={'fill'} color={colorValue} size={32} />
+                    </Circle>
+
+                    <Text textTransform={'capitalize'} fontSize={'sm'}>
+                        {colorName}
+                    </Text>
+
+                </VStack>
+
+                <Button
+                    variant={'ghost'}
+                    textTransform={'uppercase'}
+                    letterSpacing={'wide'}
+                    borderWidth={1}
+                    paddingY={3}
+                    borderColor={'gray.300'}
+                    px={5}
+                    transition={'all .3s'}
+                    _active={{ transform: 'scale(0.9)' }}
+                    onClick={() => onAdd(pid, productPrice, colorName, colorValue, cart)}>
+                    add
+                </Button>
+            </Flex>
         </Flex>
     )
 }
@@ -166,7 +208,7 @@ const ProductDetail =
     ({ getProduct, addToCart, increaseItemQuantity, decreaseItemQuantity, addToWishlist }) => {
         const router = useRouter()
         const path = router.asPath.split('/')
-        const pid = path[2]
+        const pid = localStorage.getItem('PRODUCT_REF', '')
 
         const { isLoading, isFetching, isLoaded, error, data }
             = useSelector((state) => state.product)
@@ -327,7 +369,7 @@ const ProductDetail =
                                 justifyContent={'start'}>
                                 <Text
                                     fontWeight={'bold'}
-                                    fontSize={{base: '2xl', lg: '3xl'}}
+                                    fontSize={{ base: '2xl', lg: '3xl' }}
                                     textColor={'black'}
                                     lineHeight={'36px'}>
                                     {data.productName}
