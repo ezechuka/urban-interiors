@@ -321,7 +321,7 @@ const ProductDetail =
 
                             <Flex
                                 maxWidth={{ base: '100%', lg: '40%' }}
-                                height={'500px'}
+                                height={'fit-content'}
                                 flexDirection={{ base: 'column-reverse', lg: 'row' }}>
                                 <Stack
                                     direction={{ base: 'row', lg: 'column' }}
