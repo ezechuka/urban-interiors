@@ -373,7 +373,7 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
                             }
                         </Grid>
 
-                        {!endOfData ?
+                        { !endOfData ?
                             <Button variant={'ghost'}
                                 fontWeight={'medium'}
                                 shadow={'sm'}
