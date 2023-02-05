@@ -127,7 +127,10 @@ const FeaturedItem = ({ productId, productName, productPrice,
                 _hover={{
                     bgColor: '#827A6E'
                 }}
-                onClick={() => router.push(`/${productCat}/${productId}`)}>
+                onClick={() => {
+                    localStorage.setItem('PRODUCT_REF', productId)
+                    router.push(`/${productCat}/${productId}`)
+                }}>
                 View item
             </Button>
 
