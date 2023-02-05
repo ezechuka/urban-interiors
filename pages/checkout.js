@@ -125,8 +125,10 @@ const Checkout = ({ addOrder, clearCart }) => {
                 const color = cart.items[id].color
 
                 if (docSnap.exists)
-                    tempCart.push({ pid: id, quantity, colorName: color.name, 
-                        colorValue: color.value, ...docSnap.data() })
+                    tempCart.push({
+                        pid: id, quantity, colorName: color.name,
+                        colorValue: color.value, ...docSnap.data()
+                    })
             }))
             setProduct(tempCart)
         }
@@ -161,8 +163,8 @@ const Checkout = ({ addOrder, clearCart }) => {
     return (
         <Flex
             as={'section'}
-            paddingX={12}
-            paddingY={8}
+            paddingX={{ base: 6, lg: 12 }}
+            paddingY={{ base: 6, lg: 8 }}
             flexDirection={'column'}>
             <Meta title={'Checkout | Fobath Woodwork'} />
 
@@ -174,9 +176,9 @@ const Checkout = ({ addOrder, clearCart }) => {
             </Text>
 
             <Stack
-                direction={'row'}>
+                direction={{ base: 'column-reverse', lg: 'row' }}>
                 <Flex
-                    width={'60%'}
+                    width={{ base: 'full', lg: '60%' }}
                     flexDirection={'column'}>
                     <Text
                         marginTop={8}
@@ -256,7 +258,7 @@ const Checkout = ({ addOrder, clearCart }) => {
                     <Stack
                         direction={'row'}
                         marginTop={6}
-                        spacing={6}>
+                        spacing={{base: 3, lg: 6}}>
                         <VStack
                             width={'full'}
                             alignItems={'start'}
@@ -359,7 +361,7 @@ const Checkout = ({ addOrder, clearCart }) => {
                         // isLoading={loading}
                         loadingText={'Please wait'}
                         variant={'solid'}
-                        width={'40%'}
+                        width={{base: 'full', lg: '40%'}}
                         marginTop={10}
                         paddingY={5}
                         onClick={(e) => {
@@ -387,7 +389,7 @@ const Checkout = ({ addOrder, clearCart }) => {
                 </Box>
 
                 <Flex
-                    width={'40%'}
+                    width={{ base: 'full', lg: '40%' }}
                     flexDirection={'column'}>
                     <Text
                         fontWeight={'normal'}
