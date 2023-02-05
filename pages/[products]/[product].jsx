@@ -1,4 +1,4 @@
-import { Box, Breadcrumb, BreadcrumbItem, Button, Flex, HStack, keyframes, Text, Skeleton, VStack, Stack, Circle, IconButton, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalFooter, useDisclosure, ModalBody, Badge } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, Button, Flex, HStack, keyframes, Text, Skeleton, VStack, Stack, Circle, IconButton, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalFooter, useDisclosure, ModalBody, Badge, SkeletonCircle } from '@chakra-ui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -31,33 +31,37 @@ const LoadingSkeleton = () => {
             marginY={8}
             alignItems={'center'}
             justifyContent={'space-between'}
-            width={'full'}>
+            width={'full'}
+            flexDirection={{ base: 'column', lg: 'row' }}>
 
             <Flex
-                maxWidth={'50%'}
+                width={{ base: 'full', lg: '50%' }}
                 height={'500px'}
-                alignItems={'center'}>
-                <VStack
+                alignItems={'center'}
+                flexDirection={{ base: 'column-reverse', lg: 'row' }}>
+                <Stack
+                    direction={{ base: 'row', lg: 'column' }}
                     spacing={3}
-                    marginEnd={3}>
+                    marginEnd={{ base: 0, lg: 3 }}
+                    marginY={{ base: 5, lg: 0 }}>
                     {
                         [...Array(3).keys()].map(i => (
                             <Skeleton
                                 key={i}
-                                width={'100px'}
-                                height={'100px'} />
+                                width={{ base: '80px', lg: '100px' }}
+                                height={{ base: '80px', lg: '100px' }} />
                         ))
                     }
-                </VStack>
+                </Stack>
 
                 <Skeleton
-                    width={'800px'}
+                    width={{ base: 'full', lg: '800px' }}
                     height={'450px'} />
             </Flex>
 
             <Stack
                 direction={'column'}
-                width={'45%'}
+                width={{ base: '100%', lg: '45%' }}
                 flexDirection={'column'}
                 justifyContent={'start'}
                 spacing={3}>
@@ -85,6 +89,10 @@ const LoadingSkeleton = () => {
                 <Skeleton
                     width={'200px'}
                     height={'20px'} />
+
+                {/* Colors values */}
+                <SkeletonCircle
+                    size={10} />
 
                 {/* Add to cart button */}
                 <Skeleton
@@ -186,8 +194,8 @@ const ProductDetail =
         return (
             <Flex
                 as={'section'}
-                paddingX={12}
-                paddingY={8}
+                paddingX={{ base: 6, lg: 12 }}
+                paddingY={{ base: 4, lg: 8 }}
                 flexDirection={'column'}
                 justifyContent={'center'}
                 alignItems={'start'}>
@@ -263,18 +271,21 @@ const ProductDetail =
                     isLoading ? <LoadingSkeleton />
                         :
                         <Flex
-                            marginY={8}
+                            marginY={{ base: 3, lg: 8 }}
                             alignItems={'center'}
                             justifyContent={'space-between'}
-                            width={'full'}>
+                            width={'full'}
+                            flexDirection={{ base: 'column', lg: 'row' }}>
 
                             <Flex
-                                maxWidth={'40%'}
-                                height={'500px'}>
-                                <VStack
-                                    flexDirection={'column'}
+                                maxWidth={{ base: '100%', lg: '40%' }}
+                                height={'500px'}
+                                flexDirection={{ base: 'column-reverse', lg: 'row' }}>
+                                <Stack
+                                    direction={{ base: 'row', lg: 'column' }}
                                     justifyContent={'center'}
-                                    marginEnd={5}
+                                    marginY={{ base: 5, lg: 0 }}
+                                    marginEnd={{ base: 0, lg: 5 }}
                                     spacing={3}>
                                     {
                                         data.images.map((img, i) => (
@@ -299,7 +310,7 @@ const ProductDetail =
                                             </Box>
                                         ))
                                     }
-                                </VStack>
+                                </Stack>
 
                                 <Image
                                     width={500}
@@ -311,12 +322,12 @@ const ProductDetail =
                             </Flex>
 
                             <Flex
-                                width={'45%'}
+                                maxWidth={{ base: '100%', lg: '45%' }}
                                 flexDirection={'column'}
                                 justifyContent={'start'}>
                                 <Text
                                     fontWeight={'bold'}
-                                    fontSize={'3xl'}
+                                    fontSize={{base: '2xl', lg: '3xl'}}
                                     textColor={'black'}
                                     lineHeight={'36px'}>
                                     {data.productName}
