@@ -31,6 +31,8 @@ const InfoText = ({ subtitle, info, color }) => {
 }
 
 const OrderItem = ({ order }) => {
+    const router = useRouter()
+    
     return (
         <Flex
             justifyContent={'start'}
@@ -111,7 +113,10 @@ const OrderItem = ({ order }) => {
                     _hover={{
                         color: 'gold.500'
                     }}
-                // onClick={() => router.push('signup')}
+                    onClick={() => {
+                        localStorage.setItem('PRODUCT_REF', order.pid)
+                        router.push(`${order.category}/${order.pid}`)
+                    }}
                 >
                     View Product
                 </Button>
