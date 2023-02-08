@@ -151,6 +151,7 @@ const Checkout = ({ addOrder, clearCart }) => {
             },
             price: p.productPrice,
             pid: p.pid,
+            category: p.category,
             img: p.images[0],
             quantity: p.quantity
         }))
