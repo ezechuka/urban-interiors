@@ -170,10 +170,11 @@ const ModalDialogItem = ({ productName, productPrice, colorValue, colorName, pid
                 w={'full'}
                 justifyContent={'space-between'}
                 alignItems={'center'}
-                mt={4}
+                mt={2}
                 display={{ base: 'flex', lg: 'none' }}>
                 <VStack
                     justifyContent={'center'}
+                    alignItems={'start'}
                     spacing={1}>
 
                     <Circle size={'32px'} borderWidth={1} borderColor={'blackAlpha.500'}>
