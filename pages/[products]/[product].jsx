@@ -274,7 +274,7 @@ const ProductDetail =
 
                         <ModalFooter>
                             <Button
-                                px={0}
+                                px={3}
                                 py={2}
                                 variant={'solid'}
                                 textTransform={'uppercase'}
