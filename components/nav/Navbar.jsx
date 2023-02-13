@@ -599,7 +599,7 @@ const Navbar = ({ search }) => {
                                 ))
                         }
                     </Box>
-                    
+                }
             {/* Mobile hamburger icon button */}
             <IconButton
                 aria-label={'mobile menu'}
@@ -616,7 +616,7 @@ const Navbar = ({ search }) => {
                         bgColor={'gray.900'}>
                         <List size={24} weight={'regular'} alt={''} />
                     </Tooltip>
-                }
+                }/>
             </InputGroup>
         </Flex>
     )
