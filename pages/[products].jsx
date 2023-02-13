@@ -55,6 +55,7 @@ const LoadingSkeleton = () => {
             }}
             rowGap={{ base: 2, lg: 8 }}
             columnGap={{ base: 2, lg: 8 }}
+            paddingX={{ base: 1, lg: 0 }}
             placeItems={'center'}
             w={'full'}
             marginY={8}>
