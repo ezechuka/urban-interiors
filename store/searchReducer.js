@@ -53,8 +53,8 @@ export const searchProducts = (searchTerm) => {
                 const docSnap = await getDoc(productRef)
                 if (docSnap.exists()) {
                     searchResultName.push({
-                        prodName: docSnap.get('productName'),
-                        prodImage: docSnap.get('images')[0]
+                        pid: docSnap.id,
+                        ...docSnap.data()
                     })
                 }
 
