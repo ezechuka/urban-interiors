@@ -32,12 +32,12 @@ const InfoText = ({ subtitle, info, color }) => {
 
 const OrderItem = ({ order }) => {
     const router = useRouter()
-    
+
     return (
         <Flex
             justifyContent={'start'}
             alignItems={'start'}
-            padding={8}
+            padding={{base: 6, lg: 8}}
             width={'full'}
             flexDirection={'column'}>
 
@@ -83,7 +83,8 @@ const OrderItem = ({ order }) => {
                 </Flex>
 
                 <VStack
-                    justifyContent={'center'}>
+                    justifyContent={'center'}
+                    display={{base: 'none', lg: 'flex'}}>
 
                     <Circle size={'32px'} borderWidth={1} borderColor={'blackAlpha.500'}>
                         <CircleIcon weight={'fill'} color={order.color.value} size={32} />
@@ -98,29 +99,52 @@ const OrderItem = ({ order }) => {
                 <Text
                     textAlign={'end'}
                     fontWeight={'normal'}
-                    fontSize={'xl'}>
+                    fontSize={'xl'}
+                    display={{base: 'none', lg: 'flex'}}>
                     {`x${order.quantity}`}
                 </Text>
             </Flex>
 
-            <Flex>
-                <Button
-                    variant={'ghost'}
-                    fontWeight={'semibold'}
-                    textTransform={'none'}
-                    color={'gray.500'}
-                    p={0}
-                    _hover={{
-                        color: 'gold.500'
-                    }}
-                    onClick={() => {
-                        localStorage.setItem('PRODUCT_REF', order.pid)
-                        router.push(`${order.category}/${order.pid}`)
-                    }}
-                >
-                    View Product
-                </Button>
+            <Flex
+                w={'full'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
+                mt={3}
+                display={{base: 'flex', lg: 'none'}}>
+                <VStack
+                    justifyContent={'center'}
+                    alignItems={'start'}>
+
+                    <Circle size={'28px'} borderWidth={1} borderColor={'blackAlpha.500'}>
+                        <CircleIcon weight={'fill'} color={order.color.value} size={24} />
+                    </Circle>
+
+                    <Text textTransform={'capitalize'} fontSize={'sm'}>
+                        {order.color.name}
+                    </Text>
+
+                </VStack>
+
+                <Text
+                    textAlign={'end'}
+                    fontWeight={'normal'}
+                    fontSize={'lg'}>
+                    {`x${order.quantity}`}
+                </Text>
             </Flex>
+
+            <Button
+                variant={'ghost'}
+                fontWeight={'semibold'}
+                textTransform={'none'}
+                color={'accent.500'}
+                p={0}
+                onClick={() => {
+                    localStorage.setItem('PRODUCT_REF', order.pid)
+                    router.push(`${order.category}/${order.pid}`)
+                }}>
+                View Product
+            </Button>
         </Flex>
     )
 }
@@ -128,7 +152,7 @@ const OrderItem = ({ order }) => {
 const OrderLayout = ({ order }) => {
     return (
         <Stack
-            direction={'row'}
+            direction={{ base: 'column-reverse', lg: 'row' }}
             boxShadow={'sm'}
             rounded={'md'}
             width={'full'}
@@ -139,7 +163,7 @@ const OrderLayout = ({ order }) => {
                 direction={'column'}
                 spacing={8}
                 bgColor={'gray.50'}
-                padding={8}>
+                padding={{base: 6, lg: 8}}>
                 <InfoText
                     subtitle={'Order ID'}
                     info={`#${order.pid}`}
@@ -187,31 +211,35 @@ const LoadingSkeleton = () => {
             marginTop={8}
             width={'100%'}>
             <Stack
-                direction={'row'}
+                direction={{base: 'column-reverse', lg: 'row'}}
                 width={'full'}
                 alignItems={'center'}>
                 <Skeleton
-                    width={'250px'}
+                    width={{base: 'full', lg: '250px'}}
                     height={'250px'}
                     bgColor={'gray.50'} />
                 <Stack
                     direction={'column'}
-                    spacing={6}>
+                    spacing={6}
+                    w={'full'}>
                     <Skeleton
-                        width={'1000px'}
-                        height={'40px'}
+                        width={{base: '100%', lg: '1000px'}}
+                        height={{base: '150px', lg: '40px'}}
                     />
+
                     <Skeleton
-                        width={'1000px'}
-                        height={'40px'}
+                        width={{base: '100%', lg: '1000px'}}
+                        height={{base: '150px', lg: '40px'}}
                     />
+
                     <Skeleton
-                        width={'1000px'}
-                        height={'40px'}
+                        width={{base: '100%', lg: '1000px'}}
+                        height={{base: '150px', lg: '40px'}}
                     />
+
                     <Skeleton
-                        width={'1000px'}
-                        height={'40px'}
+                        width={{base: '100%', lg: '1000px'}}
+                        height={{base: '150px', lg: '40px'}}
                     />
                 </Stack>
             </Stack>
@@ -279,7 +307,7 @@ const Orders = ({ getOrders }) => {
             {
                 <Flex
                     as={'section'}
-                    paddingX={12}
+                    paddingX={{base: 6, lg: 12}}
                     paddingY={8}
                     flexDirection={'column'}
                     justifyContent={'center'}
@@ -288,7 +316,7 @@ const Orders = ({ getOrders }) => {
                     <Meta title={'Orders | Fobath Woodwork'} />
                     <Text
                         fontWeight={'bold'}
-                        fontSize={'2xl'}
+                        fontSize={{base: 'xl', lg: '2xl'}}
                         textColor={'black'}>
                         Order Details
                     </Text>
