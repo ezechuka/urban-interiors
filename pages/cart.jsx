@@ -1,4 +1,4 @@
-import { Box, Button, Circle, Divider, Flex, HStack, IconButton, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Circle, Divider, Flex, HStack, IconButton, Stack, Text, VStack } from '@chakra-ui/react'
 import { doc, getDoc } from 'firebase/firestore'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -22,9 +22,11 @@ const CartItem = ({ item, cart, onDelete }) => {
     return (
         <Flex
             justifyContent={'space-between'}
-            alignItems={'center'}
-            py={4}
-            width={'full'}>
+            alignItems={{ base: 'start', md: 'center' }}
+            p={4}
+            mb={4}
+            width={'full'}
+            flexDirection={{ base: 'column', md: 'row' }}>
 
             <Flex
                 rounded={'lg'}
@@ -73,7 +75,8 @@ const CartItem = ({ item, cart, onDelete }) => {
             <VStack
                 alignItems={'end'}
                 justifyContent={'space-between'}
-                spacing={3}>
+                spacing={3}
+                display={{ base: 'none', md: 'flex' }}>
                 <HStack
                     spacing={3}>
                     <Button
@@ -124,6 +127,64 @@ const CartItem = ({ item, cart, onDelete }) => {
                     icon={<Trash size={20} color={'#E53E3E'} />}
                 />
             </VStack>
+
+            <Stack
+                w={'full'}
+                justifyContent={'space-between'}
+                spacing={3}
+                mt={6}
+                display={{ base: 'flex', md: 'none' }}
+                direction={{ base: 'row-reverse', lg: 'column' }}>
+                <HStack
+                    spacing={3}>
+                    <Button
+                        variant={'solid'}
+                        rounded={'md'}
+                        bgColor={'transparent'}
+                        p={1}
+                        _hover={{
+                            bgColor: 'none'
+                        }}
+                        _active={{
+                            bgColor: 'none'
+                        }}
+                        onClick={() => {
+                            if (cartProduct.quantity > 1)
+                                dispatch(decreaseQuantity(item.pid, item.productPrice, cart))
+                        }}>
+                        <Minus color={'hsl(38, 58%, 47%)'} size={16} weight={'bold'} alt={'decrease item'} />
+                    </Button>
+                    <Text
+                        fontWeight={'semibold'}>
+                        {cartProduct.quantity}
+                    </Text>
+                    <Button
+                        variant={'solid'}
+                        rounded={'md'}
+                        bgColor={'transparent'}
+                        borderWidth={1}
+                        p={2}
+                        _hover={{
+                            bgColor: 'none'
+                        }}
+                        _active={{
+                            bgColor: 'none'
+                        }}
+                        onClick={() => dispatch(increaseQuantity(item.pid, item.productPrice, cart))}>
+                        <Plus color={'hsl(38, 58%, 47%)'} size={16} weight={'bold'} alt={'increase item'} />
+                    </Button>
+                </HStack>
+
+                <IconButton
+                    variant={'ghost'}
+                    p={0}
+                    onClick={() => {
+                        dispatch(deleteFromCart(item.pid, item.productPrice, cartProduct.quantity, cart))
+                        onDelete(item.pid)
+                    }}
+                    icon={<Trash size={20} color={'#E53E3E'} />}
+                />
+            </Stack>
         </Flex>
     )
 }
@@ -186,7 +247,8 @@ const Cart = () => {
                         <Text
                             fontWeight={'normal'}
                             fontSize={'sm'}
-                            textColor={'black'}>
+                            textColor={'black'}
+                            textAlign={'center'}>
                             Discover our best offers by exploring our categories
                         </Text>
                         <Button
@@ -202,9 +264,11 @@ const Cart = () => {
                         width={'full'}
                         justifyContent={'center'}
                         alignItems={'start'}
-                        paddingY={8}
-                        height={'70vh'}
-                        backgroundColor={'gray.50'}>
+                        minHeight={'70vh'}
+                        paddingX={{ base: 4, lg: 12 }}
+                        paddingY={{ base: 4, lg: 8 }}
+                        backgroundColor={'gray.50'}
+                        flexDirection={{ base: 'column', lg: 'row' }}>
                         <Meta title={'Cart | Fobath Woodwork'} />
 
                         <VStack
@@ -212,7 +276,7 @@ const Cart = () => {
                             justifyContent={'center'}
                             alignItems={'start'}
                             marginEnd={12}
-                            width={'45%'}>
+                            width={{ base: '100%', lg: '45%' }}>
 
                             <HStack
                                 alignItems={'baseline'}
@@ -221,7 +285,7 @@ const Cart = () => {
                                 py={2}>
                                 <Text
                                     fontWeight={'bold'}
-                                    fontSize={'2xl'}
+                                    fontSize={{base: 'xl', lg: '2xl'}}
                                     textColor={'black'}>
                                     Your Cart
                                 </Text>
@@ -256,9 +320,10 @@ const Cart = () => {
                         <VStack
                             backgroundColor={'gray.100'}
                             rounded={'lg'}
-                            width={'25%'}
+                            width={{ base: '100%', lg: '25%' }}
                             paddingX={6}
                             paddingTop={4}
+                            marginTop={6}
                             alignItems={'start'}
                             paddingBottom={6}>
                             <Text

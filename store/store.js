@@ -12,6 +12,7 @@ import cartReducer from './cartReducer';
 import wishlistReducer from './wishlistReducer';
 import orderReducer from './orderReducer';
 import addProductReducer from './addProductReducer';
+import searchReducer from './searchReducer';
 import logoutReducer from './logoutReducer';
 
 const persistFirebaseAuthConfig = {
@@ -31,6 +32,7 @@ const combinedReducers = combineReducers({
     order: orderReducer,
     addProduct: addProductReducer,
     wishlist: wishlistReducer,
+    search: searchReducer,
     logout: logoutReducer
 })
 

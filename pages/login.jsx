@@ -140,7 +140,7 @@ const Login = () => {
                     animate={'toLeft'}>
 
                     <Text
-                        fontSize={'4xl'}
+                        fontSize={{base: '3xl', lg: '4xl'}}
                         fontWeight={'extrabold'}
                         textAlign={'center'}
                         textColor={'black'}>

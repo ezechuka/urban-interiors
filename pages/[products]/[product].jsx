@@ -1,4 +1,4 @@
-import { Box, Breadcrumb, BreadcrumbItem, Button, Flex, HStack, keyframes, Text, Skeleton, VStack, Stack, Circle, IconButton, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalFooter, useDisclosure, ModalBody, Badge } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, Button, Flex, HStack, keyframes, Text, Skeleton, VStack, Stack, Circle, IconButton, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalFooter, useDisclosure, ModalBody, Badge, SkeletonCircle } from '@chakra-ui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -31,33 +31,37 @@ const LoadingSkeleton = () => {
             marginY={8}
             alignItems={'center'}
             justifyContent={'space-between'}
-            width={'full'}>
+            width={'full'}
+            flexDirection={{ base: 'column', lg: 'row' }}>
 
             <Flex
-                maxWidth={'50%'}
+                width={{ base: 'full', lg: '50%' }}
                 height={'500px'}
-                alignItems={'center'}>
-                <VStack
+                alignItems={'center'}
+                flexDirection={{ base: 'column-reverse', lg: 'row' }}>
+                <Stack
+                    direction={{ base: 'row', lg: 'column' }}
                     spacing={3}
-                    marginEnd={3}>
+                    marginEnd={{ base: 0, lg: 3 }}
+                    marginY={{ base: 5, lg: 0 }}>
                     {
                         [...Array(3).keys()].map(i => (
                             <Skeleton
                                 key={i}
-                                width={'100px'}
-                                height={'100px'} />
+                                width={{ base: '80px', lg: '100px' }}
+                                height={{ base: '80px', lg: '100px' }} />
                         ))
                     }
-                </VStack>
+                </Stack>
 
                 <Skeleton
-                    width={'800px'}
+                    width={{ base: 'full', lg: '800px' }}
                     height={'450px'} />
             </Flex>
 
             <Stack
                 direction={'column'}
-                width={'45%'}
+                width={{ base: '100%', lg: '45%' }}
                 flexDirection={'column'}
                 justifyContent={'start'}
                 spacing={3}>
@@ -86,6 +90,10 @@ const LoadingSkeleton = () => {
                     width={'200px'}
                     height={'20px'} />
 
+                {/* Colors values */}
+                <SkeletonCircle
+                    size={10} />
+
                 {/* Add to cart button */}
                 <Skeleton
                     width={'full'}
@@ -106,10 +114,15 @@ const ModalDialogItem = ({ productName, productPrice, colorValue, colorName, pid
     return (
         <Flex
             justifyContent={'space-between'}
-            alignItems={'center'}
-            mb={4}>
-            <VStack
-                alignItems={'start'}>
+            alignItems={{ base: 'start', lg: 'center' }}
+            mb={4}
+            w={'full'}
+            flexDirection={{ base: 'column', lg: 'row' }}>
+            <Stack
+                w={{base: 'full', lg: 'fit-content'}}
+                direction={{ base: 'row', lg: 'column' }}
+                justifyContent={{ base: 'space-between', lg: 'start' }}
+                alignItems={{ base: 'center', lg: 'start' }}>
                 <Text
                     fontWeight={'semibold'}
                     fontSize={'md'}
@@ -122,10 +135,11 @@ const ModalDialogItem = ({ productName, productPrice, colorValue, colorName, pid
                     textColor={'gray.900'}>
                     {`₦${new Intl.NumberFormat().format(productPrice)}`}
                 </Text>
-            </VStack>
+            </Stack>
 
             <VStack
-                justifyContent={'center'}>
+                justifyContent={'center'}
+                display={{ base: 'none', lg: 'flex' }}>
 
                 <Circle size={'32px'} borderWidth={1} borderColor={'blackAlpha.500'}>
                     <CircleIcon weight={'fill'} color={colorValue} size={32} />
@@ -146,10 +160,47 @@ const ModalDialogItem = ({ productName, productPrice, colorValue, colorName, pid
                 borderColor={'gray.300'}
                 px={5}
                 transition={'all .3s'}
+                display={{ base: 'none', lg: 'flex' }}
                 _active={{ transform: 'scale(0.9)' }}
                 onClick={() => onAdd(pid, productPrice, colorName, colorValue, cart)}>
                 add
             </Button>
+
+            <Flex
+                w={'full'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
+                mt={2}
+                display={{ base: 'flex', lg: 'none' }}>
+                <VStack
+                    justifyContent={'center'}
+                    alignItems={'start'}
+                    spacing={1}>
+
+                    <Circle size={'32px'} borderWidth={1} borderColor={'blackAlpha.500'}>
+                        <CircleIcon weight={'fill'} color={colorValue} size={32} />
+                    </Circle>
+
+                    <Text textTransform={'capitalize'} fontSize={'sm'}>
+                        {colorName}
+                    </Text>
+
+                </VStack>
+
+                <Button
+                    variant={'ghost'}
+                    textTransform={'uppercase'}
+                    letterSpacing={'wide'}
+                    borderWidth={1}
+                    paddingY={3}
+                    borderColor={'gray.300'}
+                    px={5}
+                    transition={'all .3s'}
+                    _active={{ transform: 'scale(0.9)' }}
+                    onClick={() => onAdd(pid, productPrice, colorName, colorValue, cart)}>
+                    add
+                </Button>
+            </Flex>
         </Flex>
     )
 }
@@ -158,7 +209,7 @@ const ProductDetail =
     ({ getProduct, addToCart, increaseItemQuantity, decreaseItemQuantity, addToWishlist }) => {
         const router = useRouter()
         const path = router.asPath.split('/')
-        const pid = path[2]
+        const pid = localStorage.getItem('PRODUCT_REF', '')
 
         const { isLoading, isFetching, isLoaded, error, data }
             = useSelector((state) => state.product)
@@ -186,8 +237,8 @@ const ProductDetail =
         return (
             <Flex
                 as={'section'}
-                paddingX={12}
-                paddingY={8}
+                paddingX={{ base: 6, lg: 12 }}
+                paddingY={{ base: 4, lg: 8 }}
                 flexDirection={'column'}
                 justifyContent={'center'}
                 alignItems={'start'}>
@@ -223,7 +274,7 @@ const ProductDetail =
 
                         <ModalFooter>
                             <Button
-                                px={0}
+                                px={3}
                                 py={2}
                                 variant={'solid'}
                                 textTransform={'uppercase'}
@@ -263,18 +314,21 @@ const ProductDetail =
                     isLoading ? <LoadingSkeleton />
                         :
                         <Flex
-                            marginY={8}
+                            marginY={{ base: 3, lg: 8 }}
                             alignItems={'center'}
                             justifyContent={'space-between'}
-                            width={'full'}>
+                            width={'full'}
+                            flexDirection={{ base: 'column', lg: 'row' }}>
 
                             <Flex
-                                maxWidth={'40%'}
-                                height={'500px'}>
-                                <VStack
-                                    flexDirection={'column'}
+                                maxWidth={{ base: '100%', lg: '40%' }}
+                                height={'fit-content'}
+                                flexDirection={{ base: 'column-reverse', lg: 'row' }}>
+                                <Stack
+                                    direction={{ base: 'row', lg: 'column' }}
                                     justifyContent={'center'}
-                                    marginEnd={5}
+                                    marginY={{ base: 5, lg: 0 }}
+                                    marginEnd={{ base: 0, lg: 5 }}
                                     spacing={3}>
                                     {
                                         data.images.map((img, i) => (
@@ -299,7 +353,7 @@ const ProductDetail =
                                             </Box>
                                         ))
                                     }
-                                </VStack>
+                                </Stack>
 
                                 <Image
                                     width={500}
@@ -311,12 +365,12 @@ const ProductDetail =
                             </Flex>
 
                             <Flex
-                                width={'45%'}
+                                maxWidth={{ base: '100%', lg: '45%' }}
                                 flexDirection={'column'}
                                 justifyContent={'start'}>
                                 <Text
                                     fontWeight={'bold'}
-                                    fontSize={'3xl'}
+                                    fontSize={{ base: '2xl', lg: '3xl' }}
                                     textColor={'black'}
                                     lineHeight={'36px'}>
                                     {data.productName}

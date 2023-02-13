@@ -95,7 +95,8 @@ export const getProductsByColor = (path, color, lastVisible) => {
                 isFetching: false,
                 isLoaded: true,
                 data: result,
-                lastVisible
+                lastVisible,
+                endOfData: querySnapshot.empty
             }))
         } catch (e) {
             dispatch(fetchProducts({
@@ -133,7 +134,8 @@ export const getProductsByPrice = (path, minPrice, maxPrice, lastVisible) => {
                 isFetching: false,
                 isLoaded: true,
                 data: result,
-                lastVisible
+                lastVisible,
+                endOfData: querySnapshot.empty
             }))
         } catch (e) {
             dispatch(fetchProducts({
@@ -169,7 +171,8 @@ export const getProductsBySubCategory = (subCategory) => {
                 isLoading: false,
                 isFetching: false,
                 isLoaded: true,
-                data: result
+                data: result,
+                endOfData: querySnapshot.empty
             }))
         } catch (e) {
             dispatch(filterProductsBySubCategory({

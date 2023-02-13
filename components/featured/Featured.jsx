@@ -76,7 +76,7 @@ const FeaturedItem = ({ productId, productName, productPrice,
                 top={2}
                 right={2}
                 colorScheme={'orange'}
-                fontSize={'sm'}
+                fontSize={'xs'}
                 px={2}
                 variant={'subtle'}
                 zIndex={'docked'}
@@ -127,7 +127,10 @@ const FeaturedItem = ({ productId, productName, productPrice,
                 _hover={{
                     bgColor: '#827A6E'
                 }}
-                onClick={() => router.push(`/${productCat}/${productId}`)}>
+                onClick={() => {
+                    localStorage.setItem('PRODUCT_REF', productId)
+                    router.push(`/${productCat}/${productId}`)
+                }}>
                 View item
             </Button>
 

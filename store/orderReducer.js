@@ -129,7 +129,6 @@ export const retrieveAllOrders = () => {
                     (querySnapshot) => {
                         let result = []
                         querySnapshot.docChanges().forEach((change) => {
-                            console.log(change)
                             result.push({ orderId: change.doc.id, ...change.doc.data() })
                         })
 

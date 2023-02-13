@@ -66,7 +66,7 @@ const LoadingSkeleton = () => {
                         justifyContent={'start'}
                         alignItems={'start'}>
                         <Skeleton
-                            width={{ base: '160px', md: '220px' }}
+                            width={{ base: '150px', md: '220px' }}
                             height={{ base: '180px', md: '220px' }}
                             rounded={'lg'}
                             fadeDuration={2}
@@ -323,7 +323,8 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
                         fontSize={'md'}
                         textColor={'gray.800'}
                         noOfLines={2}
-                        maxW={'md'}>
+                        maxW={'md'}
+                        textAlign={'center'}>
                         Sorry, no matching products were found for the query.
                     </Text>
 
@@ -340,7 +341,6 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
                 isFetching ?
                     <LoadingSkeleton />
                     :
-                    // isLoaded && Object.values(data).length > 0 &&
                     <Flex
                         w={'full'}
                         marginY={8}
@@ -354,8 +354,8 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
                                 md: 'repeat(3, 1fr)',
                                 lg: 'repeat(5, 1fr)'
                             }}
-                            rowGap={{ base: 2, lg: 8 }}
-                            columnGap={{ base: 2, lg: 8 }}
+                            rowGap={{ base: 4, lg: 8 }}
+                            columnGap={{ base: 4, lg: 8 }}
                             ref={containerRef}
                             css={{
                                 '&::-webkit-scrollbar': {
@@ -374,7 +374,7 @@ const Products = ({ getProducts, getProductsByColor, getProductsByPrice }) => {
                             }
                         </Grid>
 
-                        {!endOfData ?
+                        { !endOfData ?
                             <Button variant={'ghost'}
                                 fontWeight={'medium'}
                                 shadow={'sm'}

@@ -1,4 +1,4 @@
-import { Box, Button, Circle, Divider, Flex, HStack, IconButton, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Circle, Divider, Flex, HStack, IconButton, Stack, Text, VStack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { connect, useSelector } from 'react-redux';
@@ -9,14 +9,11 @@ import { doc, getDoc } from 'firebase/firestore'
 import { Trash } from 'phosphor-react'
 import Image from 'next/image'
 
-import { addToCart } from '../store/cartReducer'
 import emptyFav from '../public/empty_fav.png'
 import { deleteFromWishlist } from '../store/wishlistReducer'
 import Meta from '../components/meta/Meta';
 
-const WishlistItem = ({ item, cart, onAddToCart, onDelete }) => {
-
-    const isInCart = Object.keys(cart.items).includes(item.pid)
+const WishlistItem = ({ item, onDelete }) => {
 
     const router = useRouter()
 
@@ -24,8 +21,10 @@ const WishlistItem = ({ item, cart, onAddToCart, onDelete }) => {
         <Flex
             justifyContent={'space-between'}
             alignItems={'center'}
-            py={3}
-            width={'full'}>
+            py={4}
+            my={4}
+            width={'full'}
+            flexDirection={{ base: 'column', md: 'row' }}>
 
             <Flex
                 rounded={'lg'}
@@ -73,37 +72,22 @@ const WishlistItem = ({ item, cart, onAddToCart, onDelete }) => {
             <VStack
                 alignItems={'end'}
                 justifyContent={'space-between'}
-                spacing={3}>
+                spacing={3}
+                display={{ base: 'none', md: 'flex' }}>
 
-                {isInCart ?
-                    <Button
-                        variant={'ghost'}
-                        marginTop={6}
-                        borderWidth={1}
-                        textTransform={'none'}
-                        letterSpacing={'wide'}
-                        paddingX={4}
-                        fontSize={'sm'}
-                        _hover={{ bgColor: 'blackAlpha.100', color: 'gold.500' }}
-                        onClick={() => {
-                            router.push('/cart')
-                        }}>
-                        Go to cart
-                    </Button>
-                    :
-                    <Button
-                        variant={'solid'}
-                        marginTop={6}
-                        textTransform={'uppercase'}
-                        letterSpacing={'wide'}
-                        paddingX={4}
-                        fontSize={'sm'}
-                        onClick={() => {
-                            onAddToCart(item.pid, item, cart)
-                        }}>
-                        Add to cart
-                    </Button>
-                }
+                <Button
+                    variant={'solid'}
+                    marginTop={6}
+                    textTransform={'uppercase'}
+                    letterSpacing={'wide'}
+                    paddingX={4}
+                    fontSize={'sm'}
+                    onClick={() => {
+                        localStorage.setItem('PRODUCT_REF', item.pid)
+                        router.push(`${item.category}/${item.pid}`)
+                    }}>
+                    View item
+                </Button>
 
                 <IconButton
                     variant={'ghost'}
@@ -114,6 +98,39 @@ const WishlistItem = ({ item, cart, onAddToCart, onDelete }) => {
                     icon={<Trash size={20} color={'#E53E3E'} />}
                 />
             </VStack>
+
+            <Stack
+                w={'full'}
+                alignItems={'end'}
+                justifyContent={'space-between'}
+                pe={3}
+                spacing={12}
+                display={{ base: 'flex', md: 'none' }}
+                flexDirection={{ base: 'row-reverse' }}>
+
+                <Button
+                    variant={'solid'}
+                    marginTop={6}
+                    textTransform={'uppercase'}
+                    letterSpacing={'wide'}
+                    paddingX={4}
+                    fontSize={'sm'}
+                    onClick={() => {
+                        localStorage.setItem('PRODUCT_REF', item.pid)
+                        router.push(`${item.category}/${item.pid}`)
+                    }}>
+                    View item
+                </Button>
+
+                <IconButton
+                    variant={'ghost'}
+                    p={0}
+                    onClick={() => {
+                        onDelete(item.pid)
+                    }}
+                    icon={<Trash size={20} color={'#E53E3E'} />}
+                />
+            </Stack>
         </Flex>
     )
 }
@@ -182,7 +199,8 @@ const Wishlist = ({ addToCart, deleteFromWishlist }) => {
                     <Text
                         fontWeight={'normal'}
                         fontSize={'sm'}
-                        textColor={'black'}>
+                        textColor={'black'}
+                        textAlign={'center'}>
                         See an item you like? Click the &apos;favorite&apos; icon to mark them as favorite.
                     </Text>
                     <Button
@@ -196,11 +214,13 @@ const Wishlist = ({ addToCart, deleteFromWishlist }) => {
                 <Flex
                     as={'section'}
                     width={'full'}
-                    justifyContent={'center'}
+                    justifyContent={{ base: 'start', lg: 'center' }}
                     alignItems={'start'}
-                    paddingY={8}
-                    height={'70vh'}
-                    backgroundColor={'gray.50'}>
+                    minHeight={'70vh'}
+                    paddingX={{ base: 4, md: 12 }}
+                    paddingY={{ base: 4, md: 8 }}
+                    backgroundColor={'gray.50'}
+                    flexDirection={{ base: 'column', lg: 'row' }}>
                     <Meta title={'Wishlist | Fobath Woodwork'} />
                     <ToastContainer />
 
@@ -210,7 +230,7 @@ const Wishlist = ({ addToCart, deleteFromWishlist }) => {
                         justifyContent={'center'}
                         alignItems={'start'}
                         marginEnd={12}
-                        width={'45%'}>
+                        width={{ base: '100%', lg: '45%' }}>
 
                         <HStack
                             alignItems={'baseline'}
@@ -218,7 +238,7 @@ const Wishlist = ({ addToCart, deleteFromWishlist }) => {
                             w={'full'}>
                             <Text
                                 fontWeight={'bold'}
-                                fontSize={'2xl'}
+                                fontSize={{ base: 'xl', lg: '2xl' }}
                                 textColor={'black'}>
                                 Your Wishlist
                             </Text>
@@ -238,8 +258,6 @@ const Wishlist = ({ addToCart, deleteFromWishlist }) => {
                                     w={'full'}>
                                     <WishlistItem
                                         item={p}
-                                        cart={cart}
-                                        onAddToCart={addToCart}
                                         onDelete={deleteItem}
                                     />
                                     {
@@ -258,8 +276,6 @@ const Wishlist = ({ addToCart, deleteFromWishlist }) => {
 
 export const matchDispatchToProps = dispatch => {
     return {
-        addToCart: (productId, cartItem, prevCart) =>
-            dispatch(addToCart(productId, cartItem, prevCart)),
         deleteFromWishlist: (productId, wishlist) =>
             dispatch(deleteFromWishlist(productId, wishlist))
     }

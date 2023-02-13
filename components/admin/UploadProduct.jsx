@@ -200,7 +200,7 @@ const UploadProduct = ({ uploadNewProduct }) => {
                                     <MenuItemOption value={'sofa'}>Sofa</MenuItemOption>
                                     <MenuItemOption value={'bed'}>Bed</MenuItemOption>
                                     <MenuItemOption value={'shoe-rack'}>Shoe Rack</MenuItemOption>
-                                    <MenuItemOption value={'ward-roble'}>Ward Robe</MenuItemOption>
+                                    <MenuItemOption value={'ward-robe'}>Ward Robe</MenuItemOption>
                                     <MenuItemOption value={'shelf'}>Shelf</MenuItemOption>
                                     <MenuItemOption value={'tv-console'}>TV Console</MenuItemOption>
                                     <MenuItemOption value={'table-and-chair'}>Table and chair</MenuItemOption>
