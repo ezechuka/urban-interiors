@@ -600,23 +600,6 @@ const Navbar = ({ search }) => {
                         }
                     </Box>
                 }
-            {/* Mobile hamburger icon button */}
-            <IconButton
-                aria-label={'mobile menu'}
-                bg={'gold.100'}
-                color={'black'}
-                variant={'ghost'}
-                display={{base: 'block', lg: 'none'}}
-                icon={
-                    <Tooltip
-                        hasArrow
-                        label={'Cart'}
-                        placement={'bottom'}
-                        textColor={'white'}
-                        bgColor={'gray.900'}>
-                        <List size={24} weight={'regular'} alt={''} />
-                    </Tooltip>
-                }/>
             </InputGroup>
         </Flex>
     )
