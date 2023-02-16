@@ -76,7 +76,7 @@ const Hero = () => {
                     fontSize={{base: '3xl', md: '4xl', lg: '5xl'}}
                     textColor={'black'}
                     lineHeight={'shorter'}>
-                    Discover innovative ways to <Text as={'span'} fontStyle={'italic'}>decorate</Text>
+                    Discover innovative ways to <Text as={'span'} color={'accent.500'} fontStyle={'italic'}>decorate</Text>
                 </Text>
 
                 <Text
