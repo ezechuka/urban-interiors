@@ -170,20 +170,6 @@ const Footer = () => {
                             Orders
                         </Text>
                     </Link>
-                    <Link href={'/account'}>
-                        <Text
-                            color={'white'}
-                            fontWeight={'normal'}
-                            fontSize={'sm'}
-                            transition={'all 0.4s ease 0s'}
-                            _hover={{
-                                color: 'gold.500',
-                                transition: 'all .4s',
-                                transform: 'translateX(6px)'
-                            }}>
-                            Account
-                        </Text>
-                    </Link>
                 </VStack>
 
                 <VStack
