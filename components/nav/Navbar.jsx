@@ -425,7 +425,10 @@ const Navbar = ({ search }) => {
                                                         display={{ base: 'inline-flex', lg: 'none' }}
                                                         transition={'all .5s'}
                                                         textTransform={'uppercase'}
-                                                        onClick={() => router.push('/cart')}>
+                                                        onClick={() => {
+                                                            onClose()
+                                                            router.push('/cart')
+                                                        }}>
                                                         Cart
                                                     </Button>
 
