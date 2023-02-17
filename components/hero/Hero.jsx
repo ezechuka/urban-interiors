@@ -83,7 +83,7 @@ const Hero = () => {
                     textColor={'gray.700'}
                     maxWidth={'md'}
                     fontWeight={'medium'}>
-                    We are known for bringing out the beauty in every space.
+                    We are passionate about creating beautiful spaces that inspire and delight.
                     Shop with us to get amazing offers.
                 </Text>
 

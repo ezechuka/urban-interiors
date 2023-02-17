@@ -42,7 +42,7 @@ const Navbar = ({ search }) => {
                     transition={'all .4s'}
                     onClick={() => router.replace('/')}
                     _hover={{ cursor: 'pointer', color: 'gold.500' }}>
-                    fobath woodwork
+                    urban interiors
                 </Text>
 
                 <InputGroup

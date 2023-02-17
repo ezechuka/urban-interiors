@@ -28,7 +28,7 @@ const Footer = () => {
                         fontSize={{base: 'xl', lg: '3xl'}}
                         textColor={'white'}
                         textTransform={'capitalize'}>
-                        fobath woodwork
+                        urban interiors
                     </Text>
 
                     <Text
@@ -38,7 +38,7 @@ const Footer = () => {
                         maxWidth={'md'}
                         mt={5}
                         textAlign={{base: 'center', lg: 'start'}}>
-                        Fobath Woodwork is a company that specializes in creating high-quality, handcrafted household furniture.
+                        Urban interiors is a company that specializes in creating high-quality, handcrafted household furniture.
                         We also offer assembly services for IKEA products, ensuring that customers can enjoy their new furniture quickly and easily.
                     </Text>
 
@@ -222,7 +222,7 @@ const Footer = () => {
                             color={'white'}
                             fontWeight={'normal'}
                             fontSize={'sm'}>
-                            fobath@mail.com
+                            urbaninteriors@mail.com
                         </Text>
                     </HStack>
 
