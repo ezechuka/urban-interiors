@@ -14,7 +14,7 @@ const Meta = ({ title, keywords, description }) => {
 }
 
 Meta.defaultProps = {
-    title: 'Fobath Woodwork',
+    title: 'Urban Interiors',
     keywords: 'furniture, dining, office chair, bedroom furniture, \
          sofa, couch, pallet, bed, wardrobe, shoe-rack, chair, table, tv stand, tv console',
     description: ''

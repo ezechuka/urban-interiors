@@ -42,7 +42,7 @@ const Navbar = ({ search }) => {
                     transition={'all .4s'}
                     onClick={() => router.replace('/')}
                     _hover={{ cursor: 'pointer', color: 'gold.500' }}>
-                    fobath woodwork
+                    urban interiors
                 </Text>
 
                 <InputGroup
@@ -207,14 +207,14 @@ const Navbar = ({ search }) => {
                                     onClick={() => router.push('/admin')} />
 
                                 <IconButton
-                                    aria-label={'shopping cart'}
+                                    aria-label={'account'}
                                     bg={'gold.100'}
                                     color={'black'}
                                     variant={'ghost'}
                                     icon={
                                         <Tooltip
                                             hasArrow
-                                            label={'Admin'}
+                                            label={'Account'}
                                             placement={'bottom'}
                                             textColor={'white'}
                                             bgColor={'gray.900'}>
@@ -278,7 +278,7 @@ const Navbar = ({ search }) => {
                     <DrawerOverlay />
                     <DrawerContent>
                         <DrawerCloseButton />
-                        <DrawerHeader>Fobath Woodwork</DrawerHeader>
+                        <DrawerHeader>Urban Interiors</DrawerHeader>
 
                         <DrawerBody>
                             {
